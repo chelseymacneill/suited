@@ -40,4 +40,8 @@ UsersSchema.methods.toAuthJSON = function() {
   };
 };
 
+// const User = mongoose.model('User', UsersSchema);
+
+// module.exports = User;
+
 mongoose.model('Users', UsersSchema);
