@@ -10,9 +10,10 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
 const errorHandler = require('errorhandler');
+const passport = require('passport');
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8001;
 
 //Configure mongoose's promise to global promise
 mongoose.promise = global.Promise;
@@ -28,6 +29,25 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'suited_app', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
+// app.use(express.static("public"));
+// app.use(session({ secret: "cats" }));
+// app.use(bodyParser.urlencoded({ extended: false }));
+//////////////////////////////////////////////////////////////////////
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  console.log("user", user);
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+////////////////////////////////////////////////////////////////////////
+
 if(!isProduction) {
   app.use(errorHandler());
 }
@@ -39,7 +59,10 @@ mongoose.set('debug', true);
 //models & Routes
 require('./models/users');
 require('./config/passport');
-app.use(require('./routes'));
+// app.use(require('./routes'));
+// // Add routes, both API and view
+app.use(routes);
+
 
 //Error handlers & middlewares
 if(!isProduction) {
@@ -66,30 +89,7 @@ app.use((err, req, res) => {
   });
 });
 
-app.listen(8001, () => console.log('Server running on http://localhost:8001/'));
-//////////////////////////////////////////////////////////////////////////////////
-
-// // Configure body parsing for AJAX requests
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
-// // Serve up static assets
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static("client/build"));
-// }
-
-// // Add routes, both API and view
-// app.use(routes);
-
-// // Connect to the Mongo DB
-// mongoose.connect(
-//   process.env.MONGODB_URI || "mongodb://user1:password1@ds125871.mlab.com:25871/heroku_0xn0jnk7",
-//   {
-//     useCreateIndex: true,
-//     useNewUrlParser: true
-//   }
-// );
-
-// // Start the API server
-// app.listen(PORT, () =>
-//   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`)
-// );
+// Start the API server
+app.listen(PORT, () =>
+  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`)
+);

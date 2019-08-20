@@ -11,8 +11,6 @@ const Users = mongoose.model('Users');
 //First, we are going to create an optional auth route ‘/’ which will be used for new model creation (register).
 router.post('/', auth.optional, (req, res, next) => {
   const { body: { user } } = req;
-
-  console.log("req", req.body);
   
   if(!user.email) {
     return res.status(422).json({
@@ -67,7 +65,7 @@ router.post('/login', auth.optional, (req, res, next) => {
     if(passportUser) {
       const user = passportUser;
       user.token = passportUser.generateJWT();
-
+      console.log(user.token);
       return res.json({ user: user.toAuthJSON() });
     }
 
@@ -80,14 +78,21 @@ router.post('/login', auth.optional, (req, res, next) => {
 router.get('/current', auth.required, (req, res, next) => {
   const { payload: { id } } = req;
 
+  // console.log(id, req.headers);
   return Users.findById(id)
     .then((user) => {
       if(!user) {
         return res.sendStatus(400);
       }
-
+      console.log(user)
       return res.json({ user: user.toAuthJSON() });
     });
 });
+
+router.get("/test", auth.optional, (req, res, next) => {
+  // const { body: { user } } = req;
+  console.log("users test");
+});
+
 
 module.exports = router;
