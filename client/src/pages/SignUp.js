@@ -3,11 +3,13 @@ import React, { Component } from "react";
 import API from "../utils/API";
 // import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
-import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
 
+const store = createStore( () => [], {}, applyMiddleware() );
 
-class Login extends Component {
+class Signup extends Component {
     state = {
         userToken: "",
         userID: "",
@@ -17,6 +19,7 @@ class Login extends Component {
 
     render(){
         return(
+            <Provider store={store}>
             <Container fluid>
             <Row>
                 <Col size="md-4" />
@@ -32,9 +35,10 @@ class Login extends Component {
                 </Col>
             </Row>
             </Container>
+            </Provider>
         )
     }
 
 };
 
-export default Login;
+export default Signup;
