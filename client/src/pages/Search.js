@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import Form from "../components/Form";
 import { Col, Row, Container} from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
+import Card from "../components/Card";
+import Job from "../components/Book";
+import { List } from "../components/List";
 import API from "../utils/API";
 
 class Search extends Component {
@@ -82,6 +85,33 @@ class Search extends Component {
                     <Col size="md-10 md-offset-1">
                         {/* insert job container and job card components */}
                         <h2>Job Cards live here - from Job DB Collection</h2>
+                        <Card title="Results">
+              {this.state.jobs.length ? (
+                <List>
+                  {this.state.jobs.map(job => (
+                    <Job
+                      key={job.id}
+                      title={job.title}
+                      company={job.company}
+                      location={job.location}
+                      date={job.date}
+                      summary={job.summary}
+                      url={job.url}
+                    //   Button={() => (
+                    //     <button
+                    //       onClick={() => this.handleBookSave(book.id)}
+                    //       className="btn btn-primary ml-2"
+                    //     >
+                    //       Save
+                    //     </button>
+                    //   )}
+                    />
+                  ))}
+                </List>
+              ) : (
+                <h2 className="text-center">{this.state.message}</h2>
+              )}
+            </Card>
                     </Col>
                 </Row>
                 <Row>
