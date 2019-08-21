@@ -28,6 +28,6 @@ module.exports = {
         return finalUser.save()
           .then(() => res.json({ user: finalUser.toAuthJSON() }));
 
-        db.User.create(req.body)
+        // db.User.create(req.body)
     }
 };
