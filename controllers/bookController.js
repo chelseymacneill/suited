@@ -1,4 +1,5 @@
 const db = require("../models");
+const axios = require("axios");
 
 // Defining methods for the bookController
 module.exports = {
@@ -27,5 +28,15 @@ module.exports = {
       .then(dbBook => dbBook.remove())
       .then(dbBook => res.json(dbBook))
       .catch(err => res.status(422).json(err));
-  }
+  },
+  scrape: function(req, res) {
+    var q = req.query.q;
+    var l = req.query.l;
+    
+    axios.get(`https://indreed.herokuapp.com/api/jobs?q=${q}&l=${l}`)
+      .then(jobs => {
+        res.json(jobs.data)
+      })
+      .catch(err => console.log(err));
+    }
 };

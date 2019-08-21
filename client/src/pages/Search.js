@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Form from "../components/Form";
 import { Col, Row, Container} from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
-// import API from "../utils/API";
+import API from "../utils/API";
 
 class Search extends Component {
     // state = {
@@ -24,20 +24,20 @@ class Search extends Component {
         message: "Enter in your desired Job to begin!"
       };
 
-    //   getBooks = () => {
-    //     API.getBooks(this.state.q, this.state.l)
-    //       .then(res =>
-    //         this.setState({
-    //           jobs: res.data
-    //         })
-    //       )
-    //       .catch(() =>
-    //         this.setState({
-    //           books: [],
-    //           jobs: "No New Books Found, Try a Different Query"
-    //         })
-    //       );
-    //   };
+      getJobs = () => {
+        API.getJobs(this.state.q, this.state.l)
+          .then(res =>
+            this.setState({
+              jobs: res.data
+            })
+          )
+          .catch(() =>
+            this.setState({
+                jobs: [],
+              message: "No New Jobs Found, Try a Different Query"
+            })
+          );
+      };
 
     handleInputChange = event => {
         const { name, value } = event.target;
@@ -48,7 +48,7 @@ class Search extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-        this.getBooks();
+        this.getJobs();
       };
 
     render() {
