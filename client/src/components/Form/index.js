@@ -1,21 +1,34 @@
 import React from "react";
 
-function Form({ q, handleInputChange, handleFormSubmit }) {
+function Form({ q, l, handleInputChange, handleFormSubmit }) {
   return (
     <form>
       <div className="form-group">
         <label htmlFor="Query">
-          <strong>Book</strong>
+          <strong>Job</strong>
         </label>
         <input
           className="form-control"
-          id="Title"
+          id="Job"
           type="text"
           value={q}
-          placeholder="Ready Player One"
+          placeholder="Job"
           name="q"
           onChange={handleInputChange}
-          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="Location">
+          <strong>Location</strong>
+        </label>
+        <input
+          className="form-control"
+          id="Location"
+          type="text"
+          value={l}
+          placeholder="Location"
+          name="l"
+          onChange={handleInputChange}
         />
       </div>
       <div className="pull-right">

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Col, Row, Container } from "../components/Grid";
+import Form from "../components/Form";
+import { Col, Row, Container} from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 // import API from "../utils/API";
 
@@ -16,6 +17,40 @@ class Search extends Component {
     //         .catch(err => console.log(err));
     // }
 
+    state = {
+        jobs: [],
+        q: "",
+        l: "",
+        message: "Enter in your desired Job to begin!"
+      };
+
+    //   getBooks = () => {
+    //     API.getBooks(this.state.q, this.state.l)
+    //       .then(res =>
+    //         this.setState({
+    //           jobs: res.data
+    //         })
+    //       )
+    //       .catch(() =>
+    //         this.setState({
+    //           books: [],
+    //           jobs: "No New Books Found, Try a Different Query"
+    //         })
+    //       );
+    //   };
+
+    handleInputChange = event => {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        });
+    };
+
+    handleFormSubmit = event => {
+        event.preventDefault();
+        this.getBooks();
+      };
+
     render() {
         return (
             <Container fluid>
@@ -25,12 +60,19 @@ class Search extends Component {
                             <h1>
                                 Hello World: Search Bar Here
                             </h1>
-                            <input className="form-control" type="text" placeholder="Default input"></input>
+                            {/* <input className="form-control" type="text" placeholder="Default input"></input> */}
+                            <Form
+                handleInputChange={this.handleInputChange}
+                handleFormSubmit={this.handleFormSubmit}
+                q={this.state.q}
+                l={this.state.l}
+              />
 
                         </Jumbotron>
                     </Col>
                 </Row>
                 <Row>
+                <h2 className="text-center">{this.state.message}</h2>
                     <Col size="md-10 md-offset-1">
                         {/* insert search filter component */}
                         <h2>Search Filter goes here</h2>
