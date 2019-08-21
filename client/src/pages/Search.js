@@ -4,7 +4,7 @@ import Form from "../components/Form";
 import { Col, Row, Container} from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 import Card from "../components/Card";
-import Job from "../components/Book";
+import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
 
