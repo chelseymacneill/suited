@@ -4,7 +4,6 @@ const router = require('express').Router();
 const auth = require('../auth');
 const Users = mongoose.model('Users');
 // const db = require("../models");
-
 // const User = db.User;
 
 //POST new user route (optional, everyone has access)
@@ -25,6 +24,16 @@ router.post('/', auth.optional, (req, res, next) => {
       errors: {
         password: 'is required',
       },
+    });
+  }
+  // if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
+  //   errors.password = "Password must be at least 6 characters";
+  // }
+  if(user.password.length < 6 || user.password.length > 30) {
+    return res.status(422).json({
+      errors: {
+        password: 'must be beetween 6 and 30 characters'
+      }
     });
   }
 

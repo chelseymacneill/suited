@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 
 //REDUX STUFF TO CONNECT COMPONENT WITH THE REDUCER/ACTION FILES
 import { connect } from "react-redux";
-import { fetchJSON } from "../../actions/testAction"
+import { fetchJSON } from "../../actions/authActions"
 
 
     //NO LONGER NEEDED B/C IT'S IN THE actions/signupAction.js

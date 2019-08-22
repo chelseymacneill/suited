@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { logoutUser } from "../actions/authActions";
 
 
 class Profile extends Component {
@@ -10,11 +13,16 @@ class Profile extends Component {
         userID: this.props.match.params.id
     };
 
+    onLogoutClick = e => {
+        e.preventDefault();
+        this.props.logoutUser();
+      };
     // componentDidMount() {
         //API call to get user data
     //   };
 
     render(){
+        const { user } = this.props.auth;
         return(
             <Container fluid>
             <Row>
@@ -35,7 +43,22 @@ class Profile extends Component {
             <Row>
                 <Col size="md-4">
                     {/* insert user card component */}
-                    <h2>User Profile Details</h2>
+                    <div>
+                        <h2>User Profile Details</h2>
+                        <h3>Hey {user.email}</h3>
+                        <button
+                        // style={{
+                        //     width: "150px",
+                        //     borderRadius: "3px",
+                        //     letterSpacing: "1.5px",
+                        //     marginTop: "1rem"
+                        // }}
+                        onClick={this.onLogoutClick}
+                        // className="btn"
+                        >
+                        Logout
+                        </button>
+                    </div>
                 </Col>
                 <Col size="md-8">
                     {/* insert job container and job card components */}
@@ -48,11 +71,21 @@ class Profile extends Component {
                     <h2>Footer Down at the bottom</h2>
                 </Col>
             </Row>
-
             </Container>
         )
     }
 
 };
 
-export default Profile;
+Profile.propTypes = {
+    logoutUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+  };
+
+  const mapStateToProps = state => ({
+    auth: state.auth
+  });
+
+  export default connect(mapStateToProps, { logoutUser })(Profile);
+
+// export default Profile;
