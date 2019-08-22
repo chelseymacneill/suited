@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
-// import PropTypes from "prop-types"
+import PropTypes from "prop-types"
 
 //REDUX STUFF TO CONNECT COMPONENT WITH THE REDUCER/ACTION FILES
 import { connect } from "react-redux";
@@ -46,14 +46,14 @@ class Json extends Component {
     )};
 };
 
+Json.propTypes = {
+    fetchJSON: PropTypes.func.isRequired,
+    posts: PropTypes.array.isRequired
+}
+
 const mapStateToProps = state => ({
     posts: state.basic.items
 })
-
-// Posts.PropTypes = {
-//     fetchJSON: PropTypes.func.isRequired,
-//     posts: PropTypes.array.isRequired
-// }
 
 //mapping component to property
 export default connect(mapStateToProps, { fetchJSON })(Json);

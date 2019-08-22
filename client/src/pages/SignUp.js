@@ -4,6 +4,7 @@ import API from "../utils/API";
 // import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import SignUp from "../components/SignUp";
+
 // import { Provider } from "react-redux";
 // import store from "../store";
 // const store = createStore( () => [], {}, applyMiddleware() );

@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
+import PropTypes from "prop-types";
+
+import { connect } from "react-redux";
+import { newUser } from "../../actions/testAction"
 
 class SignUp extends Component {
     constructor(props) {
@@ -27,9 +31,13 @@ class SignUp extends Component {
             }
         }
 
-        API.postSignup(userSignup).then( response => {
-            console.log(response.data);
-        })
+        // CALL ACTION HERE
+        // API.postSignup(userSignup).then( response => {
+        //     console.log(response.data);
+        // })
+        this.props.newUser(userSignup);
+
+        console.log(this.state);
     }
 
     render() {
@@ -56,5 +64,13 @@ class SignUp extends Component {
     )};
 };
 
+SignUp.propTypes = {
+    newUser: PropTypes.func.isRequired
+};
 
-export default SignUp;
+const mapStateToProps = state => ({
+    posts: state.basic.user
+});
+
+export default connect(mapStateToProps, { newUser })(SignUp);
+// export default SignUp;

@@ -1,9 +1,32 @@
 import { SIGNUP_USER, LOGIN_USER, DUMMY_JSON } from "./types";
-// console.log("fetching");
+import API from "../utils/API";
 
-// export function fetchJSON() {
-//     return function(dispatch) {
-    //think of dispatch like a "resolve" in a promise
+
+export const newUser = (userSignup) => dispatch => {
+    //similar to set state, but we're dispatching actions to the reducer
+    // console.log("new user in action")
+    API.postSignup(userSignup)
+        .then(res => console.log(res))
+    .then(user =>
+        dispatch({
+        type: SIGNUP_USER,
+        payload: user
+    })
+    );
+}
+
+export const loginUser = (userLogin) => dispatch => {
+  API.postLogin(userLogin)
+      .then(res => console.log(res))
+  .then(user =>
+      dispatch({
+      type: LOGIN_USER,
+      payload: user
+  })
+  );
+}
+
+//think of dispatch like a "resolve" in a promise
 export const fetchJSON = () => dispatch => {
         //similar to set state, but we're dispatching actions to the reducer
         //https://www.youtube.com/watch?v=93p3LxR9xfM#action=share
@@ -15,10 +38,5 @@ export const fetchJSON = () => dispatch => {
             type: DUMMY_JSON,
             payload: posts
         }));
-        // console.log("fetchJSON")
-
-    // }
 }
 
-// const test = () => console.log("test fetching");
-// export default test;
