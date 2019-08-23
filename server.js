@@ -1,17 +1,16 @@
+// Require/Import needed npm packages
 const express = require("express");
-
 const mongoose = require("mongoose");
 const routes = require("./routes");
+const path = require("path");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+const cors = require("cors");
+const errorHandler = require("errorhandler");
+const passport = require("passport");
+
 //Initiate our app
 const app = express();
-
-const path = require('path');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const cors = require('cors');
-const errorHandler = require('errorhandler');
-const passport = require('passport');
-
 
 const PORT = process.env.PORT || 8001;
 
@@ -19,15 +18,22 @@ const PORT = process.env.PORT || 8001;
 mongoose.promise = global.Promise;
 
 //Configure isProduction variable
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === "production";
 
 //Configure our app
 app.use(cors());
-app.use(require('morgan')('dev'));
+app.use(require("morgan")("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'suited_app', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  session({
+    secret: "suited_app",
+    cookie: { maxAge: 60000 },
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 // app.use(express.static("public"));
 // app.use(session({ secret: "cats" }));
@@ -48,32 +54,30 @@ passport.deserializeUser(function(id, done) {
 });
 ////////////////////////////////////////////////////////////////////////
 
-if(!isProduction) {
+if (!isProduction) {
   app.use(errorHandler());
 }
 
 //Configure Mongoose
-mongoose.connect('mongodb://localhost/suited_app');
-mongoose.set('debug', true);
+mongoose.connect("mongodb://localhost/suited_app");
+mongoose.set("debug", true);
 
 //models & Routes
-require('./models/users');
-require('./config/passport');
-// app.use(require('./routes'));
-// // Add routes, both API and view
+require("./models/users");
+require("./config/passport");
+
 app.use(routes);
 
-
 //Error handlers & middlewares
-if(!isProduction) {
+if (!isProduction) {
   app.use((err, req, res) => {
     res.status(err.status || 500);
 
     res.json({
       errors: {
         message: err.message,
-        error: err,
-      },
+        error: err
+      }
     });
   });
 }
@@ -84,8 +88,8 @@ app.use((err, req, res) => {
   res.json({
     errors: {
       message: err.message,
-      error: {},
-    },
+      error: {}
+    }
   });
 });
 
