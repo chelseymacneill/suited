@@ -50,6 +50,8 @@ router.post('/', auth.optional, (req, res, next) => {
 router.post('/login', auth.optional, (req, res, next) => {
   const { body: { user } } = req;
 
+  console.log("api/users/login user: ", user);
+  
   if(!user.email) {
     return res.status(422).json({
       errors: {
@@ -96,11 +98,6 @@ router.get('/current', auth.required, (req, res, next) => {
       console.log(user)
       return res.json({ user: user.toAuthJSON() });
     });
-});
-
-router.get("/test", auth.optional, (req, res, next) => {
-  // const { body: { user } } = req;
-  console.log("users test");
 });
 
 

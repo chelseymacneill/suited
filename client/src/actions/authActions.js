@@ -9,19 +9,31 @@ import {
     USER_LOADING
  } from "./types";
 import API from "../utils/API";
+// const Users = mongoose.model('Users');
+
+
+//LOGIN IS CURRENTLY REROUTING TO LOGIN
+
+
 
 //pass in history?
 export const newUser = (userSignup, history) => dispatch => {
     //similar to set state, but we're dispatching actions to the reducer
     // console.log("new user in action")
     API.postSignup(userSignup)
-        .then(res => console.log(res))
+        // .then(res => console.log(res))
+        .then(res => {
+          console.log(res.data.user._id);
+          let id = res.data.user._id;
+          history.push("/api/users/login");
+          // history.push("/auth/" + id); //??
+          // history.push("/profile/" + id);
+        }) // re-direct to profile on successful register
         .then(user =>
             dispatch({
             type: SIGNUP_USER,
             payload: user
         }))
-        .then(res => history.push("/login")) // re-direct to login on successful register
         .catch(err =>
         dispatch({
             type: GET_ERRORS,
@@ -33,23 +45,27 @@ export const newUser = (userSignup, history) => dispatch => {
 export const loginUser = (userLogin) => dispatch => {
   API.postLogin(userLogin)
     .then(res => console.log(res))
-    .then(user =>
-        dispatch({
-        type: LOGIN_USER,
-        payload: user
-    }))
     .then(res => {
+    // console.log(res)
     // Save to localStorage
     // Set token to localStorage
     const { token } = res.data;
     localStorage.setItem("jwtToken", token);
+    console.log("token: ", token)
     // Set token to Auth header
     setAuthToken(token);
     // Decode token to get user data
     const decoded = jwt_decode(token);
     // Set current user
     dispatch(setCurrentUser(decoded));
+    console.log("decoded: ", decoded)
+
   })
+  .then(user =>
+    dispatch({
+    type: LOGIN_USER,
+    payload: user
+  }))
   .catch(err =>
     dispatch({
       type: GET_ERRORS,

@@ -1,7 +1,6 @@
 const db = require("../models");
 
 module.exports = {
-    //post new user route
     create: function(req, res) {
         const { body: { user } } = req;
 
@@ -24,10 +23,12 @@ module.exports = {
         const finalUser = new Users(user);
       
         finalUser.setPassword(user.password);
+
+        // db.User.create(req.body)
+
       
         return finalUser.save()
           .then(() => res.json({ user: finalUser.toAuthJSON() }));
 
-        // db.User.create(req.body)
     }
 };

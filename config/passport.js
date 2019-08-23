@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+// const JwtStrategy = require("passport-jwt").Strategy;
+// const ExtractJwt = require("passport-jwt").ExtractJwt;
+
+// const opts = {};
+// opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+// opts.secretOrKey = keys.secretOrKey;
 
 const Users = mongoose.model('Users');
 

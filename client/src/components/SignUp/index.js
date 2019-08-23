@@ -77,7 +77,7 @@ class SignUp extends Component {
         <div className="card-body">
             <form onSubmit={this.onSubmit}>
             <div className="form-group">
-                <label for="exampleInputEmail1">Email address</label>
+                <label htmlFor="exampleInputEmail1">Email address</label>
                 <input 
                     name="email" 
                     value={this.state.email} 
@@ -94,7 +94,7 @@ class SignUp extends Component {
                 {/* <span className="red-text">{errors.email}</span> */}
             </div>
             <div className="form-group">
-                <label for="exampleInputPassword1">Password</label>
+                <label htmlFor="exampleInputPassword1">Password</label>
                 <input 
                     name="password" 
                     value={this.state.password} 
@@ -109,7 +109,7 @@ class SignUp extends Component {
                     placeholder="Password" />
                 {/* <span className="red-text">{errors.password}</span> */}
             </div>
-            <button type="submit" className="btn btn-primary">Sign In</button>
+            <button type="submit" className="btn btn-primary">Sign Up</button>
             <br /><br /><a href="/login">Or click here to Log In</a>
             </form>
         </div>
