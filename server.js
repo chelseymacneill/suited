@@ -98,6 +98,12 @@ mongoose.connect(
 );
 mongoose.set("debug", true);
 
+// ROUTES
+// Simple index route
+app.get("/", function(req, res) {
+  res.sendFile(path.join(__dirname + "./public/index.html"));
+});
+
 // Start the API server
 app.listen(PORT, () =>
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`)
