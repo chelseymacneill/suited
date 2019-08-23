@@ -94,7 +94,7 @@ mongoose.promise = global.Promise;
 mongoose.connect(
   process.env.MONGODB_URI ||
     "mongodb://user1:password1@ds311538.mlab.com:11538/heroku_b68zds2c",
-  { useMongoClient: true }
+  { useNewUrlParser: true }
 );
 mongoose.set("debug", true);
 
