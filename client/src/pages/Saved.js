@@ -1,7 +1,7 @@
 // import React, { Component } from "react";
 // import Jumbotron from "../components/Jumbotron";
 // import Card from "../components/Card";
-// import Book from "../components/Book";
+// import Job from "../components/Job";
 // import Footer from "../components/Footer";
 // import API from "../utils/API";
 // import { Col, Row, Container } from "../components/Grid";
@@ -9,25 +9,25 @@
 
 // class Saved extends Component {
 //   state = {
-//     books: []
+//     jobs: []
 //   };
 
 //   componentDidMount() {
-//     this.getSavedBooks();
+//     this.getSavedJobs();
 //   }
 
-//   getSavedBooks = () => {
-//     API.getSavedBooks()
+//   getSavedJobs = () => {
+//     API.getSavedJobs()
 //       .then(res =>
 //         this.setState({
-//           books: res.data
+//           jobs: res.data
 //         })
 //       )
 //       .catch(err => console.log(err));
 //   };
 
-//   handleBookDelete = id => {
-//     API.deleteBook(id).then(res => this.getSavedBooks());
+//   handleJobDelete = id => {
+//     API.deleteJob(id).then(res => this.getSavedJobs());
 //   };
 
 //   render() {
@@ -37,29 +37,29 @@
 //           <Col size="md-12">
 //             <Jumbotron>
 //               <h1 className="text-center">
-//                 <strong>(React) Google Books Search</strong>
+//                 <strong>(React) Google Jobs Search</strong>
 //               </h1>
-//               <h2 className="text-center">Search for and Save Books of Interest.</h2>
+//               <h2 className="text-center">Search for and Save Jobs of Interest.</h2>
 //             </Jumbotron>
 //           </Col>
 //         </Row>
 //         <Row>
 //           <Col size="md-12">
-//             <Card title="Saved Books" icon="download">
-//               {this.state.books.length ? (
+//             <Card title="Saved Jobs" icon="download">
+//               {this.state.jobs.length ? (
 //                 <List>
-//                   {this.state.books.map(book => (
-//                     <Book
-//                       key={book._id}
-//                       title={book.title}
-//                       subtitle={book.subtitle}
-//                       link={book.link}
-//                       authors={book.authors.join(", ")}
-//                       description={book.description}
-//                       image={book.image}
+//                   {this.state.jobs.map(job => (
+//                     <Job
+//                       key={job._id}
+//                       title={job.title}
+//                       subtitle={job.subtitle}
+//                       link={job.link}
+//                       authors={job.authors.join(", ")}
+//                       description={job.description}
+//                       image={job.image}
 //                       Button={() => (
 //                         <button
-//                           onClick={() => this.handleBookDelete(book._id)}
+//                           onClick={() => this.handleJobDelete(job._id)}
 //                           className="btn btn-danger ml-2"
 //                         >
 //                           Delete
@@ -69,7 +69,7 @@
 //                   ))}
 //                 </List>
 //               ) : (
-//                 <h2 className="text-center">No Saved Books</h2>
+//                 <h2 className="text-center">No Saved Jobs</h2>
 //               )}
 //             </Card>
 //           </Col>

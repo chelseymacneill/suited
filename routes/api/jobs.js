@@ -1,10 +1,12 @@
 const router = require("express").Router();
-const bookController = require("../../controllers/bookController");
+const jobController = require("../../controllers/jobController");
 
 
 // Matches with "/api/jobs"
 router.route("/")
-.get(bookController.scrape);
+.get(jobController.scrape);
+// .get(jobController.findAll)
+// .post(jobController.create);
 // router.route.get("/", function(req, res) {
 // var q = req.params.q;
 // var l = req.params.l;
@@ -14,10 +16,10 @@ router.route("/")
 
 
 // Matches with "/api/jobs/:id"
-router
-  .route("/:id")
-  .get(bookController.findById)
-  .put(bookController.update)
-  .delete(bookController.remove);
+// router
+//   .route("/:id")
+//   .get(bookController.findById)
+//   .put(bookController.update)
+//   .delete(bookController.remove);
 
 module.exports = router;
