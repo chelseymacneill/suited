@@ -12,10 +12,8 @@ const passport = require("passport");
 //Initiate our app
 const app = express();
 
+// Set the port for the server
 const PORT = process.env.PORT || 8001;
-
-//Configure mongoose's promise to global promise
-mongoose.promise = global.Promise;
 
 //Configure isProduction variable
 const isProduction = process.env.NODE_ENV === "production";
@@ -25,7 +23,10 @@ app.use(cors());
 app.use(require("morgan")("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "public")));
+// Replaced with below
+//app.use(express.static(path.join(__dirname, "public")));
+// Replacement for above
+app.use("/static", express.static(path.join(__dirname, "client/build")));
 app.use(
   session({
     secret: "suited_app",
@@ -35,10 +36,7 @@ app.use(
   })
 );
 
-// app.use(express.static("public"));
-// app.use(session({ secret: "cats" }));
-// app.use(bodyParser.urlencoded({ extended: false }));
-//////////////////////////////////////////////////////////////////////
+// Configure App for passport
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -52,20 +50,16 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
   });
 });
-////////////////////////////////////////////////////////////////////////
 
 if (!isProduction) {
   app.use(errorHandler());
 }
 
-//Configure Mongoose
-mongoose.connect("mongodb://localhost/suited_app");
-mongoose.set("debug", true);
-
-//models & Routes
+// Require Mondels and internal config files
 require("./models/users");
 require("./config/passport");
 
+// Routes
 app.use(routes);
 
 //Error handlers & middlewares
@@ -92,6 +86,17 @@ app.use((err, req, res) => {
     }
   });
 });
+
+//Configure mongoose's promise to global promise
+mongoose.promise = global.Promise;
+
+//Configure Mongoose
+mongoose.connect(
+  process.env.MONGODB_URI ||
+    "mongodb://user1:password1@ds311538.mlab.com:11538/heroku_b68zds2c",
+  { useMongoClient: true }
+);
+mongoose.set("debug", true);
 
 // Start the API server
 app.listen(PORT, () =>
