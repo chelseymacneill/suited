@@ -43,8 +43,8 @@ module.exports = {
     // db.Job.create(dummy).catch(err => res.status(422).json(err));
 
 
-    var q = req.query.q;
-    var l = req.query.l;
+    const q = req.query.q;
+    const l = req.query.l;
     
     axios.get(`https://indreed.herokuapp.com/api/jobs?q=${q}&l=${l}`)
     // .then(results =>
@@ -58,8 +58,12 @@ module.exports = {
     //         result.date 
     //     )
     //   )
+
+    //const jobListings = jobs.map( )
+
     .then(jobs => {
         let jsonJobs = jobs.data;
+        console.log(jsonJobs);
         res.json(jsonJobs);
         db.Job.create(jsonJobs);
         
