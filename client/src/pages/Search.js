@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Col, Row, Container } from "../components/Grid";
+import Form from "../components/Form";
+import { Col, Row, Container} from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
+import Card from "../components/Card";
+import Job from "../components/Job";
+import { List } from "../components/List";
+import API from "../utils/API";
 // import API from "../utils/API";
 import Json from "../components/Json";
 
@@ -21,6 +26,40 @@ class Search extends Component {
     //         .catch(err => console.log(err));
     // }
 
+    state = {
+        jobs: [],
+        q: "",
+        l: "",
+        message: "Enter in your desired Job to begin!"
+      };
+
+      getJobs = () => {
+        API.getJobs(this.state.q, this.state.l)
+          .then(res =>
+            this.setState({
+              jobs: res.data
+            })
+          )
+          .catch(() =>
+            this.setState({
+                jobs: [],
+              message: "No New Jobs Found, Try a Different Query"
+            })
+          );
+      };
+
+    handleInputChange = event => {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        });
+    };
+
+    handleFormSubmit = event => {
+        event.preventDefault();
+        this.getJobs();
+      };
+
     render() {
         return (
             // <Provider store={store}>
@@ -31,12 +70,19 @@ class Search extends Component {
                             <h1>
                                 Hello World: Search Bar Here
                             </h1>
-                            <input className="form-control" type="text" placeholder="Default input"></input>
+                            {/* <input className="form-control" type="text" placeholder="Default input"></input> */}
+                            <Form
+                handleInputChange={this.handleInputChange}
+                handleFormSubmit={this.handleFormSubmit}
+                q={this.state.q}
+                l={this.state.l}
+              />
 
                         </Jumbotron>
                     </Col>
                 </Row>
                 <Row>
+                <h2 className="text-center">{this.state.message}</h2>
                     <Col size="md-10 md-offset-1">
                         {/* insert search filter component */}
                         <h2>Search Filter goes here</h2>
@@ -46,6 +92,34 @@ class Search extends Component {
                     <Col size="md-10 md-offset-1">
                         {/* insert job container and job card components */}
                         <h2>Job Cards live here - from Job DB Collection</h2>
+
+                        <Card title="Results">
+              {this.state.jobs.length ? (
+                <List>
+                  {this.state.jobs.map(job => (
+                    <Job
+                      key={job.id}
+                      title={job.title}
+                      company={job.company}
+                      location={job.location}
+                      date={job.date}
+                      summary={job.summary}
+                      url={job.url}
+                    //   Button={() => (
+                    //     <button
+                    //       onClick={() => this.handleBookSave(book.id)}
+                    //       className="btn btn-primary ml-2"
+                    //     >
+                    //       Save
+                    //     </button>
+                    //   )}
+                    />
+                  ))}
+                </List>
+              ) : (
+                <h2 className="text-center">{this.state.message}</h2>
+              )}
+            </Card>
                         <Json />
 
                     </Col>
