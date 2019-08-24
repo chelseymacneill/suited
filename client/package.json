@@ -1,5 +1,6 @@
 {
-  "name": "react-google-books",
+  "name": "suited",
+  "homepage": "https://suited.herokuapp.com",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:8001/",
