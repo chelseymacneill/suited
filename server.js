@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 // Replaced with below
 //app.use(express.static(path.join(__dirname, "public")));
 // Replacement for above
-app.use("/static", express.static(path.join(__dirname, "client/build")));
+app.use("/static", express.static(path.join(__dirname, "client/public")));
 app.use(
   session({
     secret: "suited_app",
