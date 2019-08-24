@@ -1,39 +1,42 @@
+// Require/Import needed npm packages
 const express = require("express");
-
 const mongoose = require("mongoose");
 const routes = require("./routes");
+const path = require("path");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+const cors = require("cors");
+const errorHandler = require("errorhandler");
+const passport = require("passport");
+
 //Initiate our app
 const app = express();
 
-const path = require('path');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const cors = require('cors');
-const errorHandler = require('errorhandler');
-const passport = require('passport');
-
-
-const PORT = process.env.PORT || 8001;
-
-//Configure mongoose's promise to global promise
-mongoose.promise = global.Promise;
+// Set the port for the server
+const PORT = process.env.PORT || 3001; //
 
 //Configure isProduction variable
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === "production";
 
 //Configure our app
 app.use(cors());
-
-app.use(require('morgan')('dev'));
+app.use(require("morgan")("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'suited_app', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+// Replaced with below
+//app.use(express.static(path.join(__dirname, "public")));
+// Replacement for above
+app.use(express.static(path.join(__dirname, "client/build")));
+app.use(
+  session({
+    secret: "suited_app",
+    cookie: { maxAge: 60000 },
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
-// app.use(express.static("public"));
-// app.use(session({ secret: "cats" }));
-// app.use(bodyParser.urlencoded({ extended: false }));
-//////////////////////////////////////////////////////////////////////
+// Configure App for passport
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -47,34 +50,28 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
   });
 });
-////////////////////////////////////////////////////////////////////////
 
-if(!isProduction) {
+if (!isProduction) {
   app.use(errorHandler());
 }
 
-//Configure Mongoose
-mongoose.connect('mongodb://localhost/suited_app');
-mongoose.set('debug', true);
+// Require Mondels and internal config files
+require("./models/users");
+require("./config/passport");
 
-//models & Routes
-require('./models/users');
-require('./config/passport');
-// app.use(require('./routes'));
-// // Add routes, both API and view
+// Routes
 app.use(routes);
 
-
 //Error handlers & middlewares
-if(!isProduction) {
+if (!isProduction) {
   app.use((err, req, res) => {
     res.status(err.status || 500);
 
     res.json({
       errors: {
         message: err.message,
-        error: err,
-      },
+        error: err
+      }
     });
   });
 }
@@ -85,9 +82,26 @@ app.use((err, req, res) => {
   res.json({
     errors: {
       message: err.message,
-      error: {},
-    },
+      error: {}
+    }
   });
+});
+
+//Configure mongoose's promise to global promise
+mongoose.promise = global.Promise;
+
+//Configure Mongoose
+mongoose.connect(
+  process.env.MONGODB_URI ||
+    "mongodb://user1:password1@ds311538.mlab.com:11538/heroku_b68zds2c",
+  { useNewUrlParser: true }
+);
+mongoose.set("debug", true);
+
+// ROUTES
+// Simple index route
+app.get("/", function(req, res) {
+  res.sendFile(path.join(__dirname + "./public/index.html"));
 });
 
 // Start the API server
