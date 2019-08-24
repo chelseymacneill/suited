@@ -1,5 +1,5 @@
 {
-  "name": "react-google-books",
+  "name": "suited",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:8001/",
@@ -11,7 +11,8 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.1",
     "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "redux-token-auth": "^0.19.0"
   },
   "scripts": {
     "start": "react-scripts start",

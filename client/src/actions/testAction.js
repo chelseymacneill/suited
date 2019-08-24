@@ -3,16 +3,25 @@ import API from "../utils/API";
 
 
 export const newUser = (userSignup) => dispatch => {
+    let user = {};
+
     //similar to set state, but we're dispatching actions to the reducer
     // console.log("new user in action")
     API.postSignup(userSignup)
-        .then(res => console.log(res))
+        .then(res => {
+            user = res;
+            console.log(user);
+        })
     .then(user =>
         dispatch({
         type: SIGNUP_USER,
         payload: user
+    }))
+    .then(() => {
+        localStorage.setItem("id_token", user.data.user.token)
     })
-    );
+    // .then(() => console.log(localStorage.getToken("id_token"))
+    //.data.user.token
 }
 
 export const loginUser = (userLogin) => dispatch => {

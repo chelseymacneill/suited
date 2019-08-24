@@ -33,7 +33,9 @@ router.post('/', auth.optional, (req, res, next) => {
   finalUser.setPassword(user.password);
 
   return finalUser.save()
-    .then(() => res.json({ user: finalUser.toAuthJSON() }));
+    .then(() => res.json({ user: finalUser.toAuthJSON() }))
+    .then(console.log("signup")
+    );
 });
 
 //POST login route (optional, everyone has access)
@@ -65,7 +67,7 @@ router.post('/login', auth.optional, (req, res, next) => {
     if(passportUser) {
       const user = passportUser;
       user.token = passportUser.generateJWT();
-      console.log(user.token);
+      console.log("USER TOKEN", user.token);
       return res.json({ user: user.toAuthJSON() });
     }
 

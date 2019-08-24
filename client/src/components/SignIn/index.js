@@ -18,6 +18,17 @@ class SignIn extends Component {
 
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.auth.isAuthenticated) {
+          this.props.history.push("/search"); // push user to dashboard when they login
+        }
+    if (nextProps.errors) {
+          this.setState({
+            errors: nextProps.errors
+          });
+        }
+      }
+
     onChange(event) {
         this.setState( { [event.target.name]: event.target.value } );
     }
@@ -35,7 +46,9 @@ class SignIn extends Component {
         // API.postLogin(userSignin).then( response => {
         //     console.log(response.data);
         // })
-        this.props.loginUser(userLogin);
+        this.props.loginUser(userLogin)
+        // console.log("THIS PROPS", this.props.state)
+
 
     }
 
@@ -64,11 +77,13 @@ class SignIn extends Component {
 };
 
 SignIn.propTypes = {
-    loginUser: PropTypes.func.isRequired
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    posts: state.basic.user
+    posts: state.basic.user,
+    auth: state.auth
 });
 
 export default connect(mapStateToProps, { loginUser })(SignIn);

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Home from "./pages/Home";
 import Saved from "./pages/Saved";
 import NoMatch from "./pages/NoMatch";
@@ -9,6 +9,9 @@ import Landing from "./pages/Landing";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import passport from 'passport';
+// import passRouter from ""
+
 
 //REDUX STUFF
 // import { createStore, applyMiddleware } from "redux";
@@ -18,6 +21,12 @@ import store from "./store";
 //we'll have jsonStore, authStore, userStore, etc.
 
 // const store = createStore( () => [], {}, applyMiddleware() );
+// function test(req, res) {
+//   console.log()
+// }
+            // {/* <Route exact path="/" render={() => (
+            //    passport.isAuthenticated()  ? (<Redirect to="/dashboard"/>) : (<PublicHomePage/>))}/> */}
+
 
 function App() {
   return (
