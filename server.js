@@ -13,7 +13,7 @@ const passport = require("passport");
 const app = express();
 
 // Set the port for the server
-const PORT = process.env.PORT || 3001; //
+const PORT = process.env.PORT || 3000; //
 
 //Configure isProduction variable
 const isProduction = process.env.NODE_ENV === "production";
