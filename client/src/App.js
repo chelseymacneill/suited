@@ -10,22 +10,34 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 
+//REDUX STUFF
+// import { createStore, applyMiddleware } from "redux";
+
+import { Provider } from "react-redux";
+import store from "./store";
+//we'll have jsonStore, authStore, userStore, etc.
+
+// const store = createStore( () => [], {}, applyMiddleware() );
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Nav />
-        <Switch>
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/search" component={Search} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={SignUp} />
-          <Route exact path="/profile/:id" component={Profile} />
-          <Route component={NoMatch} />
-        </Switch>
-      </div>
-    </Router>
+    // store holds the state
+    //DISPATCH AN ACTION TO CHANGE THE STATE
+    <Provider store={store}>
+      <Router>
+        <div>
+          <Nav />
+          <Switch>
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/search" component={Search} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/profile/:id" component={Profile} />
+            <Route component={NoMatch} />
+          </Switch>
+        </div>
+      </Router>
+    </Provider>
   );
 }
 
