@@ -13,7 +13,7 @@ const passport = require("passport");
 const app = express();
 
 // Set the port for the server
-const PORT = process.env.PORT || 3000; //
+const PORT = process.env.PORT || 3001; //
 
 //Configure isProduction variable
 const isProduction = process.env.NODE_ENV === "production";
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 // Replaced with below
 //app.use(express.static(path.join(__dirname, "public")));
 // Replacement for above
-app.use("/static", express.static(path.join(__dirname, "client/build")));
+app.use("/static", express.static(path.join(__dirname, "client/build/static")));
 app.use(
   session({
     secret: "suited_app",
