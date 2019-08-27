@@ -1,11 +1,5 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
-// import { Link, withRouter } from "react-router-dom";
-// import PropTypes from "prop-types";
-
-// import { connect } from "react-redux";
-// import { newUser } from "../../actions/testAction"
-// import classnames from "classnames";
 
 class SignUp extends Component {
     constructor(props) {
@@ -18,14 +12,6 @@ class SignUp extends Component {
         this.onSubmit = this.onSubmit.bind(this);    
 
     }
-
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.errors) {
-    //       this.setState({
-    //         errors: nextProps.errors
-    //       });
-    //     }
-    //   }
 
     onChange(event) {
         this.setState( { [event.target.name]: event.target.value } );
@@ -45,15 +31,6 @@ class SignUp extends Component {
         API.postSignup(userSignup).then( response => {
             console.log(response.data);
         })
-
-
-        // this.props.newUser(userSignup, this.props.history)
-
-        // console.log(this.props.auth.isAuthenticated);
-        // this.props.history.push("/profile/1")
-        // console.log("SIGN UP ", newUser.user);
-        // console.log(user);
-        // this.props.newUser(userSignup, this.props.history);
 
     //////////////////////////////////////////////////////////
         // let userToken = localStorage.getItem("id_token");
@@ -97,15 +74,4 @@ class SignUp extends Component {
     )};
 };
 
-// SignUp.propTypes = {
-//     newUser: PropTypes.func.isRequired,
-//     auth: PropTypes.object.isRequired
-// };
-
-// const mapStateToProps = state => ({
-//     posts: state.basic.user,
-//     auth: state.auth
-// });
-
-// export default connect(mapStateToProps, { newUser })(withRouter(SignUp));
 export default SignUp;

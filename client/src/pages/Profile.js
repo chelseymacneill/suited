@@ -4,12 +4,6 @@ import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 // import API from "../utils/API";
 
-// import { logoutUser } from "../../actions/testAction"
-// import PropTypes from "prop-types";
-// import { connect } from "react-redux";
-
-
-
 class Profile extends Component {
     state = {
         userID: this.props.match.params.id
@@ -62,18 +56,6 @@ class Profile extends Component {
     }
 
 };
-
-
-// Profile.propTypes = {
-//     logoutUser: PropTypes.func.isRequired,
-//     auth: PropTypes.object.isRequired
-// };
-
-// const mapStateToProps = state => ({
-//     auth: state.auth
-// });
-
-// export default connect(mapStateToProps, { logoutUser })(Profile);
 
 export default Profile;
 

@@ -1,10 +1,5 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
-// import PropTypes from "prop-types";
-
-// import { connect } from "react-redux";
-// import { loginUser } from "../../actions/testAction"
-
 
 class SignIn extends Component {
     constructor(props) {
@@ -17,17 +12,6 @@ class SignIn extends Component {
         this.onSubmit = this.onSubmit.bind(this);    
 
     }
-
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.auth.isAuthenticated) {
-    //       this.props.history.push("/search"); // push user to dashboard when they login
-    //     }
-    // if (nextProps.errors) {
-    //       this.setState({
-    //         errors: nextProps.errors
-    //       });
-    //     }
-    //   }
 
     onChange(event) {
         this.setState( { [event.target.name]: event.target.value } );
@@ -46,11 +30,6 @@ class SignIn extends Component {
         API.postLogin(userLogin).then( response => {
             console.log(response.data);
         })
-
-
-        // this.props.loginUser(userLogin)
-        // console.log("THIS PROPS", this.props.state)
-
 
     }
 
@@ -78,23 +57,4 @@ class SignIn extends Component {
     )};
 };
 
-// SignIn.propTypes = {
-//     loginUser: PropTypes.func.isRequired,
-//     auth: PropTypes.object.isRequired
-// };
-
-// const mapStateToProps = state => ({
-//     posts: state.basic.user,
-//     auth: state.auth
-// });
-
-// export default connect(mapStateToProps, { loginUser })(SignIn);
-////////////////////////////////////////////////////
 export default SignIn;
-
-// Login.propTypes = {
-//     login: PropTypes.func.isRequired,
-//     isAuthenticated: PropTypes.bool
-// };
-// const mapStateToProps = state => ({isAuthenticated: state.auth.isAuthenticated});
-// export default connect(mapStateToProps, {login})(Login);

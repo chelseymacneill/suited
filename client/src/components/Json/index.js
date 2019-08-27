@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
-import PropTypes from "prop-types"
+// import PropTypes from "prop-types"
 
-//REDUX STUFF TO CONNECT COMPONENT WITH THE REDUCER/ACTION FILES
-import { connect } from "react-redux";
-import { fetchJSON } from "../../actions/testAction"
+// //REDUX STUFF TO CONNECT COMPONENT WITH THE REDUCER/ACTION FILES
+// import { connect } from "react-redux";
+// import { fetchJSON } from "../../actions/testAction"
 
 
     //NO LONGER NEEDED B/C IT'S IN THE actions/signupAction.js
@@ -46,16 +46,16 @@ class Json extends Component {
     )};
 };
 
-Json.propTypes = {
-    fetchJSON: PropTypes.func.isRequired,
-    posts: PropTypes.array.isRequired
-}
+// Json.propTypes = {
+//     fetchJSON: PropTypes.func.isRequired,
+//     posts: PropTypes.array.isRequired
+// }
 
-const mapStateToProps = state => ({
-    posts: state.basic.items
-})
+// const mapStateToProps = state => ({
+//     posts: state.basic.items
+// })
 
-//mapping component to property
-export default connect(mapStateToProps, { fetchJSON })(Json);
-// export default connect(null, { fetchJSON })(Json);
+// //mapping component to property
+// export default connect(mapStateToProps, { fetchJSON })(Json);
+export default Json;
 
