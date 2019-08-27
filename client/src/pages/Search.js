@@ -1,29 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 // import API from "../utils/API";
-import Json from "../components/Json";
-
-// import { Provider } from "react-redux";
-// import store from "../store";
-
 
 class Search extends Component {
-    // state = {
-    //     book: {}
-    // };
-    // When this component mounts, grab the book with the _id of this.props.match.params.id
-    // e.g. localhost:3000/books/599dcb67f0f16317844583fc
-    // componentDidMount() {
-    //     API.getBook(this.props.match.params.id)
-    //         .then(res => this.setState({ book: res.data }))
-    //         .catch(err => console.log(err));
-    // }
-
     render() {
         return (
-            // <Provider store={store}>
             <Container fluid>
                 <Row>
                     <Col size="md-12">
@@ -46,7 +29,6 @@ class Search extends Component {
                     <Col size="md-10 md-offset-1">
                         {/* insert job container and job card components */}
                         <h2>Job Cards live here - from Job DB Collection</h2>
-                        <Json />
 
                     </Col>
                 </Row>
@@ -57,7 +39,6 @@ class Search extends Component {
                     </Col>
                 </Row>
             </Container>
-            // </Provider>
         );
     }
 }

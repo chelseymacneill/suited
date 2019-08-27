@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import Jumbotron from "../components/Jumbotron";
-import API from "../utils/API";
+// import API from "../utils/API";
 // import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import SignUp from "../components/SignUp";
@@ -10,13 +10,14 @@ import SignUp from "../components/SignUp";
 // const store = createStore( () => [], {}, applyMiddleware() );
 
 class Signup extends Component {
-    state = {
-        userToken: "",
-        userID: "",
-        email: "",
-        password: "",
-    };
-
+    constructor() {
+        super();
+        this.state = {
+            email: "",
+            password: "",
+            redirectTo: null
+        }
+    }
     render(){
         return(
             // <Provider store={store}>

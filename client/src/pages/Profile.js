@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 // import API from "../utils/API";
+
 
 class Profile extends Component {
     state = {
@@ -14,8 +15,8 @@ class Profile extends Component {
     //   };
 
     render(){
-        const { user } = this.props.auth;
-        console.log(user);
+        // const { user } = this.props.auth;
+        // console.log(user);
 
         return(
             <Container fluid>

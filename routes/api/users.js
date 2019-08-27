@@ -43,6 +43,8 @@ router.post('/', auth.optional, (req, res, next) => {
 router.post('/login', auth.optional, (req, res, next) => {
   const { body: { user } } = req;
 
+  console.log('routes/user.js, login, req.body: ', req.body);
+  
   if(!user.email) {
     return res.status(422).json({
       errors: {
@@ -59,24 +61,38 @@ router.post('/login', auth.optional, (req, res, next) => {
     });
   }
 
-  return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
-    if(err) {
-      return next(err);
-    }
+  // passport.authenticate('local', { failureRedirect: '/login' }),
+  // function(req, res) {
+  //   // res.redirect('/');
+  //   console.log("login!", req)
+  // }
+  //////////////////////////////////
+  // passport.authenticate('local'),
+  //   (req, res) => {
+  //       console.log('logged in', req.user);
+  //       var userInfo = {
+  //           username: req.user.username
+  //       };
+  //       res.send(userInfo);
+  //   }
+  ///////////////////////////////////
+  // return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
+  //   if(err) {
+  //     return next(err);
+  //   }
 
-    if(passportUser) {
-      const user = passportUser;
-      user.token = passportUser.generateJWT();
-      console.log("USER TOKEN", user.token);
-      return res.json({ user: user.toAuthJSON() });
-    }
+  //   if(passportUser) {
+  //     const user = passportUser;
+  //     user.token = passportUser.generateJWT();
+  //     console.log("USER TOKEN", user.token);
+  //     return res.json({ user: user.toAuthJSON() });
+  //   }
 
-    return status(400).info;
-  })(req, res, next);
+  //   return status(400).info;
+  // })(req, res, next);
 });
 
 //GET current route (required, only authenticated users have access)
-//Lastly, we will create a required auth route, which will be used to return the currently logged in user. Only logged in users (users that have their token successfully sent through request’s headers) have access to this route.
 router.get('/current', auth.required, (req, res, next) => {
   const { payload: { id } } = req;
 
@@ -86,10 +102,19 @@ router.get('/current', auth.required, (req, res, next) => {
       if(!user) {
         return res.sendStatus(400);
       }
-      console.log(user)
+      console.log("current user", user)
       return res.json({ user: user.toAuthJSON() });
     });
 });
+
+router.post('/logout', auth.required, (req, res, next) => {
+  if (req.user) {
+      req.logout()
+      res.send({ msg: 'logging out' })
+  } else {
+      res.send({ msg: 'no user to log out' })
+  }
+})
 
 router.get("/test", auth.optional, (req, res, next) => {
   // const { body: { user } } = req;

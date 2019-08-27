@@ -38,7 +38,10 @@ export default {
     )
   },
   getCurrent: function () {
-    return axios.get("/api/users/current")
+    return axios.get("http://localhost:8001/api/users/current")
+  },
+  postLogout: function() {
+    return axios.post("http://localhost:8001/api/users/logout")
   },
   jsonTest: function (data) {
     return axios.get("https://jsonplaceholder.typicode.com/posts",

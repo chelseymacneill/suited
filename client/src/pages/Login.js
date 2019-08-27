@@ -1,27 +1,39 @@
-import React, { Component } from "react";
-// import Jumbotron from "../components/Jumbotron";
-import API from "../utils/API";
-// import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+// import axios from 'axios'
+// import API from "../utils/API";
+// import { Route, Link } from 'react-router-dom'
 import { Col, Row, Container } from "../components/Grid";
 import SignIn from "../components/SignIn";
 
 
 class Login extends Component {
-    state = {
-        userToken: "",
-        userID: "",
-        email: "",
-        password: "",
-    };
+    constructor(props) {
+        super(props)
+        this.state = {
+          loggedIn: false,
+          username: null
+        }
+        this.getUser = this.getUser.bind(this)
+        this.componentDidMount = this.componentDidMount.bind(this)
+        this.updateUser = this.updateUser.bind(this)
+    }
 
-    handleInputChange = event => {
-        const { name, value } = event.target;
-        this.setState({
-          [name]: value
-        });
+    //////////////////////////////////
+    // state = {
+    //     userToken: "",
+    //     userID: "",
+    //     email: "",
+    //     password: "",
+    // };
 
-        console.log("test")
-      };
+    // handleInputChange = event => {
+    //     const { name, value } = event.target;
+    //     this.setState({
+    //       [name]: value
+    //     });
+
+    //     console.log("test")
+    //   };
 
     //   componentWillMount = () => {
     //     API.postSignup({
@@ -44,7 +56,33 @@ class Login extends Component {
     //   };
 
     componentDidMount = () => {
-        console.log(this.state);
+        console.log("Login.js page state", this.props);
+        this.getUser()
+    }
+
+    updateUser (userObject) {
+        this.setState(userObject)
+    }
+    
+    getUser() {
+        console.log("login props test")
+    // axios.get('/api/users/current').then(response => {
+    //     console.log('Get user response: ', response.data)
+    //     if (response.data.user) {
+    //     console.log('Get User: There is a user saved in the server session: ')
+
+    //     this.setState({
+    //         loggedIn: true,
+    //         username: response.data.user.username
+    //     })
+    //     } else {
+    //     console.log('Get user: no user');
+    //     this.setState({
+    //         loggedIn: false,
+    //         username: null
+    //     })
+    //     }
+    // })
     }
     
     render(){
@@ -53,7 +91,9 @@ class Login extends Component {
             <Row>
                 <Col size="md-4" />
                 <Col size="md-4">
+                    {/* <SignIn updateUser={this.updateUser} loggedIn={this.state.loggedIn}/> */}
                     <SignIn />
+
                 </Col>
                 <Col size="md-4" />
             </Row>
