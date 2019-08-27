@@ -5,6 +5,9 @@
   "proxy": "http://localhost:8001/",
   "dependencies": {
     "axios": "^0.18.0",
+    "is-empty": "^1.2.0",
+    "lodash": "^4.17.15",
+    "lodash.isempty": "^4.4.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-redux": "^7.1.0",

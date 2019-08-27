@@ -1,5 +1,11 @@
 //evauate any actions that are committed
 import { SIGNUP_USER, LOGIN_USER, DUMMY_JSON } from "../actions/types";
+import {
+    SET_CURRENT_USER,
+    USER_LOADING
+  } from "../actions/types";
+
+// const isEmpty = require("lodash.isempty");
 
 const initialState = {
     items: [],
@@ -7,11 +13,26 @@ const initialState = {
     user: {},
     email: "",
     password: "",
-    token: ""
+    token: "",
+    isAuthenticated: false,
+    loading: false
 };
 
 export default function(state = initialState, action) {
     switch(action.type) {
+         
+        // case SET_CURRENT_USER:
+        // return {
+        //     ...state,
+        //     isAuthenticated: !isEmpty(action.payload),
+        //     user: action.payload
+        // };
+        case USER_LOADING:
+        return {
+            ...state,
+            loading: true
+        };
+
         case SIGNUP_USER:
             console.log("signup")
             return {
@@ -38,4 +59,5 @@ export default function(state = initialState, action) {
         default:
             return state;
     }
+    
 }

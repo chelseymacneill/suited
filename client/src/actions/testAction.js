@@ -1,6 +1,21 @@
-import { SIGNUP_USER, LOGIN_USER, DUMMY_JSON } from "./types";
+import { SIGNUP_USER, LOGIN_USER, DUMMY_JSON, SET_CURRENT_USER, USER_LOADING } from "./types";
 import API from "../utils/API";
+import setAuthToken from "../utils/setAuthToken";
+import jwt_decode from "jwt-decode";
 
+// Set logged in user
+export const setCurrentUser = decoded => {
+    return {
+      type: SET_CURRENT_USER,
+      payload: decoded
+    };
+  };
+  // User loading
+  export const setUserLoading = () => {
+    return {
+      type: USER_LOADING
+    };
+  };
 
 export const newUser = (userSignup) => dispatch => {
     let user = {};
@@ -24,6 +39,8 @@ export const newUser = (userSignup) => dispatch => {
     //.data.user.token
 }
 
+
+
 export const loginUser = (userLogin) => dispatch => {
   API.postLogin(userLogin)
       .then(res => console.log(res))
@@ -34,6 +51,16 @@ export const loginUser = (userLogin) => dispatch => {
   })
   );
 }
+
+// Log user out
+export const logoutUser = () => dispatch => {
+    // Remove token from local storage
+    localStorage.removeItem("jwtToken");
+    // Remove auth header for future requests
+    setAuthToken(false);
+    // Set current user to empty object {} which will set isAuthenticated to false
+    dispatch(setCurrentUser({}));
+  };
 
 //think of dispatch like a "resolve" in a promise
 export const fetchJSON = () => dispatch => {
