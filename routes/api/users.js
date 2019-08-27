@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
-const passport = require('passport');
-const router = require('express').Router();
 const auth = require('../auth');
 const Users = mongoose.model('Users');
+
+const router = require('express').Router();
+const passport = require('passport');
+
 // const db = require("../models");
 
 // const User = db.User;
@@ -76,35 +78,36 @@ router.post('/login', auth.optional, (req, res, next) => {
   //       res.send(userInfo);
   //   }
   ///////////////////////////////////
-  // return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
-  //   if(err) {
-  //     return next(err);
-  //   }
+  return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
+    if(err) {
+      return next(err);
+    }
 
-  //   if(passportUser) {
-  //     const user = passportUser;
-  //     user.token = passportUser.generateJWT();
-  //     console.log("USER TOKEN", user.token);
-  //     return res.json({ user: user.toAuthJSON() });
-  //   }
+    if(passportUser) {
+      const user = passportUser;
+      user.token = passportUser.generateJWT();
+      console.log("USER TOKEN", user.token);
+      return res.json({ user: user.toAuthJSON() });
+    }
 
-  //   return status(400).info;
-  // })(req, res, next);
+    return status(400).info;
+  })(req, res, next);
 });
 
 //GET current route (required, only authenticated users have access)
-router.get('/current', auth.required, (req, res, next) => {
-  const { payload: { id } } = req;
+router.get('/current', auth.optional, (req, res, next) => {
+  // const { payload: { id } } = req;
 
-  // console.log(id, req.headers);
-  return Users.findById(id)
-    .then((user) => {
-      if(!user) {
-        return res.sendStatus(400);
-      }
-      console.log("current user", user)
-      return res.json({ user: user.toAuthJSON() });
-    });
+  // // console.log(id, req.headers);
+  // return Users.findById(id)
+  //   .then((user) => {
+  //     if(!user) {
+  //       return res.sendStatus(400);
+  //     }
+  //     console.log("current user", user)
+  //     return res.json({ user: user.toAuthJSON() });
+  //   });
+  console.log("current user")
 });
 
 router.post('/logout', auth.required, (req, res, next) => {

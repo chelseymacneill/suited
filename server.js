@@ -1,6 +1,16 @@
 const express = require("express");
 
 const mongoose = require("mongoose");
+//Configure Mongoose
+mongoose.connect('mongodb://localhost/suited_app');
+mongoose.set('debug', true);
+
+//models & Routes
+require('./models/users');
+require('./config/passport');
+
+
+
 const routes = require("./routes");
 //Initiate our app
 const app = express();
@@ -72,13 +82,6 @@ if(!isProduction) {
   app.use(errorHandler());
 }
 
-//Configure Mongoose
-mongoose.connect('mongodb://localhost/suited_app');
-mongoose.set('debug', true);
-
-//models & Routes
-require('./models/users');
-require('./config/passport');
 // app.use(require('./routes'));
 // // Add routes, both API and view
 app.use(routes);
