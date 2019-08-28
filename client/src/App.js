@@ -29,8 +29,8 @@ class App extends Component {
       this.updateUser = this.updateUser.bind(this)
   }
 
-  componentDidMount = () => {
-    console.log("App.js state: ", this.state);
+  componentDidMount = (req, res) => {
+    console.log("App.js state: ", req);
     this.getUser()
   }
 
@@ -41,23 +41,23 @@ class App extends Component {
   getUser() {
     console.log("app props test")
 
-  API.getCurrent()
-  .then(response => {
-      console.log('Get user response: ', response.data)
-        if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ')
-          this.setState({
-              loggedIn: true,
-              username: response.data.user.username
-          })
-        } else {
-        console.log('Get user: no user');
-          this.setState({
-              loggedIn: false,
-              username: null
-          })
-        }
-    })
+  // API.getCurrent()
+  // .then(response => {
+  //     console.log('Get user response: ', response.data)
+  //       if (response.data.user) {
+  //       console.log('Get User: There is a user saved in the server session: ')
+  //         this.setState({
+  //             loggedIn: true,
+  //             username: response.data.user.username
+  //         })
+  //       } else {
+  //       console.log('Get user: no user');
+  //         this.setState({
+  //             loggedIn: false,
+  //             username: null
+  //         })
+  //       }
+  //   })
   }
 
   render() {

@@ -37,12 +37,13 @@ class SignUp extends Component {
         ///////////////////////////////////
         API.postSignup(userSignup)
         .then(response => {
-            console.log(response)
+            console.log("user signup response", response)
             if (!response.data.errmsg) {
-                console.log('successful signup')
+                console.log('successful signup', response.user)
                 this.setState({ //redirect to login page
                     redirectTo: '/login'
                 })
+                alert("Signup Successful! Redirecting to the Sign In Page")
             } else {
                 console.log('username already taken')
             }
@@ -79,11 +80,11 @@ class SignUp extends Component {
                 <div className="card-body">
                     <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
+                        <label htmlFor="exampleInputEmail1">Email address</label>
                         <input name="email" value={this.state.email} onChange={this.onChange} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                     </div>
                     <div className="form-group">
-                        <label for="exampleInputPassword1">Password</label>
+                        <label htmlFor="exampleInputPassword1">Password</label>
                         <input name="password" value={this.state.password} onChange={this.onChange}type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
                     </div>
                     <button type="submit" className="btn btn-primary">Sign Up</button>
