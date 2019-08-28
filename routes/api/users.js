@@ -3,7 +3,6 @@ const auth = require('../auth');
 const Users = mongoose.model('Users');
 
 const router = require('express').Router();
-// const passport = require('passport');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
@@ -56,11 +55,8 @@ router.post('/', auth.optional, (req, res, next) => {
     );
 });
 
-//POST login route (optional, everyone has access)
-//After that, we are going to create another optional auth route ‘/login’ . This will be used to activate our passport configuration and validate a received password with email.
 router.post('/login', auth.optional, (req, res, next) => {
   const { body: { user } } = req;
-  // const { payload: { id } } = req;
 
   console.log('routes/user.js, login, req/res: ', req.sessionID);
   
@@ -102,20 +98,5 @@ router.post('/login', auth.optional, (req, res, next) => {
       }
     });
 });
-
-//GET current route (required, only authenticated users have access)
-// router.get('/current', auth.optional, (req, res, next) => {
-  
-//   console.log("current user")
-// });
-
-// router.post('/logout', auth.required, (req, res, next) => {
-//   if (req.user) {
-//       req.logout()
-//       res.send({ msg: 'logging out' })
-//   } else {
-//       res.send({ msg: 'no user to log out' })
-//   }
-// })
 
 module.exports = router;

@@ -1,4 +1,3 @@
-const db = require("../models");
 
 module.exports = {
     //post new user route

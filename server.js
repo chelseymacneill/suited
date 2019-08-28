@@ -1,6 +1,7 @@
 const express = require("express");
-
 const mongoose = require("mongoose");
+//////////////////////////////////////////////////
+//ORDER IS IMPORTANT - don't change
 //Configure Mongoose
 mongoose.connect('mongodb://localhost/suited_app');
 mongoose.set('debug', true);
@@ -8,9 +9,7 @@ mongoose.set('debug', true);
 //models & Routes
 require('./models/users');
 require('./config/passport');
-
-
-
+//////////////////////////////////////////////////
 const routes = require("./routes");
 //Initiate our app
 const app = express();
@@ -47,29 +46,26 @@ app.use( (req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
-  console.log('*** serializeUser called, user: ')
-	console.log(user) // the whole raw user object!
-	console.log('---------')
-	done(null, { _id: user._id })
-});
+// passport.serializeUser(function(user, done) {
+//   console.log('*** serializeUser called, user: ')
+// 	console.log(user) // the whole raw user object!
+// 	console.log('---------')
+// 	done(null, { _id: user._id })
+// });
 
-passport.deserializeUser(function(id, done) {
-  // User.findById(id, function(err, user) {
-  //   done(err, user);
-  // });
-  console.log('DeserializeUser called')
-	User.findOne(
-		{ _id: id },
-		'username',
-		(err, user) => {
-			console.log('*** Deserialize user, user:')
-			console.log(user)
-			console.log('--------------')
-			done(null, user)
-		}
-	)
-});
+// passport.deserializeUser(function(id, done) {
+//   console.log('DeserializeUser called')
+// 	User.findOne(
+// 		{ _id: id },
+// 		'username',
+// 		(err, user) => {
+// 			console.log('*** Deserialize user, user:')
+// 			console.log(user)
+// 			console.log('--------------')
+// 			done(null, user)
+// 		}
+// 	)
+// });
 
 app.get('/api/users/current', (req, res) => {
   console.log('user signup', req.body.username);

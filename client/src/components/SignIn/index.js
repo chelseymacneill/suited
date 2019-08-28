@@ -39,7 +39,7 @@ class SignIn extends Component {
         API.postLogin(userLogin)
         .then( response => {
             sessions.setSession(response.data.user._id);
-            console.log('login response: ', response)
+            // console.log('login response: ', response)
             if (response.status === 200) {
                 this.setState({
                     loggedIn: true,
