@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
 import { Redirect } from 'react-router-dom'
+import sessions from "../../utils/sessions"
 //, Route, Link ^
 // import axios from 'axios'
 
@@ -10,7 +11,10 @@ class SignIn extends Component {
         this.state = {
             email: "",
             password: "",
-            redirectTo: null
+            redirectTo: null,
+            loggedIn: false,
+            username: null
+    
         }
         this.onChange = this.onChange.bind(this);    
         this.onSubmit = this.onSubmit.bind(this);    
@@ -33,26 +37,18 @@ class SignIn extends Component {
 
         API.postLogin(userLogin)
         .then( response => {
-            console.log("login response", response);
-        })
-        // API.postLogin(userLogin)
-        // .then( response => {
-        //     console.log('login response: ', response)
-        //     if (response.status === 200) {
-        //         // update App.js state
-        //         this.props.updateUser({
-        //             loggedIn: true,
-        //             username: response.data.username
-        //         })
-        //         // update the state to redirect to home
-        //         this.setState({
-        //             redirectTo: '/search'
-        //         })
-        //     }
-        // }).catch(error => {
-        //     console.log('login error: ')
-        //     console.log(error);
-        // })
+            sessions.setSession(response.data.user._id);
+            console.log('login response: ', response)
+            if (response.status === 200) {
+                this.setState({
+                    loggedIn: true,
+                    username: response.data.user._id,
+                    redirectTo: '/profile/' + response.data.user._id
+                })
+            } 
+        }).catch(error => {
+            alert('login error: ', error)
+        });
     };
 
 

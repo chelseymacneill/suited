@@ -7,8 +7,8 @@ import SignIn from "../components/SignIn";
 
 
 class Login extends Component {
-    constructor(props) {
-        super(props)
+    constructor() {
+        super()
         this.state = {
           loggedIn: false,
           username: null
@@ -18,42 +18,7 @@ class Login extends Component {
         this.updateUser = this.updateUser.bind(this)
     }
 
-    //////////////////////////////////
-    // state = {
-    //     userToken: "",
-    //     userID: "",
-    //     email: "",
-    //     password: "",
-    // };
 
-    // handleInputChange = event => {
-    //     const { name, value } = event.target;
-    //     this.setState({
-    //       [name]: value
-    //     });
-
-    //     console.log("test")
-    //   };
-
-    //   componentWillMount = () => {
-    //     API.postSignup({
-    //         "user": {
-    //           "email": "test3@test3.com",
-    //           "password": "test3"
-    //         }
-    //       })
-    //       .then( response => {
-    //         // console.log(response.data);
-    //         const user = response.data;
-    //         // console.log(user.email)
-    //         // this.setState({
-    //         //     userEmail: user.email,
-    //         //      userToken: user.token,
-    //         //      userID: user._id
-    //         // })
-    //         this.setState({userToken: user.token, userId: user._id});
-    //       });
-    //   };
 
     componentDidMount = () => {
         console.log("Login.js page state", this.props);
@@ -66,23 +31,7 @@ class Login extends Component {
     
     getUser() {
         console.log("login props test")
-    // axios.get('/api/users/current').then(response => {
-    //     console.log('Get user response: ', response.data)
-    //     if (response.data.user) {
-    //     console.log('Get User: There is a user saved in the server session: ')
 
-    //     this.setState({
-    //         loggedIn: true,
-    //         username: response.data.user.username
-    //     })
-    //     } else {
-    //     console.log('Get user: no user');
-    //     this.setState({
-    //         loggedIn: false,
-    //         username: null
-    //     })
-    //     }
-    // })
     }
     
     render(){

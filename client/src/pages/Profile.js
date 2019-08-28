@@ -6,15 +6,29 @@ import Jumbotron from "../components/Jumbotron";
 
 
 class Profile extends Component {
+
     state = {
         userID: this.props.match.params.id
     };
 
-    // componentDidMount() {
-        //API call to get user data
-    //   };
+    test() {
+        let data = sessionStorage.getItem('key')
+        if (data) {
+            console.log("DATA IS HERERERERE")
+        } else {
+            console.log("DATA IS NAHHHH")
+
+        }
+        
+    }
+    componentDidMount() {
+        //GET USER DATA HERE
+        // console.log(JSON.stringify(req.headers));
+        console.log("success!")
+      };
 
     render(){
+        this.test();
         // const { user } = this.props.auth;
         // console.log(user);
 

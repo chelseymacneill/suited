@@ -8,21 +8,14 @@ import Landing from "./pages/Landing";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-// import passport from 'passport';
-
-// import axios from 'axios'
-import API from "./utils/API";
-
-
-// {/* <Route exact path="/" render={() => (
-//    passport.isAuthenticated()  ? (<Redirect to="/dashboard"/>) : (<PublicHomePage/>))}/> */}
 
 class App extends Component {
     constructor() {
       super()
       this.state = {
         loggedIn: false,
-        username: null
+        username: null,
+        test: false
       }
       this.getUser = this.getUser.bind(this)
       this.componentDidMount = this.componentDidMount.bind(this)
@@ -59,6 +52,11 @@ class App extends Component {
   //       }
   //   })
   }
+
+  // test() {
+  //   this.setState({test: true})
+  //   console.log(this.state, "KILLIN IT");
+  // }
 
   render() {
     return (

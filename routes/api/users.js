@@ -3,15 +3,30 @@ const auth = require('../auth');
 const Users = mongoose.model('Users');
 
 const router = require('express').Router();
-const passport = require('passport');
+// const passport = require('passport');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
-// const db = require("../models");
+generateJWT = function(id, email) {
+  const today = new Date();
+  const expirationDate = new Date(today);
+  expirationDate.setDate(today.getDate() + 60);
 
-// const User = db.User;
+  return jwt.sign({
+    email: email,
+    id: id,
+    exp: parseInt(expirationDate.getTime() / 1000, 10),
+  }, 'secret');
+}
 
-//POST new user route (optional, everyone has access)
-//First, we are going to create an optional auth route ‘/’ which will be used for new model creation (register).
+toAuthJSON = function(id, email) {
+  return {
+    _id: id,
+    email: email,
+    token: generateJWT(id, email),
+  };
+};
+
 router.post('/', auth.optional, (req, res, next) => {
   const { body: { user } } = req;
   
@@ -74,102 +89,33 @@ router.post('/login', auth.optional, (req, res, next) => {
       }
       const password = user.password;
       const salt = userData[0].salt;
-      console.log("current user", userData[0], password);
-      // console.log("user pass", password)
-      // const verifyUser = new Users(userData[0]);
-
-      // verifyUser.validatePassword(password)
-      // let saltHash = () => {
-        const newHash = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512').toString('hex');
+      console.log("current user", userData[0]);
       
-      // }
-      // return verifyUser.save()
-        // .then(() => res.json({ newUser: verifyUser, dbUser: userData }));
-        // .then( () => {
-          // console.log("signup", newHash, userData[0].hash)
-          // if (verifyUser.hash === userData[0].hash)
-        // });
+      const newHash = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512').toString('hex');
+      
+      //checking the password encription to see if it matches
       if (newHash === userData[0].hash) {
-        console.log("success!!")
+        console.log("success!!", userData[0]._id, userData[0].email)
+        return res.json({ user: toAuthJSON(userData[0]._id, userData[0].email) })
+      } else {
+        return res.json()
       }
-
-      // return finalUser.save()
-      //   .then(() => res.json({ user: finalUser.toAuthJSON() }))
-      //   .then(console.log("signup")
-      //   );
-    
-      // Users.validatePassword(user);
-      // if (hash = hash) USER IS LOGGED IN!
-
-      // return res.json(user);
-      // return res.json({ user: user.toAuthJSON() });
     });
-  //////////////////////////////////////////////
-  // console.log("found user", foundUser)
-  // const checkUser = new Users(user);
-  // Users.validatePassword
-  // let hash = checkUser.validatePassword(user.password);
-
-  // passport.authenticate('local', { failureRedirect: '/login' }),
-  // function(req, res) {
-  //   // res.redirect('/');
-  //   console.log("login!", req)
-  // }
-  //////////////////////////////////
-  // passport.authenticate('local'),
-  //   (req, res) => {
-  //       console.log('logged in', req.user);
-  //       var userInfo = {
-  //           username: req.user.username
-  //       };
-  //       res.send(userInfo);
-  //   }
-  ///////////////////////////////////
-  // return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
-  //   if(err) {
-  //     return next(err);
-  //   }
-
-  //   if(passportUser) {
-  //     const user = passportUser;
-  //     user.token = passportUser.generateJWT();
-  //     console.log("USER TOKEN", user.token);
-  //     return res.json({ user: user.toAuthJSON() });
-  //   }
-
-  //   return status(400).info;
-  // })(req, res, next);
 });
 
 //GET current route (required, only authenticated users have access)
-router.get('/current', auth.optional, (req, res, next) => {
-  // const { payload: { id } } = req;
+// router.get('/current', auth.optional, (req, res, next) => {
+  
+//   console.log("current user")
+// });
 
-  // // console.log(id, req.headers);
-  // return Users.findById(id)
-  //   .then((user) => {
-  //     if(!user) {
-  //       return res.sendStatus(400);
-  //     }
-  //     console.log("current user", user)
-  //     return res.json({ user: user.toAuthJSON() });
-  //   });
-  console.log("current user")
-});
-
-router.post('/logout', auth.required, (req, res, next) => {
-  if (req.user) {
-      req.logout()
-      res.send({ msg: 'logging out' })
-  } else {
-      res.send({ msg: 'no user to log out' })
-  }
-})
-
-router.get("/test", auth.optional, (req, res, next) => {
-  // const { body: { user } } = req;
-  console.log("users test");
-});
-
+// router.post('/logout', auth.required, (req, res, next) => {
+//   if (req.user) {
+//       req.logout()
+//       res.send({ msg: 'logging out' })
+//   } else {
+//       res.send({ msg: 'no user to log out' })
+//   }
+// })
 
 module.exports = router;
