@@ -8,6 +8,12 @@ import Card from "../components/Card";
 import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
+// import API from "../utils/API";
+import Json from "../components/Json";
+
+// import { Provider } from "react-redux";
+// import store from "../store";
+
 
 import Json from "../components/Json";
 
@@ -122,9 +128,6 @@ class Search extends Component {
                 <h2 className="text-center">{this.state.message}</h2>
               )}
             </Card>
-
-                        <Json />
-
 
                     </Col>
                 </Row>
