@@ -3,10 +3,18 @@ import { Link } from "react-router-dom";
 import Form from "../components/Form";
 import { Col, Row, Container} from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
+
 import Card from "../components/Card";
 import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
+
+import Json from "../components/Json";
+
+// import { Provider } from "react-redux";
+// import store from "../store";
+
+
 
 class Search extends Component {
     // state = {
@@ -56,6 +64,7 @@ class Search extends Component {
 
     render() {
         return (
+            // <Provider store={store}>
             <Container fluid>
                 <Row>
                     <Col size="md-12">
@@ -85,6 +94,7 @@ class Search extends Component {
                     <Col size="md-10 md-offset-1">
                         {/* insert job container and job card components */}
                         <h2>Job Cards live here - from Job DB Collection</h2>
+
                         <Card title="Results">
               {this.state.jobs.length ? (
                 <List>
@@ -112,6 +122,10 @@ class Search extends Component {
                 <h2 className="text-center">{this.state.message}</h2>
               )}
             </Card>
+
+                        <Json />
+
+
                     </Col>
                 </Row>
                 <Row>
@@ -121,6 +135,7 @@ class Search extends Component {
                     </Col>
                 </Row>
             </Container>
+            // </Provider>
         );
     }
 }

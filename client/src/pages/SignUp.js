@@ -4,10 +4,9 @@ import API from "../utils/API";
 // import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import SignUp from "../components/SignUp";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-
-const store = createStore( () => [], {}, applyMiddleware() );
+// import { Provider } from "react-redux";
+// import store from "../store";
+// const store = createStore( () => [], {}, applyMiddleware() );
 
 class Signup extends Component {
     state = {
@@ -19,7 +18,7 @@ class Signup extends Component {
 
     render(){
         return(
-            <Provider store={store}>
+            // <Provider store={store}>
             <Container fluid>
             <Row>
                 <Col size="md-4" />
@@ -35,7 +34,7 @@ class Signup extends Component {
                 </Col>
             </Row>
             </Container>
-            </Provider>
+            // </Provider>
         )
     }
 

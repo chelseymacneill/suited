@@ -5,6 +5,7 @@ const jobController = require("../../controllers/jobController");
 // Matches with "/api/jobs"
 router.route("/")
 .get(jobController.scrape);
+// .get(jobController.display);
 // .get(jobController.findAll)
 // .post(jobController.create);
 // router.route.get("/", function(req, res) {

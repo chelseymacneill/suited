@@ -18,26 +18,37 @@ export default {
   // saveBook: function(bookData) {
   //   return axios.post("/api/books", bookData);
   // }
-  postSignup: function(data) {
-    return axios.post("http://localhost:8001/api/users", 
-    data, 
-    { headers: {
+  postSignup: function (data) {
+    return axios.post("http://localhost:8001/api/users",
+      data,
+      {
+        headers: {
           'Content-Type': 'application/json',
+        }
       }
-    }
-  )},
-  postLogin: function(data) {
-    return axios.post("http://localhost:8001/api/users/login", 
-    data, 
-    { headers: {
+    )
+  },
+  postLogin: function (data) {
+    return axios.post("http://localhost:8001/api/users/login",
+      data,
+      {
+        headers: {
           'Content-Type': 'application/json',
+        }
       }
-    }
-  )},
-  getCurrent: function() {
+    )
+  },
+  getCurrent: function () {
     return axios.get("/api/users/current")
   },
-  checkAuth: function() {
-    return axios.get("/api/users/test")
+  jsonTest: function (data) {
+    return axios.get("https://jsonplaceholder.typicode.com/posts",
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
   }
 };
