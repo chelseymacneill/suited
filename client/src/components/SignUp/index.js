@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
 import { Redirect } from 'react-router-dom'
+import sessions from "../../utils/sessions"
+
+let loggedIn;
+let sessionKey;
 
 class SignUp extends Component {
     constructor() {
@@ -29,12 +33,6 @@ class SignUp extends Component {
             }
         }
 
-        // CALL ACTION HERE
-        // API.postSignup(userSignup)
-        // .then( response => {
-        //     console.log(response.data);
-        // })
-        ///////////////////////////////////
         API.postSignup(userSignup)
         .then(response => {
             console.log("user signup response", response)
@@ -53,25 +51,27 @@ class SignUp extends Component {
 
         })
     }
-    //////////////////////////////////////////////////////////
-        // let userToken = localStorage.getItem("id_token");
-        // if (userToken) {
-        //     this.setState({
-        //         auth: true
-        //     })
-        //     console.log(this.props)
 
-        // } else {
-        //     this.setState({
-        //         auth: false
-        //     })
-        //     console.log(this.props)
-        // }
+    logout() {
+        sessions.clearSession();
+        loggedIn = false;
+      }
     
-
+    
     render() {
+
+        sessionKey = sessions.getSession();
+        if (sessionKey) {
+        loggedIn = true;
+        } else {
+        loggedIn = false;
+        }
+
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
+        } else if (loggedIn === true) {
+            this.logout();
+            return <Redirect to={{ pathname: "/signup" }} />
         } else {
         return (
             <div className="card mt-5">

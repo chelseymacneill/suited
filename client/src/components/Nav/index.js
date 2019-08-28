@@ -1,36 +1,28 @@
 import React, { Component } from "react";
-// import { Redirect } from 'react-router-dom'
-
-import { Route, Link } from 'react-router-dom'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // import axios from "axios";
 import "./style.css";
 import sessions from "../../utils/sessions"
 
-let loggedIn = false;
+let loggedIn;
 let sessionKey;
 
 class Nav extends Component {
 
   logout() {
-    // event.preventDefault()
-    console.log('logging out')
     sessions.clearSession();
-    // history.push("/")
     loggedIn = false;
-    // return <Redirect to="/" />
-
   }
 
   render() {
-    console.log("get session key", sessions.getSession());
+    
     sessionKey = sessions.getSession();
     if (sessionKey) {
       loggedIn = true;
     } else {
-    console.log("false", sessionKey)
+      loggedIn = false;
     }
-    // return sessionKey;
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="/">Job Search</a>
@@ -50,7 +42,7 @@ class Nav extends Component {
             <section>
             <div className="navbar-nav">
             <a className="nav-item nav-link" href="/search">Search<span className="sr-only">(current)</span></a>
-            <a className="nav-item nav-link disabled" href="#" disabled>Profile</a>
+            <a className="nav-item nav-link disabled" disabled>Profile</a>
             <a className="nav-item btn btn-outline-success" href="/login">Login</a>
             </div>
             </section>
@@ -62,33 +54,3 @@ class Nav extends Component {
 }
 
 export default Nav;
-
-      // <div>
-      //   <header className="navbar App-header" id="nav-container">
-      //     <div className="col-4" >
-      //       {loggedIn ? (
-      //         <section className="navbar-section">
-      //           <Link to="#" className="btn btn-link text-primary" onClick={this.logout}>
-      //             <span className="text-primary">logout</span></Link>
-
-      //         </section>
-      //       ) : (
-      //           <section className="navbar-section">
-      //             <Link to="/" className="btn btn-link text-primary">
-      //               <span className="text-primary">home</span>
-      //             </Link>
-      //             <Link to="/login" className="btn btn-link text-primary">
-      //               <span className="text-primary">login</span>
-      //             </Link>
-      //             <Link to="/signup" className="btn btn-link">
-      //               <span className="text-primary">sign up</span>
-      //             </Link>
-      //           </section>
-      //         )}
-      //     </div>
-      //     <div className="col-4 col-mr-auto">
-      //       <div id="top-filler"></div>
-      //       <h1 className="App-title">MERN Passport</h1>
-      //     </div>
-      //   </header>
-      // </div>

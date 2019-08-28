@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import API from "../../utils/API";
 import { Redirect } from 'react-router-dom'
 import sessions from "../../utils/sessions"
-//, Route, Link ^
-// import axios from 'axios'
+
+let loggedIn;
+let sessionKey;
 
 class SignIn extends Component {
     constructor(props) {
@@ -51,10 +52,26 @@ class SignIn extends Component {
         });
     };
 
-
+    logout() {
+        sessions.clearSession();
+        loggedIn = false;
+      }
+    
+    
     render() {
+
+        sessionKey = sessions.getSession();
+        if (sessionKey) {
+        loggedIn = true;
+        } else {
+        loggedIn = false;
+        }
+
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
+        } else if (loggedIn === true) {
+            this.logout();
+            return <Redirect to={{ pathname: "/login" }} />
         } else {
         return (
             <div className="card mt-5">

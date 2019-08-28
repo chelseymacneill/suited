@@ -2,43 +2,38 @@ import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
-// import API from "../utils/API";
+import { Redirect } from 'react-router-dom'
+import sessions from "../utils/sessions"
 
+let loggedIn;
+let sessionKey;
 
 class Profile extends Component {
 
-    state = {
-        userID: this.props.match.params.id
-    };
-
-    test() {
-        let data = sessionStorage.getItem('key')
-        if (data) {
-            console.log("DATA IS HERERERERE")
-        } else {
-            console.log("DATA IS NAHHHH")
-
-        }
-        
-    }
     componentDidMount() {
-        //GET USER DATA HERE
-        // console.log(JSON.stringify(req.headers));
-        console.log("success!")
-      };
+    //GET USER DATA HERE
+    // console.log(JSON.stringify(req.headers));
+    console.log("success!")
+    };
+    
+    render() {
+        sessionKey = sessions.getSession();
+        if (sessionKey) {
+        loggedIn = true;
+        } else {
+        loggedIn = false;
+        }
 
-    render(){
-        this.test();
-        // const { user } = this.props.auth;
-        // console.log(user);
-
+        if (loggedIn === false) {
+            return <Redirect to={{ pathname: "/login" }} />
+        } else {
         return(
             <Container fluid>
             <Row>
               <Col size="md-12">
                 <Jumbotron>
                   <h1>
-                      Hello World: {this.state.userID}
+                      Hello World: { sessionKey }
                   </h1>
                     {/* insert recommended job container and job card components */}
                     <h2>Recommended Jobs (Job Cards) live here - from Swing Table DB Collection</h2>
@@ -69,7 +64,7 @@ class Profile extends Component {
             </Container>
         )
     }
-
+}
 };
 
 export default Profile;

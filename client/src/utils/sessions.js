@@ -1,7 +1,6 @@
 
 export default {
     setSession: function(value) {
-        console.log("session test", value);
         sessionStorage.setItem('key', value);    
     },
     

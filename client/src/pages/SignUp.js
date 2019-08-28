@@ -1,26 +1,11 @@
 import React, { Component } from "react";
-// import Jumbotron from "../components/Jumbotron";
-// import API from "../utils/API";
-// import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import SignUp from "../components/SignUp";
 
-// import { Provider } from "react-redux";
-// import store from "../store";
-// const store = createStore( () => [], {}, applyMiddleware() );
-
 class Signup extends Component {
-    constructor() {
-        super();
-        this.state = {
-            email: "",
-            password: "",
-            redirectTo: null
-        }
-    }
+    
     render(){
         return(
-            // <Provider store={store}>
             <Container fluid>
             <Row>
                 <Col size="md-4" />
@@ -36,7 +21,6 @@ class Signup extends Component {
                 </Col>
             </Row>
             </Container>
-            // </Provider>
         )
     }
 
