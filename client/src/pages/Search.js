@@ -8,10 +8,14 @@ import Card from "../components/Card";
 import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
+//for logged in purposes
+import sessions from "../utils/sessions"
 
 
 // import { Provider } from "react-redux";
 // import store from "../store";
+let loggedIn;
+let sessionKey;
 
 
 
@@ -62,6 +66,14 @@ class Search extends Component {
       };
 
     render() {
+      sessionKey = sessions.getSession();
+        if (sessionKey) {
+        loggedIn = true;
+        console.log("logged in: ", sessionKey)
+        } else {
+        loggedIn = false;
+        console.log("logged out: ", sessionKey)
+        }
         return (
             <Container fluid>
                 <Row>
