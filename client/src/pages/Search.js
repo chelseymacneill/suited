@@ -8,17 +8,16 @@ import Card from "../components/Card";
 import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
+// import Moment from 'react-moment';
+
 // import API from "../utils/API";
-import Json from "../components/Json";
+// import Json from "../components/Json";
 
 // import { Provider } from "react-redux";
 // import store from "../store";
 
 
-import Json from "../components/Json";
 
-// import { Provider } from "react-redux";
-// import store from "../store";
 
 
 
@@ -111,6 +110,7 @@ class Search extends Component {
                       company={job.company}
                       location={job.location}
                       date={job.date}
+                    //   <Moment date={job.date} />
                       summary={job.summary}
                       url={job.url}
                     //   Button={() => (

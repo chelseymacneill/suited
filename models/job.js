@@ -10,7 +10,8 @@ const jobSchema = new Schema({
   summary: { type: String },
   date: { type: String },
   ratings: { type: String},
-  salary: { type: String}
+  salary: { type: String},
+  subject: { type: String}
 });
 
 const Job = mongoose.model("Job", jobSchema);

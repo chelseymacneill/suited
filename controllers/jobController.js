@@ -1,5 +1,6 @@
 const db = require("../models");
 const axios = require("axios");
+const cheerio = require("cheerio");
 
 // Defining methods for the bookController
 module.exports = {
@@ -66,16 +67,24 @@ module.exports = {
                 //console.log("this is jsonJobs" + jsonJobs);
                 jsonJobs.forEach(function (job) {
                     job.query = q;
+                    axios.get(job.url).then(function (response) {
+                        var $ = cheerio.load(response.data);
+                        job.subject = $("body").text();
+                    })
                     db.Job.findOneAndUpdate({ url: job.url }, job, { upsert: true })
                         .then(function (dbJob) {
-                            //console.log(dbJob)
-                            console.log("displaying jobs now");
-                            db.Job.find({ query: q }).sort( { date: 1 } )
-                                .then(function (dbJob) {
-                                    res.json(dbJob);
-                                    console.log("jobs found!")
-                                })
+                            console.log(dbJob.subject);
+                            console.log("updating jobs now");
+                            
+                            
+
                         })
+                        .catch(err => res.status(422).json(err))
+                        .then(db.Job.find({ query: q }).sort({ date: 1 })
+                        .then(function (dbJob) {
+                            res.json(dbJob);
+                            console.log("job displayed")
+                        }))
                         .catch(err => res.status(422).json(err));
                 })
                 // res.json(jsonJobs);
@@ -83,6 +92,7 @@ module.exports = {
 
                 //console.log(jsonJobs)
             })
+           
 
 
 
@@ -111,16 +121,27 @@ module.exports = {
 
     },
 
-//     display: function (req, res) {
-        
-//         const q = req.query.q;
-//     //const l = req.query.l;
-//     // db.Job.find({ query: q })
-//     // .then(function (dbJob){
-//     //     res.json(dbJob);
-//     //     console.log("jobs found!")
-//     // })
-//     .catch(err => res.status(422).json(err));
-// }
-    
+    // display: function (req, res) {
+    // const q = req.query.q;
+    // db.Job.find({ query: q }).sort( { date: 1 } )
+    //     .then(function (dbJob) {
+    //         res.json(dbJob);
+    //         console.log("job displayed")
+    //     })
+    //     .catch(err => res.status(422).json(err));
+    // }
+
+
+    //     display: function (req, res) {
+
+    //         const q = req.query.q;
+    //     //const l = req.query.l;
+    //     // db.Job.find({ query: q })
+    //     // .then(function (dbJob){
+    //     //     res.json(dbJob);
+    //     //     console.log("jobs found!")
+    //     // })
+    //     .catch(err => res.status(422).json(err));
+    // }
+
 };
