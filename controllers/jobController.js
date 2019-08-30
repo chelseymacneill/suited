@@ -47,52 +47,59 @@ module.exports = {
         const q = req.query.q;
         const l = req.query.l;
 
-        axios.get(`https://indreed.herokuapp.com/api/jobs?q=${q}&l=${l}`)
-            // .then(results =>
-            //     results.data.filter(
-            //       result =>
-            //         result.url &&
-            //         result.title &&
-            //         result.company &&
-            //         result.location &&
-            //         result.summary &&
-            //         result.date 
-            //     )
-            //   )
+        return Promise.all(
+            axios.get(`https://indreed.herokuapp.com/api/jobs?q=${q}&l=${l}`)
+                // .then(results =>
+                //     results.data.filter(
+                //       result =>
+                //         result.url &&
+                //         result.title &&
+                //         result.company &&
+                //         result.location &&
+                //         result.summary &&
+                //         result.date 
+                //     )
+                //   )
 
-            //const jobListings = jobs.map( )
+                //const jobListings = jobs.map( )
 
-            .then(jobs => {
-                let jsonJobs = jobs.data;
-                //console.log("this is jsonJobs" + jsonJobs);
-                jsonJobs.forEach(function (job) {
-                    job.query = q;
-                    axios.get(job.url).then(function (response) {
-                        var $ = cheerio.load(response.data);
-                        job.subject = $("body").text();
-                    })
-                    db.Job.findOneAndUpdate({ url: job.url }, job, { upsert: true })
-                        .then(function (dbJob) {
-                            console.log(dbJob.subject);
-                            console.log("updating jobs now");
-                            
-                            
+                .then(jobs => {
+                    let jsonJobs = jobs.data;
+                    //console.log("this is jsonJobs" + jsonJobs);
 
+                    return Promise.all(
+                        jsonJobs.forEach(function (job) {
+                            job.query = q;
+                            return axios.get(job.url).then(function (response) {
+                                var $ = cheerio.load(response.data);
+                                job.subject = $("body").text();
+                                db.Job.findOneAndUpdate({ url: job.url }, job, { upsert: true })
+                                    .then(function (dbJob) {
+                                        //console.error(dbJob.subject);
+                                        console.log("updating jobs now");
+                                    })
+                                //.catch(err => res.status(422).json(err))           
+                            })
                         })
-                        .catch(err => res.status(422).json(err))
-                        .then(db.Job.find({ query: q }).sort({ date: 1 })
-                        .then(function (dbJob) {
-                            res.json(dbJob);
-                            console.log("job displayed")
-                        }))
-                        .catch(err => res.status(422).json(err));
+                    );
                 })
-                // res.json(jsonJobs);
-                // db.Job.create(jsonJobs);
 
-                //console.log(jsonJobs)
+
+            // res.json(jsonJobs);
+            // db.Job.create(jsonJobs);
+
+            //console.log(jsonJobs)
+        )
+            .then(function () {
+                console.log("Searching for jobs...");
+                db.Job.find({ query: q }).sort({ date: 1 });
             })
-           
+            .then(function (dbJob) {
+                res.json(dbJob);
+                console.log("job displayed")
+            })
+            .catch(err => res.status(422).json(err));
+
 
 
 

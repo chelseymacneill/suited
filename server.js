@@ -9,6 +9,10 @@ const cors = require("cors");
 const errorHandler = require("errorhandler");
 const passport = require("passport");
 
+require("dotenv").config();
+
+console.log(process.env.MONGODB_URI);
+
 //Initiate our app
 const app = express();
 
@@ -92,8 +96,7 @@ mongoose.promise = global.Promise;
 
 //Configure Mongoose
 mongoose.connect(
-  process.env.MONGODB_URI ||
-    "mongodb://user1:password1@ds311538.mlab.com:11538/heroku_b68zds2c",
+  process.env.MONGODB_URI,
   { useNewUrlParser: true }
 );
 mongoose.set("debug", true);
