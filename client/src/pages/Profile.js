@@ -2,8 +2,9 @@ import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
-import { Redirect } from 'react-router-dom'
-import sessions from "../utils/sessions"
+import { Redirect } from 'react-router-dom';
+import sessions from "../utils/sessions";
+import Quiz from "../components/Quiz";
 
 let loggedIn;
 let sessionKey;
@@ -42,6 +43,7 @@ class Profile extends Component {
             </Row>
             <Row>
                 <Col size="md-10 md-offset-1">
+                    <Quiz userID={ sessionKey } />
                 </Col>
             </Row>
             <Row>
