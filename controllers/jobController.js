@@ -31,7 +31,7 @@ module.exports = {
     //         .catch(err => res.status(422).json(err));
     // },
     scrape: function (req, res) {
-        
+
         const q = req.query.q;
         const l = req.query.l;
 
@@ -54,6 +54,7 @@ module.exports = {
                                 .catch(err => console.log(err))
                         });
                     })
+                    // swap 1 here ////////////////////////////////////////////////////////
                 ).then(function () {
                     console.log("Searching for jobs...");
                     db.Job.find({ query: q }).sort({ date: 1 })
@@ -62,6 +63,22 @@ module.exports = {
                             console.log("job displayed")
                         })
                 });
+
+                // swap 1 ends here  ////////////////////////////////////////////////////////
+                 // swap 2 here ////////////////////////////////////////////////////////
+                // ).then(function () {
+                //     console.log("Searching for jobs...");
+                //     db.Job.createIndex( { subject: "text" } );
+                //     db.Job.find(
+                //             { $text: { $search: "javascript " } },
+                //             { score: { $meta: "textScore" } }
+                //          ).sort( { score: { $meta: "textScore" } } )
+                //         .then(function (dbSSJob) {
+                //             res.json({ dbSSJob });
+                //             console.log("job using sort score displayed")
+                //         })
+                // });
+                // swap 2 ends here  ////////////////////////////////////////////////////////
 
             })
 
