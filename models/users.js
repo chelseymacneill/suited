@@ -19,6 +19,10 @@ UsersSchema.methods.validatePassword = function(password) {
   const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
   return this.hash === hash;
 };
+// UsersSchema.methods.validatePassword = function(password, salt) {
+//   const hash = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512').toString('hex');
+//   return this.hash === hash;
+// };
 
 UsersSchema.methods.generateJWT = function() {
   const today = new Date();

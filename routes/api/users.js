@@ -1,14 +1,31 @@
 const mongoose = require('mongoose');
-const passport = require('passport');
-const router = require('express').Router();
 const auth = require('../auth');
 const Users = mongoose.model('Users');
-// const db = require("../models");
 
-// const User = db.User;
+const router = require('express').Router();
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
-//POST new user route (optional, everyone has access)
-//First, we are going to create an optional auth route ‘/’ which will be used for new model creation (register).
+generateJWT = function(id, email) {
+  const today = new Date();
+  const expirationDate = new Date(today);
+  expirationDate.setDate(today.getDate() + 60);
+
+  return jwt.sign({
+    email: email,
+    id: id,
+    exp: parseInt(expirationDate.getTime() / 1000, 10),
+  }, 'secret');
+}
+
+toAuthJSON = function(id, email) {
+  return {
+    _id: id,
+    email: email,
+    token: generateJWT(id, email),
+  };
+};
+
 router.post('/', auth.optional, (req, res, next) => {
   const { body: { user } } = req;
   
@@ -33,14 +50,16 @@ router.post('/', auth.optional, (req, res, next) => {
   finalUser.setPassword(user.password);
 
   return finalUser.save()
-    .then(() => res.json({ user: finalUser.toAuthJSON() }));
+    .then(() => res.json({ user: finalUser.toAuthJSON() }))
+    .then(console.log("signup")
+    );
 });
 
-//POST login route (optional, everyone has access)
-//After that, we are going to create another optional auth route ‘/login’ . This will be used to activate our passport configuration and validate a received password with email.
 router.post('/login', auth.optional, (req, res, next) => {
   const { body: { user } } = req;
 
+  console.log('routes/user.js, login, req/res: ', req.sessionID);
+  
   if(!user.email) {
     return res.status(422).json({
       errors: {
@@ -56,43 +75,28 @@ router.post('/login', auth.optional, (req, res, next) => {
       },
     });
   }
+  console.log("current user pass", user.password)
 
-  return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
-    if(err) {
-      return next(err);
-    }
 
-    if(passportUser) {
-      const user = passportUser;
-      user.token = passportUser.generateJWT();
-      console.log(user.token);
-      return res.json({ user: user.toAuthJSON() });
-    }
-
-    return status(400).info;
-  })(req, res, next);
-});
-
-//GET current route (required, only authenticated users have access)
-//Lastly, we will create a required auth route, which will be used to return the currently logged in user. Only logged in users (users that have their token successfully sent through request’s headers) have access to this route.
-router.get('/current', auth.required, (req, res, next) => {
-  const { payload: { id } } = req;
-
-  // console.log(id, req.headers);
-  return Users.findById(id)
-    .then((user) => {
-      if(!user) {
+  Users.find({ email: user.email })
+    .then((userData) => {
+      if(!userData) {
         return res.sendStatus(400);
       }
-      console.log(user)
-      return res.json({ user: user.toAuthJSON() });
+      const password = user.password;
+      const salt = userData[0].salt;
+      console.log("current user", userData[0]);
+      
+      const newHash = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512').toString('hex');
+      
+      //checking the password encription to see if it matches
+      if (newHash === userData[0].hash) {
+        console.log("success!!", userData[0]._id, userData[0].email)
+        return res.json({ user: toAuthJSON(userData[0]._id, userData[0].email) })
+      } else {
+        return res.json()
+      }
     });
 });
-
-router.get("/test", auth.optional, (req, res, next) => {
-  // const { body: { user } } = req;
-  console.log("users test");
-});
-
 
 module.exports = router;

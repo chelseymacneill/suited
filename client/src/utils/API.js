@@ -39,16 +39,6 @@ export default {
     )
   },
   getCurrent: function () {
-    return axios.get("/api/users/current")
-  },
-  jsonTest: function (data) {
-    return axios.get("https://jsonplaceholder.typicode.com/posts",
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }
-    )
+    return axios.get("http://localhost:8001/api/users/current")
   }
 };

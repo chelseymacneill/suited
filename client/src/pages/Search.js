@@ -8,14 +8,7 @@ import Card from "../components/Card";
 import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
-// import API from "../utils/API";
-import Json from "../components/Json";
 
-// import { Provider } from "react-redux";
-// import store from "../store";
-
-
-import Json from "../components/Json";
 
 // import { Provider } from "react-redux";
 // import store from "../store";
@@ -70,7 +63,6 @@ class Search extends Component {
 
     render() {
         return (
-            // <Provider store={store}>
             <Container fluid>
                 <Row>
                     <Col size="md-12">
@@ -138,7 +130,6 @@ class Search extends Component {
                     </Col>
                 </Row>
             </Container>
-            // </Provider>
         );
     }
 }
