@@ -19,7 +19,7 @@ export default {
   //   return axios.post("/api/books", bookData);
   // }
   postSignup: function (data) {
-    return axios.post("http://localhost:3001/api/users",
+    return axios.post("/api/users",
       data,
       {
         headers: {
@@ -29,7 +29,7 @@ export default {
     )
   },
   postLogin: function (data) {
-    return axios.post("http://localhost:3001/api/users/login",
+    return axios.post("/api/users/login",
       data,
       {
         headers: {
@@ -39,6 +39,6 @@ export default {
     )
   },
   getCurrent: function () {
-    return axios.get("http://localhost:3001/api/users/current")
+    return axios.get("/api/users/current")
   }
 };
