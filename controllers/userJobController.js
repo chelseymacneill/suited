@@ -23,8 +23,8 @@ module.exports = {
             .catch(err => res.status(422).json(err));
     },
     remove: function (req, res) {
-        db.UserJob.findById(req.params.id)
-            .then(dbJob => dbJob.remove())
+        db.UserJob.remove(req.query)
+            // .then(dbJob => dbJob.remove())
             .then(dbJob => res.json(dbJob))
             .catch(err => res.status(422).json(err));
     }

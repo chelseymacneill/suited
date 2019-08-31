@@ -24,7 +24,14 @@ router.route("/")
 //   .put(bookController.update)
 //   .delete(bookController.remove);
 
+//api/jobs/favorite
 router.route("/favorite")
 .post(userJobController.create);
+//api/jobs/getFavorites
+router.route("/getFavorites")
+.get(userJobController.findAll)
+ 
+router.route("/removeFavorite")
+.post(userJobController.remove)
 
 module.exports = router;

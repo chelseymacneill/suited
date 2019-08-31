@@ -53,5 +53,13 @@ export default {
         }
       }
     )
+  },
+
+  getFavorites: function(userID) {
+    return axios.get("/api/jobs/getFavorites")
+  },
+
+  removeFavorite: function(jobID) {
+    return axios.post("/api/jobs/removeFavorite")
   }
 };

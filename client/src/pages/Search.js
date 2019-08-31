@@ -15,47 +15,34 @@ import sessions from "../utils/sessions"
 let loggedIn;
 let sessionKey;
 
-// const dummyJob ={ 
-
-//     "company": "Oracle",
-//     "interest": null,
-//     "jobID": "5d69cf75a6fe186efcfe1be2",
-//     "location": "Seattle, WA",
-//     "status": null,
-//     "summary": "- Java and REST APIs, web application stack and patterns. The Oracle Cloud Infrastructure (OCI) team can provide you the opportunity to build and operate a…",
-//     "title": "SRE",
-//     "url": "http://www.indeed.com/rc/clk?jk=b9abf1c8a2d1924f&from=vj&pos=bottom",
-//     "userID": "5d69b194af59245788c8bfac"
-// }
-
-// function favoriteJob(job) {
-//   let userJob = {
-//     url: job.job.url,
-//     title: job.job.title,
-//     company: job.job.company,
-//     location: job.job.location,
-//     summary: job.job.summary,
-//     // date: job.job.date,
-//     // ratings: job.job.ratings,
-//     // salary: job.job.salary,
-//     /////////////new user specific things//////////////////
-//     userID: sessionKey,
-//     jobID: job.job._id,
-//     interest: null,
-//     status: null
-//   }
+function favoriteJob(job) {
+  let userJob = {
+    url: job.job.url,
+    title: job.job.title,
+    company: job.job.company,
+    location: job.job.location,
+    summary: job.job.summary,
+    // date: job.job.date,
+    // ratings: job.job.ratings,
+    // salary: job.job.salary,
+    /////////////new user specific things//////////////////
+    userID: sessionKey,
+    jobID: job.job._id,
+    interest: null,
+    status: null
+  }
 
 //   console.log(dummyJob);
-//   API.postUserJob(userJob)
-//         .then( response => {
-//             console.log('login response: ', response)
-//             if (response.status === 200) {
-//               console.log(response.status)
-//             } 
-//         }).catch(error => {
-//             alert('create favorite error: ', error)
-//         });
-// }
+  API.postUserJob(userJob)
+        .then( response => {
+            console.log('favorite Job response: ', response)
+            if (response.status === 200) {
+              alert("job added to favorites!")
+            } 
+        }).catch(error => {
+            alert('create favorite error: ', error)
+        });
+}
 
 class Search extends Component {
   // state = {
@@ -158,7 +145,7 @@ class Search extends Component {
                       date={job.date}
                       summary={job.summary}
                       url={job.url}
-                      // onClick={() => favoriteJob({job})}
+                      onClick={() => favoriteJob({job})}
                     //   Button={() => (
                     //     <button
                     //       onClick={() => this.handleBookSave(book.id)}
