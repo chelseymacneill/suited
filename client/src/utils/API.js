@@ -40,5 +40,18 @@ export default {
   },
   getCurrent: function () {
     return axios.get("/api/users/current")
+  },
+
+  //////////////////favorite jobs//////////////////////
+  postUserJob: function(data) {
+    // return axios.get("/api/userJobs", 
+    return axios.post("/api/jobs/favorite", 
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
   }
 };

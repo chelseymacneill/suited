@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const jobController = require("../../controllers/jobController");
+const userJobController = require("../../controllers/userJobController");
 
 
 // Matches with "/api/jobs"
@@ -22,5 +23,8 @@ router.route("/")
 //   .get(bookController.findById)
 //   .put(bookController.update)
 //   .delete(bookController.remove);
+
+router.route("/favorite")
+.post(userJobController.create);
 
 module.exports = router;

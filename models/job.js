@@ -18,7 +18,6 @@ const Job = mongoose.model("Job", jobSchema);
 module.exports = Job;
 
 
-
 // ({
 //   url: { type: String, required: true },
 //   title: { type: String, required: true },
