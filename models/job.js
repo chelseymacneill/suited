@@ -11,7 +11,7 @@ const jobSchema = new Schema({
   date: { type: String },
   ratings: { type: String},
   salary: { type: String},
-  subject: { type: String}
+  subject: { type: [String]}
 });
 
 //also removed index: true from subject
