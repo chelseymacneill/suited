@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
+import { Redirect } from 'react-router-dom'
+import sessions from "../../utils/sessions"
 
+let loggedIn;
+let sessionKey;
 
 class SignIn extends Component {
     constructor(props) {
@@ -8,6 +12,10 @@ class SignIn extends Component {
         this.state = {
             email: "",
             password: "",
+            redirectTo: null,
+            loggedIn: false,
+            username: null
+    
         }
         this.onChange = this.onChange.bind(this);    
         this.onSubmit = this.onSubmit.bind(this);    
@@ -21,41 +29,71 @@ class SignIn extends Component {
     onSubmit(event) {
         event.preventDefault();
 
-        const userSignin = {
+        const userLogin = {
             user: {
                 email: this.state.email,
                 password: this.state.password
             }
         }
 
-        API.postLogin(userSignin).then( response => {
-            console.log(response.data);
-        })
-    }
+        API.postLogin(userLogin)
+        .then( response => {
+            sessions.setSession(response.data.user._id);
+            console.log('login response: ', response)
+            if (response.status === 200) {
+                this.setState({
+                    loggedIn: true,
+                    username: response.data.user._id,
+                    redirectTo: '/profile/' + response.data.user._id
+                })
+            } 
+        }).catch(error => {
+            alert('login error: ', error)
+        });
+    };
 
+    logout() {
+        sessions.clearSession();
+        loggedIn = false;
+      }
+    
+    
     render() {
-    return (
-        <div className="card mt-5">
+
+        sessionKey = sessions.getSession();
+        if (sessionKey) {
+        loggedIn = true;
+        } else {
+        loggedIn = false;
+        }
+
+        if (this.state.redirectTo) {
+            return <Redirect to={{ pathname: this.state.redirectTo }} />
+        } else if (loggedIn === true) {
+            this.logout();
+            return <Redirect to={{ pathname: "/login" }} />
+        } else {
+        return (
+            <div className="card mt-5">
                 <div className="card-header"><h2>Sign In</h2></div>
-                <img className="card-img-top" src="https://usabilitylab.walkme.com/wp-content/uploads/2014/12/231-740x360.jpg" alt="Card image cap" />
-                    <div className="card-body">
-                        <form onSubmit={this.onSubmit}>
-                        <div className="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input name="email" value={this.state.email} onChange={this.onChange} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-                        </div>
-                        <div className="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input name="password" value={this.state.password} onChange={this.onChange}type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
-                        </div>
-                        <button type="submit" className="btn btn-primary">Sign In</button>
-                        <br /><br /><a href="/signup">Or click here to Sign Up</a>
-                        </form>
+                <img className="card-img-top" src="https://usabilitylab.walkme.com/wp-content/uploads/2014/12/231-740x360.jpg" alt="Card cap" />
+                <div className="card-body">
+                    <form onSubmit={this.onSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">Email address</label>
+                        <input name="email" value={this.state.email} onChange={this.onChange} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                     </div>
+                    <div className="form-group">
+                        <label htmlFor="exampleInputPassword1">Password</label>
+                        <input name="password" value={this.state.password} onChange={this.onChange}type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
+                    </div>
+                    <button type="submit" className="btn btn-primary">Sign In</button>
+                    <br /><br /><a href="/signup">Or click here to Sign Up</a>
+                    </form>
                 </div>
-
-    )};
+            </div>
+        )};
+    };
 };
-
 
 export default SignIn;

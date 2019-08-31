@@ -1,6 +1,16 @@
 // Require/Import needed npm packages
 const express = require("express");
 const mongoose = require("mongoose");
+//////////////////////////////////////////////////
+//ORDER IS IMPORTANT - don't change
+//Configure Mongoose
+mongoose.connect('mongodb://localhost/suited_app');
+mongoose.set('debug', true);
+
+//models & Routes
+require('./models/users');
+require('./config/passport');
+//////////////////////////////////////////////////
 const routes = require("./routes");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -19,6 +29,9 @@ const app = express();
 // Set the port for the server
 const PORT = process.env.PORT || 3001; //
 
+//Configure mongoose's promise to global promise
+mongoose.promise = global.Promise;
+
 //Configure isProduction variable
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -27,41 +40,48 @@ app.use(cors());
 app.use(require("morgan")("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// Replaced with below
-//app.use(express.static(path.join(__dirname, "public")));
-// Replacement for above
+// app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, "client/build")));
-app.use(
-  session({
-    secret: "suited_app",
-    cookie: { maxAge: 60000 },
-    resave: false,
-    saveUninitialized: false
-  })
-);
-
-// Configure App for passport
+app.use(session({ secret: 'mongod-vs-nodemon', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+app.use( (req, res, next) => {
+  console.log('req.session', req.session);
+  return next();
+});
+//////////////////////////////////////////////////////////////////////
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
-  console.log("user", user);
-  done(null, user.id);
-});
+// passport.serializeUser(function(user, done) {
+//   console.log('*** serializeUser called, user: ')
+// 	console.log(user) // the whole raw user object!
+// 	console.log('---------')
+// 	done(null, { _id: user._id })
+// });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
+// passport.deserializeUser(function(id, done) {
+//   console.log('DeserializeUser called')
+// 	User.findOne(
+// 		{ _id: id },
+// 		'username',
+// 		(err, user) => {
+// 			console.log('*** Deserialize user, user:')
+// 			console.log(user)
+// 			console.log('--------------')
+// 			done(null, user)
+// 		}
+// 	)
+// });
+
+app.get('/api/users/current', (req, res) => {
+  console.log('user signup', req.body.username);
+  req.session.username = req.body.username;
+  res.end()
+})
+////////////////////////////////////////////////////////////////////////
 
 if (!isProduction) {
   app.use(errorHandler());
 }
-
-// Require Mondels and internal config files
-require("./models/users");
-require("./config/passport");
 
 // Routes
 app.use(routes);

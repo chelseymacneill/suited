@@ -20,7 +20,7 @@ export default {
   //   return axios.post("/api/books", bookData);
   // }
   postSignup: function (data) {
-    return axios.post("http://localhost:8001/api/users",
+    return axios.post("/api/users",
       data,
       {
         headers: {
@@ -30,7 +30,7 @@ export default {
     )
   },
   postLogin: function (data) {
-    return axios.post("http://localhost:8001/api/users/login",
+    return axios.post("/api/users/login",
       data,
       {
         headers: {
@@ -41,15 +41,5 @@ export default {
   },
   getCurrent: function () {
     return axios.get("/api/users/current")
-  },
-  jsonTest: function (data) {
-    return axios.get("https://jsonplaceholder.typicode.com/posts",
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }
-    )
   }
 };
