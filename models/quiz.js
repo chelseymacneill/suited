@@ -2,10 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const quizSchema = new Schema({
-  id: { type: ObjectID, unique: true},
+  id: { type: ObjectID, unique: true },
   firstName: { type: String },
   lastName: { type: String },
-  streetAddress: { type: String },
   city: { type: String },
   state: { type: String },
   zipCode: { type: String },
