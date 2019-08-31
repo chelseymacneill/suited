@@ -1,10 +1,11 @@
 import axios from "axios";
+import { stringify } from "querystring";
 
 export default {
   // Gets books from the Google API
-  getJobs: function(q, l) {
+  getJobs: function(q, l, s) {
     //return axios.get(`https://indreed.herokuapp.com/api/jobs?q=${q}&l=${l}`);
-    return axios.get(`/api/jobs?q=${q}&l=${l}`);
+    return axios.get(`/api/jobs?q=${q}&l=${l}&s=${s.join("-")}`);
   },
   // // Gets all saved books
   // getSavedBooks: function() {

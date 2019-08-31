@@ -9,6 +9,8 @@ import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
 
+// import Moment from 'react-moment';
+
 //for logged in purposes
 import sessions from "../utils/sessions"
 
@@ -45,38 +47,38 @@ function favoriteJob(job) {
 }
 
 class Search extends Component {
-  // state = {
-  //     book: {}
-  // };
-  // When this component mounts, grab the book with the _id of this.props.match.params.id
-  // e.g. localhost:3000/books/599dcb67f0f16317844583fc
-  // componentDidMount() {
-  //     API.getBook(this.props.match.params.id)
-  //         .then(res => this.setState({ book: res.data }))
-  //         .catch(err => console.log(err));
-  // }
 
-  state = {
-    jobs: [],
-    q: "",
-    l: "",
-    message: "Enter in your desired Job to begin!"
-  };
+     state = {
+        jobs: [],
+        q: "",
+        l: "",
+        s: ["html", "css", "crazy", "java "],
+        message: "Enter in your desired Job to begin!"
+    };
 
-  getJobs = () => {
-    API.getJobs(this.state.q, this.state.l)
-      .then(res =>
-        this.setState({
-          jobs: res.data
-        })
-      )
-      .catch(() =>
-        this.setState({
-          jobs: [],
-          message: "No New Jobs Found, Try a Different Query"
-        })
-      );
-  };
+    getJobs = () => {
+        API.getJobs(this.state.q, this.state.l, this.state.s)
+            .then(res => {
+                const myList = this.state.s;
+                const sorted = res.data.map(job => {
+                    const subj = job.subject.filter(j => myList.includes(j));
+                    job.subject = subj;
+                    return job;
+                }).sort((x, y) => y.subject.length - x.subject.length)
+                this.setState({
+                    jobs: sorted
+                })
+            }
+            )
+            .catch((err) => {
+                console.log(err);
+                this.setState({
+                    jobs: [],
+                    message: "No New Jobs Found, Try a Different Query"
+                })
+            });
+    };
+
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -84,14 +86,12 @@ class Search extends Component {
       [name]: value
     });
   };
-
   handleFormSubmit = event => {
     event.preventDefault();
     this.getJobs();
   };
   
   
-
   render() {
     sessionKey = sessions.getSession();
     if (sessionKey) {
@@ -143,17 +143,10 @@ class Search extends Component {
                       company={job.company}
                       location={job.location}
                       date={job.date}
+      //   <Moment date={job.date} />
                       summary={job.summary}
                       url={job.url}
                       onClick={() => favoriteJob({job})}
-                    //   Button={() => (
-                    //     <button
-                    //       onClick={() => this.handleBookSave(book.id)}
-                    //       className="btn btn-primary ml-2"
-                    //     >
-                    //       Save
-                    //     </button>
-                    //   )}
                     />
                   ))}
                 </List>
@@ -161,6 +154,7 @@ class Search extends Component {
                   <h2 className="text-center">{this.state.message}</h2>
                 )}
             </Card>
+
 
           </Col>
         </Row>
