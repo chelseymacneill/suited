@@ -34,7 +34,8 @@ module.exports = {
 
         const q = req.query.q;
         const l = req.query.l;
-
+        // db.Job.createIndex( { subject: "text" } );
+        
         axios.get(`https://indreed.herokuapp.com/api/jobs?q=${q}&l=${l}`)
 
             .then(jobs => {
@@ -48,7 +49,8 @@ module.exports = {
                         // Return the axios.get promise so it can be collected
                         return axios.get(job.url).then(function (response) {
                             var $ = cheerio.load(response.data);
-                            job.subject = $("body").text();
+                            job.subject = $("body").text().toLowerCase();
+                            // .replace(/[\n\t]/g, "");
                             // Return the db promises so it is collected in the axios promise
                             return db.Job.findOneAndUpdate({ url: job.url }, job, { upsert: true })
                                 .catch(err => console.log(err))
@@ -59,7 +61,7 @@ module.exports = {
                     console.log("Searching for jobs...");
                     db.Job.find({ query: q }).sort({ date: 1 })
                         .then(function (dbJob) {
-                            res.json({ dbJob });
+                            res.json( dbJob );
                             console.log("job displayed")
                         })
                 });
@@ -68,13 +70,12 @@ module.exports = {
                  // swap 2 here ////////////////////////////////////////////////////////
                 // ).then(function () {
                 //     console.log("Searching for jobs...");
-                //     db.Job.createIndex( { subject: "text" } );
                 //     db.Job.find(
                 //             { $text: { $search: "javascript " } },
                 //             { score: { $meta: "textScore" } }
                 //          ).sort( { score: { $meta: "textScore" } } )
                 //         .then(function (dbSSJob) {
-                //             res.json({ dbSSJob });
+                //             res.json( dbSSJob );
                 //             console.log("job using sort score displayed")
                 //         })
                 // });

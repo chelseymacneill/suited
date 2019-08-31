@@ -14,7 +14,12 @@ const jobSchema = new Schema({
   subject: { type: String}
 });
 
+//also removed index: true from subject
+// jobSchema.index({subject: "text"})
+
 const Job = mongoose.model("Job", jobSchema);
+
+
 
 module.exports = Job;
 
