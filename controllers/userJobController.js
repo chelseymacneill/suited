@@ -3,7 +3,14 @@ const axios = require("axios");
 
 module.exports = {
     findAll: function (req, res) {
-        db.UserJob.find(req.query)
+        console.log("FIND ALL", req.body);
+        db.UserJob.find(req.body)
+        // db.UserJob.find({"userID": req.query})
+            .then(dbJob => res.json(dbJob))
+            .catch(err => res.status(422).json(err));
+    },
+    findOne: function (req, res) {
+        db.UserJob.findOne(req.query)
             .then(dbJob => res.json(dbJob))
             .catch(err => res.status(422).json(err));
     },

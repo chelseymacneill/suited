@@ -13,7 +13,7 @@ const userJobSchema = new Schema({
   salary: { type: String},
   /////////////new user specific things//////////////////
   userID: { type: String },
-  jobID: { type: String, unique: true },
+  jobID: { type: String },
   updated: { type: Date, default: Date.now },
   interest: { type: Number },
   status: { type: String }

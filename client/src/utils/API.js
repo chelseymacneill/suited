@@ -56,8 +56,17 @@ export default {
     )
   },
 
-  getFavorites: function(userID) {
-    return axios.get("/api/jobs/getFavorites")
+  getFavorites: function(data) {
+    console.log("GET FAVORITES: ", data);
+    return axios.post("/api/jobs/getFavorites",
+    // { body: {data} },
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+      )
   },
 
   removeFavorite: function(jobID) {

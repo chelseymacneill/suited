@@ -40,8 +40,10 @@ class Profile extends Component {
     componentDidMount() {
         //GET USER DATA HERE
         // console.log(JSON.stringify(req.headers));
-        console.log("success!")
-        API.getFavorites({ userID: sessionKey })
+        console.log("success!", sessionKey)
+        
+        API.getFavorites({ "userID": sessionKey })
+        // API.getFavorites(sessionKey)
             .then(response => {
                 console.log('favorite Job response: ', response)
                 if (response.status === 200) {
