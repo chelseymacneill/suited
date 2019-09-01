@@ -3,9 +3,7 @@ const axios = require("axios");
 
 module.exports = {
     findAll: function (req, res) {
-        console.log("FIND ALL", req.body);
         db.UserJob.find(req.body)
-        // db.UserJob.find({"userID": req.query})
             .then(dbJob => res.json(dbJob))
             .catch(err => res.status(422).json(err));
     },
@@ -30,8 +28,8 @@ module.exports = {
             .catch(err => res.status(422).json(err));
     },
     remove: function (req, res) {
-        db.UserJob.remove(req.query)
-            // .then(dbJob => dbJob.remove())
+        db.UserJob.findOne(req.body)
+            .then(dbJob => dbJob.remove())
             .then(dbJob => res.json(dbJob))
             .catch(err => res.status(422).json(err));
     }

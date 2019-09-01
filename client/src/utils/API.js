@@ -57,19 +57,27 @@ export default {
   },
 
   getFavorites: function(data) {
-    console.log("GET FAVORITES: ", data);
+    // console.log("GET FAVORITES: ", data);
     return axios.post("/api/jobs/getFavorites",
-    // { body: {data} },
       data,
       {
         headers: {
           'Content-Type': 'application/json',
         }
       }
-      )
+    )
   },
 
-  removeFavorite: function(jobID) {
-    return axios.post("/api/jobs/removeFavorite")
+  removeFavorite: function(data) {
+        console.log("GET FAVORITES: ", data);
+
+    return axios.post("/api/jobs/removeFavorite",
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
   }
 };

@@ -19,16 +19,16 @@ function removeFavorite(job) {
 
     let result = window.confirm("Are you sure you wish to delete this item?");
     if (result) {
-        console.log("user wants to delete")
-        // API.removeFavorite({ jobID: id })
-        // .then(response => {
-        //     console.log('remove favorite Job response: ', response)
-        //     if (response.status === 200) {
-        //         console.log("job removed from favorites")
-        //     }    
-        // }).catch(error => {
-        //     console.log('remove favorite error: ', error)
-        // });
+        console.log("user wants to delete: ", id)
+        API.removeFavorite({ "jobID": id })
+        .then(response => {
+            console.log('remove favorite Job response: ', response)
+            if (response.status === 200) {
+                console.log("job removed from favorites")
+            }    
+        }).catch(error => {
+            console.log('remove favorite error: ', error)
+        });
     }
 }
 
@@ -55,7 +55,7 @@ class Profile extends Component {
                 console.log(this.state)
 
             }).catch(error => {
-                // alert('create favorite error: ', error)
+                alert('create favorite error: ', error)
             });
     };
 
