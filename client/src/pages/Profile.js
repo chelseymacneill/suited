@@ -25,6 +25,7 @@ function removeFavorite(job) {
             console.log('remove favorite Job response: ', response)
             if (response.status === 200) {
                 console.log("job removed from favorites")
+                window.location.reload();
             }    
         }).catch(error => {
             console.log('remove favorite error: ', error)
