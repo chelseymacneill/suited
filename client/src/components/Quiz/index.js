@@ -1,8 +1,8 @@
 import React, { Component } from "react";
+import "./style.css";
 
-//
+// Abandoned or unused imports
 import { RadioGroup, Radio } from "react-radio-buttons";
-
 // This isn't being used below
 import sessions from "../../utils/sessions";
 
@@ -179,12 +179,14 @@ class Quiz extends React.Component {
 }
 */
 
+// Multiple Inputs
+
 class Quiz extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // Capture the name of the user
-      username: "Enter your name here is the default for now",
+      // Capture the name of the user via the user typing it in or by inheriting it from their profile
+      username: "username",
       javaScriptSkill: false,
       pythonSkill: false,
       javaSkill: false,
@@ -205,9 +207,24 @@ class Quiz extends React.Component {
     });
   }
 
+  handleSubmit(event) {
+    alert("A name was submitted: " + this.state.value);
+    event.preventDefault();
+  }
+
   render() {
     return (
       <form>
+        <h1>Hello {this.state.username}</h1>
+        <br></br>
+        <br></br>
+        <p>
+          We'd like to ask you some questions about your skills and interests to
+          help you find you a job your're best SUITED for. Ready?
+        </p>
+        <br></br>
+        <br></br>
+
         <label>
           Are you skilled in JavaScript?
           <input
@@ -233,7 +250,7 @@ class Quiz extends React.Component {
           <input
             name="javaSkill"
             type="checkbox"
-            checked={this.state.pythonSkill}
+            checked={this.state.javaSkill}
             onChange={this.handleInputChange}
           />
         </label>
@@ -243,7 +260,7 @@ class Quiz extends React.Component {
           <input
             name="cSharpSkill"
             type="checkbox"
-            checked={this.state.pythonSkill}
+            checked={this.state.cSharpSkill}
             onChange={this.handleInputChange}
           />
         </label>
@@ -253,7 +270,7 @@ class Quiz extends React.Component {
           <input
             name="sqlSkill"
             type="checkbox"
-            checked={this.state.pythonSkill}
+            checked={this.state.sqlSkill}
             onChange={this.handleInputChange}
           />
         </label>
