@@ -38,6 +38,7 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "prop-types": "^15.7.2",
+    "react-radio-buttons": "^1.2.2",
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0"
