@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+
 //
-import { RadioGroup, RadioButton } from "react-radio-buttons";
+import { RadioGroup, Radio } from "react-radio-buttons";
+
 // This isn't being used below
 import sessions from "../../utils/sessions";
 
@@ -124,6 +126,7 @@ class Quiz extends Component {
 }
 */
 
+/*
 class Quiz extends React.Component {
   constructor(props) {
     super(props);
@@ -167,6 +170,94 @@ class Quiz extends React.Component {
         No
         <input type="radio" value="yes" />
         Yes
+        <br></br>
+        <input type="submit" value="Submit" />
+        <br></br>
+      </form>
+    );
+  }
+}
+*/
+
+class Quiz extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      // Capture the name of the user
+      username: "Enter your name here is the default for now",
+      javaScriptSkill: false,
+      pythonSkill: false,
+      javaSkill: false,
+      cSharpSkill: false,
+      sqlSkill: false
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  render() {
+    return (
+      <form>
+        <label>
+          Are you skilled in JavaScript?
+          <input
+            name="javaScriptSkill"
+            type="checkbox"
+            checked={this.state.JSskill}
+            onChange={this.handleInputChange}
+          />
+        </label>
+        <br></br>
+        <label>
+          Are you skilled in Python?
+          <input
+            name="pythonSkill"
+            type="checkbox"
+            checked={this.state.pythonSkill}
+            onChange={this.handleInputChange}
+          />
+        </label>
+        <br></br>
+        <label>
+          Are you skilled in Java?
+          <input
+            name="javaSkill"
+            type="checkbox"
+            checked={this.state.pythonSkill}
+            onChange={this.handleInputChange}
+          />
+        </label>
+        <br></br>
+        <label>
+          Are you skilled in C#?
+          <input
+            name="cSharpSkill"
+            type="checkbox"
+            checked={this.state.pythonSkill}
+            onChange={this.handleInputChange}
+          />
+        </label>
+        <br></br>
+        <label>
+          Are you skilled in SQL?
+          <input
+            name="sqlSkill"
+            type="checkbox"
+            checked={this.state.pythonSkill}
+            onChange={this.handleInputChange}
+          />
+        </label>
+        <br />
         <br></br>
         <input type="submit" value="Submit" />
         <br></br>
