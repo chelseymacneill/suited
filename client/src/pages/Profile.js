@@ -2,8 +2,9 @@ import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
-import { Redirect } from 'react-router-dom'
-import sessions from "../utils/sessions"
+import { Redirect } from 'react-router-dom';
+import sessions from "../utils/sessions";
+import Quiz from "../components/Quiz";
 
 import Card from "../components/Card";
 import Job from "../components/Job";
@@ -68,6 +69,7 @@ class Profile extends Component {
         if (loggedIn === false) {
             return <Redirect to={{ pathname: "/login" }} />
         } else {
+
             return (
                 <Container fluid>
                     <Row>
@@ -81,10 +83,13 @@ class Profile extends Component {
                             </Jumbotron>
                         </Col>
                     </Row>
-                    <Row>
+                   
+                  <Row>
                         <Col size="md-10 md-offset-1">
+                            <Quiz userID={ sessionKey } />
                         </Col>
                     </Row>
+                    <Row>
                     <Row>
                         <Col size="md-4">
                             {/* insert user card component */}
@@ -113,6 +118,7 @@ class Profile extends Component {
                                         <h2 className="text-center">{this.state.message}</h2>
                                     )}
                             </Card>
+
 
                         </Col>
                     </Row>

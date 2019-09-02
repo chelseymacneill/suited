@@ -41,6 +41,7 @@ export default {
   },
   getCurrent: function () {
     return axios.get("/api/users/current")
+
   },
 
   //////////////////favorite jobs//////////////////////
@@ -62,5 +63,6 @@ export default {
 
   removeFavorite: function(jobID) {
     return axios.post("/api/jobs/removeFavorite")
+
   }
 };
