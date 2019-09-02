@@ -163,29 +163,7 @@ class Quiz extends React.Component {
         <br></br>
         <br></br>
         <p> Q1. Are you skilled in Javascript? </p>
-        <input name="JS" onChange={this.handleChange} />
-        <input type="radio" value="no" />
-        No
-        <input type="radio" value="yes" />
-        Yes
-        <br></br>
-        <p> Q2. Are you skilled in Python? </p>
-        <input name="JS" onChange={this.handleChange} />
-        <input type="radio" value="no" />
-        No
-        <input type="radio" value="yes" />
-        Yes
-        <br></br>
-        <p> Q3. Are you skilled in Java? </p>
-        <input name="JS" onChange={this.handleChange} />
-        <input type="radio" value="no" />
-        No
-        <input type="radio" value="yes" />
-        Yes
-        <br></br>
-        <p> Q4. Are you skilled in C#? </p>
-        <input name="JS" onChange={this.handleChange} />
-        <input type="radio" value="no" />
+        <input type="radio" name="JS" onChange={this.handleChange} value="no" />
         No
         <input type="radio" value="yes" />
         Yes
