@@ -9,7 +9,7 @@ import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
 
-// import Moment from 'react-moment';
+import Moment from 'react-moment';
 
 //for logged in purposes
 import sessions from "../utils/sessions"
@@ -53,7 +53,8 @@ class Search extends Component {
         q: "",
         l: "",
         s: ["html", "css", "crazy", "java "],
-        message: "Enter in your desired Job to begin!"
+        message: "Enter in your desired Job to begin!",
+        date: ""
     };
 
     getJobs = () => {
@@ -90,6 +91,8 @@ class Search extends Component {
     event.preventDefault();
     this.getJobs();
   };
+
+  
   
   
   render() {
@@ -100,7 +103,17 @@ class Search extends Component {
     } else {
       loggedIn = false;
       // console.log("no user logged in")
-    }
+    };
+
+    // if(job.date !== undefined && job.date.length > 3){
+    //     date = <Moment fromNow>{job.date}</Moment>
+    // } else if(job.date !== undefined){
+    //     date = job.date.slice(0,-1) + "days ago";
+    // } 
+    
+
+
+
     return (
       <Container fluid>
         <Row>
@@ -137,13 +150,13 @@ class Search extends Component {
               {this.state.jobs.length ? (
                 <List>
                   {this.state.jobs.map(job => (
+                      
                     <Job
                       key={job.id}
                       title={job.title}
                       company={job.company}
                       location={job.location}
-                      date={job.date}
-      //   <Moment date={job.date} />
+                      date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment>: job.date}
                       summary={job.summary}
                       url={job.url}
                       onClick={() => favoriteJob({job})}

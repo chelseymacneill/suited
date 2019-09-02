@@ -2,12 +2,13 @@ import React from "react";
 import { ListItem } from "../List";
 import { Row, Col } from "../Grid";
 import "./style.css";
-import sessions from "../../utils/sessions"
+import sessions from "../../utils/sessions";
+//import Moment from 'react-moment';
 
 let loggedIn;
 let sessionKey;
 
-function Job({ key, title, company, location, date, summary, url, onClick, button }) {
+function Job({ key, title, company, location, date, summary, url, onClick, API}) {
   sessionKey = sessions.getSession();
   if (sessionKey) {
     loggedIn = true;
@@ -52,6 +53,7 @@ function Job({ key, title, company, location, date, summary, url, onClick, butto
         <Col size="md-6">
           <h5 className="font-italic">{location}</h5>
           <h5 className="font-italic">{date}</h5>
+          {/* <h5 className="font-italic">Moment: {<Moment fromNow>{date}</Moment>} API: {date} </h5> */}
         </Col>
       </Row>
       <Row>
