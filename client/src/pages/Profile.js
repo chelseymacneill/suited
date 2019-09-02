@@ -83,10 +83,9 @@ class Profile extends Component {
                             </Jumbotron>
                         </Col>
                     </Row>
-                   
-                  <Row>
+                    <Row>
                         <Col size="md-10 md-offset-1">
-                            <Quiz userID={ sessionKey } />
+                            <Quiz userID={sessionKey} />
                         </Col>
                     </Row>
                     <Row>
@@ -127,7 +126,6 @@ class Profile extends Component {
                             <h2>Footer Down at the bottom</h2>
                         </Col>
                     </Row>
-
                 </Container>
             )
         }
