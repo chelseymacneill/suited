@@ -4,10 +4,12 @@ const mongoose = require("mongoose");
 //////////////////////////////////////////////////
 //ORDER IS IMPORTANT - don't change
 //Configure Mongoose
-console.log(process.env.NODE_ENV);
 const uri = process.env.MONGODB_URI || "mongodb://localhost/suited_app";
+console.log(uri);
 mongoose.connect(uri, { useNewUrlParser: true });
 mongoose.set("debug", true);
+//Configure mongoose's promise to global promise
+mongoose.promise = global.Promise;
 
 //models & Routes
 require("./models/users");
@@ -34,7 +36,6 @@ mongoose.promise = global.Promise;
 
 //Configure isProduction variable
 const isProduction = process.env.NODE_ENV === "production";
-console.log("CHECK", process.env.NODE_ENV);
 
 //Configure our app
 app.use(cors());
@@ -119,12 +120,10 @@ app.use((err, req, res) => {
   });
 });
 
-//Configure mongoose's promise to global promise
-mongoose.promise = global.Promise;
+
 
 //Configure Mongoose
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
-mongoose.set("debug", true);
+
 
 // ROUTES
 // Simple index route
