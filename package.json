@@ -1,50 +1,45 @@
 {
   "name": "suited",
-  "homepage": "https://suited.herokuapp.com",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "scripts": {
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
-    "start:prod": "node server.js",
-    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
-    "client": "cd client && npm run start",
-    "install": "cd client && npm install",
-    "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^4.1.0",
-    "nodemon": "^1.19.1"
-  },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",
+    "concurrently": "^4.1.2",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^8.1.0",
     "errorhandler": "^1.5.1",
-    "express": "^4.16.3",
+    "express": "^4.17.1",
     "express-jwt": "^5.3.1",
     "express-session": "^1.16.2",
     "if-env": "^1.0.4",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
-    "mongoose": "^5.3.16",
+    "mongoose": "^5.6.12",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "path": "^0.12.7",
-    "prop-types": "^15.7.2",
-    "react-radio-button-group": "^1.2.8",
-    "react-radio-buttons": "^1.2.2",
-    "react-redux": "^7.1.0",
-    "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0",
-    "react-moment": "^0.9.2"
-  }
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chelseymacneill/suited.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chelseymacneill/suited/issues"
+  },
+  "homepage": "https://github.com/chelseymacneill/suited#readme"
 }

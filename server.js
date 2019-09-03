@@ -4,12 +4,14 @@ const mongoose = require("mongoose");
 //////////////////////////////////////////////////
 //ORDER IS IMPORTANT - don't change
 //Configure Mongoose
-mongoose.connect('mongodb://localhost/suited_app');
-mongoose.set('debug', true);
+console.log(process.env.NODE_ENV);
+const uri = process.env.MONGODB_URI || "mongodb://localhost/suited_app";
+mongoose.connect(uri, { useNewUrlParser: true });
+mongoose.set("debug", true);
 
 //models & Routes
-require('./models/users');
-require('./config/passport');
+require("./models/users");
+require("./config/passport");
 //////////////////////////////////////////////////
 const routes = require("./routes");
 const path = require("path");
@@ -20,8 +22,6 @@ const errorHandler = require("errorhandler");
 const passport = require("passport");
 
 require("dotenv").config();
-
-console.log(process.env.MONGODB_URI);
 
 //Initiate our app
 const app = express();
@@ -34,6 +34,7 @@ mongoose.promise = global.Promise;
 
 //Configure isProduction variable
 const isProduction = process.env.NODE_ENV === "production";
+console.log("CHECK", process.env.NODE_ENV);
 
 //Configure our app
 app.use(cors());
@@ -42,9 +43,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, "client/build")));
-app.use(session({ secret: 'mongod-vs-nodemon', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
-app.use( (req, res, next) => {
-  console.log('req.session', req.session);
+app.use(
+  session({
+    secret: "mongod-vs-nodemon",
+    cookie: { maxAge: 60000 },
+    resave: false,
+    saveUninitialized: false
+  })
+);
+app.use((req, res, next) => {
+  console.log("req.session", req.session);
   return next();
 });
 //////////////////////////////////////////////////////////////////////
@@ -72,11 +80,11 @@ app.use(passport.session());
 // 	)
 // });
 
-app.get('/api/users/current', (req, res) => {
-  console.log('user signup', req.body.username);
+app.get("/api/users/current", (req, res) => {
+  console.log("user signup", req.body.username);
   req.session.username = req.body.username;
-  res.end()
-})
+  res.end();
+});
 ////////////////////////////////////////////////////////////////////////
 
 if (!isProduction) {
@@ -115,10 +123,7 @@ app.use((err, req, res) => {
 mongoose.promise = global.Promise;
 
 //Configure Mongoose
-mongoose.connect(
-  process.env.MONGODB_URI,
-  { useNewUrlParser: true }
-);
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 mongoose.set("debug", true);
 
 // ROUTES
