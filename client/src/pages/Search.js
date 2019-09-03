@@ -156,7 +156,7 @@ class Search extends Component {
                       title={job.title}
                       company={job.company}
                       location={job.location}
-                      date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment>: job.date}
+                      date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
                       summary={job.summary}
                       url={job.url}
                       onClick={() => favoriteJob({job})}
