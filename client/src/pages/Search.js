@@ -11,6 +11,7 @@ import API from "../utils/API";
 
 import Moment from 'react-moment';
 
+
 //for logged in purposes
 import sessions from "../utils/sessions"
 
@@ -54,10 +55,11 @@ class Search extends Component {
         l: "",
         s: ["html", "css", "crazy", "java "],
         message: "Enter in your desired Job to begin!",
-        date: ""
+        loading: false
     };
 
     getJobs = () => {
+        this.setState({loading : true});
         API.getJobs(this.state.q, this.state.l, this.state.s)
             .then(res => {
                 const myList = this.state.s;
@@ -67,7 +69,8 @@ class Search extends Component {
                     return job;
                 }).sort((x, y) => y.subject.length - x.subject.length)
                 this.setState({
-                    jobs: sorted
+                    jobs: sorted,
+                    loading: false
                 })
             }
             )
@@ -105,11 +108,7 @@ class Search extends Component {
       // console.log("no user logged in")
     };
 
-    // if(job.date !== undefined && job.date.length > 3){
-    //     date = <Moment fromNow>{job.date}</Moment>
-    // } else if(job.date !== undefined){
-    //     date = job.date.slice(0,-1) + "days ago";
-    // } 
+    const {loading} = this.state;
     
 
 
@@ -145,7 +144,7 @@ class Search extends Component {
           <Col size="md-10 md-offset-1">
             {/* insert job container and job card components */}
             <h2>Job Cards live here - from Job DB Collection</h2>
-
+            {!loading &&
             <Card title="Results">
               {this.state.jobs.length ? (
                 <List>
@@ -168,7 +167,8 @@ class Search extends Component {
                   <h2 className="text-center">{this.state.message}</h2>
                 )}
             </Card>
-
+            }
+            {loading && <h2 className="text-center">Jobs Loading</h2>}
 
           </Col>
         </Row>
