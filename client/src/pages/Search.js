@@ -4,7 +4,7 @@ import Form from "../components/Form";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 
-import Card from "../components/Card";
+import BP_Card from "../components/BP_Card";
 import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
@@ -92,11 +92,6 @@ class Search extends Component {
     this.getJobs();
   };
 
-  // onClick = event => {
-  //   document.getElementsById("testbtn")
-  //   .toggleClass('btn btn-dark');
-
-  // }
 
   render() {
     sessionKey = sessions.getSession();
@@ -115,10 +110,7 @@ class Search extends Component {
               <h1>
                 Hello World: Search Bar Here
               </h1>
-              {/* <button onClick={() => console.log("test") } type="button" className="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-                Single toggle
-              </button> */}
-              {/* <input className="form-control" type="text" placeholder="Default input"></input> */}
+              
               <Form
                 handleInputChange={this.handleInputChange}
                 handleFormSubmit={this.handleFormSubmit}
@@ -137,9 +129,9 @@ class Search extends Component {
         </Row>
         <Row>
           <Col size="md-10 md-offset-1">
-            {/* insert job container and job card components */}
+            {/* insert job container and job BP_card components */}
             <h2>Job Cards live here - from Job DB Collection</h2>
-                <Card title="Results">
+                <BP_Card title="Results">
                   {this.state.jobs.length ? (
                     <List>
                       {this.state.jobs.map(job => (
@@ -160,7 +152,7 @@ class Search extends Component {
                   ) : (
                       <h2 className="text-center">{this.state.message}</h2>
                     )}
-                </Card>
+                </BP_Card>
           </Col>
         </Row>
         <Row>
