@@ -90,6 +90,7 @@ class Profile extends Component {
                         </Col>
                     </Row>
                     <Row>
+                    <Row>
                         <Col size="md-4">
                             {/* insert user card component */}
                             <h2>User Profile Details</h2>
