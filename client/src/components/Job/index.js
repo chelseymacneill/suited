@@ -8,7 +8,7 @@ import sessions from "../../utils/sessions";
 let loggedIn;
 let sessionKey;
 
-function Job({ key, title, company, location, date, summary, url, onClick, API}) {
+function Job({ key, title, company, location, date, summary, url, onClick, positiveMatches}) {
   sessionKey = sessions.getSession();
   if (sessionKey) {
     loggedIn = true;
@@ -59,6 +59,7 @@ function Job({ key, title, company, location, date, summary, url, onClick, API})
       <Row>
         <Col size="12 sm-8 md-10">
           <p>{summary}</p>
+          <h6 style={{color: "green"}}>{positiveMatches}</h6>
         </Col>
       </Row>
     </ListItem>
