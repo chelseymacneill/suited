@@ -16,7 +16,8 @@ const userJobSchema = new Schema({
   jobID: { type: String },
   updated: { type: Date, default: Date.now },
   interest: { type: Number },
-  status: { type: String }
+  status: { type: String },
+  notes: { type: String }
 });
 
 const UserJob = mongoose.model("UserJob", userJobSchema);

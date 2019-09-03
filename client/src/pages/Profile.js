@@ -6,14 +6,14 @@ import Jumbotron from "../components/Jumbotron";
 import { Redirect } from 'react-router-dom'
 import sessions from "../utils/sessions"
 
-import BP_Card from "../components/BP_Card";
+// import BP_Card from "../components/BP_Card";
 import Job from "../components/Job";
 import SmJob from "../components/SmJob";
 import { List } from "../components/List";
 
 import API from "../utils/API";
 
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardGroup, CardColumns, CardText, Row, Col, Container } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardTitle, CardGroup, CardColumns, CardText, Row, Col, Container, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classnames from 'classnames';
 
 import Board from 'react-trello'
@@ -40,35 +40,19 @@ function removeFavorite(job) {
     }
 }
 
-function handleDragEnd(cardId, sourceLaneId, targetLaneId, position, cardDetails) {
-    console.log("card dropped", cardDetails, cardId)
-    let data = {
-        id: cardId,
-        status: targetLaneId
-    }
-    API.updateFavorite(data).then(response => {
-        console.log('update job status response: ', response)
-        if (response.status === 200) {
-            console.log("job status updated")
-        }
-    }).catch(error => {
-        console.log('remove favorite error: ', error)
-    });
-}
-
-function onCardClick(cardId, metadata, laneId) {
-    let data = metadata;
-    console.log(data, laneId);
-}
-
 
 class Profile extends Component {
     constructor(props) {
         super(props);
 
-        this.toggle = this.toggle.bind(this);
+        this.toggleTab = this.toggleTab.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+        this.handleDragEnd = this.handleDragEnd.bind(this);
+        this.onCardClick = this.onCardClick.bind(this);
+
         this.state = {
             activeTab: '1',
+            modal: false,
             jobs: [],
             lane1: [],
             lane2: [],
@@ -79,7 +63,7 @@ class Profile extends Component {
         };
     }
 
-    toggle(tab) {
+    toggleTab(tab) {
         if (this.state.activeTab !== tab) {
             this.setState({
                 activeTab: tab
@@ -87,6 +71,37 @@ class Profile extends Component {
         }
     }
 
+    toggleModal() {
+        this.setState(prevState => ({
+          modal: !prevState.modal
+        }));
+      }
+
+    handleDragEnd(cardId, sourceLaneId, targetLaneId, position, cardDetails) {
+        console.log("card dropped", cardDetails, cardId)
+        let data = {
+            id: cardId,
+            status: targetLaneId
+        }
+        API.updateFavorite(data).then(response => {
+            console.log('update job status response: ', response)
+            if (response.status === 200) {
+                console.log("job status updated")
+            }
+        }).catch(error => {
+            console.log('remove favorite error: ', error)
+        });
+    }
+
+    onCardClick(cardId, metadata, laneId) {
+        let data = metadata;
+        // console.log(data, laneId, cardId);
+        this.setState(prevState => ({
+            modal: !prevState.modal
+          }));
+    }
+    
+    
     componentDidMount() {
         let lane1 = [];
         let lane2 = [];
@@ -121,7 +136,6 @@ class Profile extends Component {
                                     jobID: job.jobID
                                 }
                             };
-                        console.log(eachJob.metadata)
                         switch (eachJob.metadata.status)  {
                             case "lane1":
                                 lane1.push(eachJob);
@@ -143,7 +157,6 @@ class Profile extends Component {
                         }   
 
                     }
-                    // console.log(lane1);
                     this.setState({
                         jobs: response.data,
                         lane1: lane1,
@@ -237,21 +250,21 @@ class Profile extends Component {
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '1' })}
-                                            onClick={() => { this.toggle('1'); }}>
+                                            onClick={() => { this.toggleTab('1'); }}>
                                             Saved Jobs
                                         </NavLink>
                                     </NavItem>
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '2' })}
-                                            onClick={() => { this.toggle('2'); }}>
+                                            onClick={() => { this.toggleTab('2'); }}>
                                             Job Tracker
                                         </NavLink>
                                     </NavItem>
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '3' })}
-                                            onClick={() => { this.toggle('3'); }}>
+                                            onClick={() => { this.toggleTab('3'); }}>
                                             Quiz
                                         </NavLink>
                                     </NavItem>
@@ -265,7 +278,7 @@ class Profile extends Component {
                                             <h2>Profile</h2>
                                         </Col>
                                         <Col sm="9">
-                                            <BP_Card title="Saved Jobs">
+                                            <Card title="Saved Jobs">
                                                 {this.state.jobs.length ? (
                                                     <List>
                                                         {this.state.jobs.map((job, i) => (
@@ -286,7 +299,7 @@ class Profile extends Component {
                                                 ) : (
                                                         <h2 className="text-center">{this.state.message}</h2>
                                                     )}
-                                            </BP_Card>
+                                            </Card>
                                         </Col>
                                         </Row>
                                     </TabPane>
@@ -294,7 +307,17 @@ class Profile extends Component {
                                     <TabPane tabId="2">
                                         <Row>
                                             <Col lg="12">
-                                                <Board data={data} onCardClick={onCardClick} handleDragEnd={handleDragEnd} />
+                                                <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} />
+                                                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                                                    <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                                                    <ModalBody>
+                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                                    </ModalBody>
+                                                    <ModalFooter>
+                                                        <Button color="primary" onClick={this.toggleModal}>Do Something</Button>{' '}
+                                                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+                                                    </ModalFooter>
+                                                </Modal>
                                             </Col>
                                         </Row>
                                         {/* <Row>

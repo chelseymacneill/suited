@@ -32,7 +32,8 @@ function favoriteJob(job) {
     userID: sessionKey,
     jobID: job.job._id,
     interest: null,
-    status: "lane1"
+    status: "lane1",
+    notes: null
   }
 
   //   console.log(dummyJob);

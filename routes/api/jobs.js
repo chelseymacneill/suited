@@ -29,7 +29,7 @@ router.route("/getFavorites")
 router.route("/removeFavorite")
 .post(userJobController.remove)
 
-router.route("/updateStatus")
+router.route("/updateTracked")
 .post(userJobController.update)
 
 module.exports = router;
