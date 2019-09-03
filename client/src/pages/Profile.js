@@ -8,11 +8,12 @@ import sessions from "../utils/sessions"
 
 import BP_Card from "../components/BP_Card";
 import Job from "../components/Job";
+import SmJob from "../components/SmJob";
 import { List } from "../components/List";
 
 import API from "../utils/API";
 
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Container } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardGroup, CardColumns, CardText, Row, Col, Container } from 'reactstrap';
 import classnames from 'classnames';
 
 let loggedIn;
@@ -166,55 +167,33 @@ class Profile extends Component {
                                         </Row>
                                     </TabPane>
                                     <TabPane tabId="2">
-                                        <Row>
+                                    <Row>
                                             <Col sm="12">
-                                                {/* <Card body>
-                                                    <CardTitle>Special Title Treatment</CardTitle>
-                                                    <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                                                    <Button>Go somewhere</Button>
-                                                </Card> */}
+                                            <CardColumns>
+                                                {this.state.jobs.length ? (
+                                                    <section>
+                                                    {this.state.jobs.map((job, i) => (
+                                                        <SmJob
+                                                            key={i}
+                                                            jobID={job.id}
+                                                            title={job.title}
+                                                            company={job.company}
+                                                            location={job.location}
+                                                            date={job.date}
+                                                            summary={job.summary}
+                                                            url={job.url}
+                                                            onClick={ () => console.log("clicked")}
+                                                            profile="true"
+                                                        />
+                                                    ))}
+                                                    </section>
+                                                    ) : (
+                                                        <h2 className="text-center">{this.state.message}</h2>
+                                                    )}
+                                                </CardColumns>
                                                 <Row>
-                                                    <Col sm="2">
-                                                        <Card body>
-                                                        <CardTitle>Plan to Apply</CardTitle>
-                                                        </Card>
-                                                    </Col>
-                                                    <Col sm="2">
-                                                        <Card body>
-                                                        <CardTitle>Sent Application</CardTitle>
-                                                        </Card>
-                                                    </Col>
-                                                    <Col sm="2">
-                                                        <Card body>
-                                                        <CardTitle>Response Recieved</CardTitle>
-                                                        </Card>
-                                                    </Col>
-                                                    <Col sm="2">
-                                                        <Card body>
-                                                        <CardTitle>Phone Interview</CardTitle>
-                                                        </Card>
-                                                    </Col>
-                                                    <Col sm="2">
-                                                    <Card body>
-                                                        <CardTitle>Live Interview</CardTitle>
-                                                        </Card>
-                                                    </Col>
-                                                    <Col sm="2">
-                                                    <Card body>
-                                                        <CardTitle>Received Offer</CardTitle>
-                                                        </Card>
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <Col sm="2"></Col>
-                                                    <Col sm="2"></Col>
-                                                    <Col sm="2"></Col>
-                                                    <Col sm="2"></Col>
-                                                    <Col sm="2"></Col>
-                                                    <Col sm="2"></Col>
-                                                    <Col sm="2"></Col>
-                                                </Row>
                                                 
+                                                </Row>
                                             </Col>
                                         </Row>
                                     </TabPane>
@@ -250,3 +229,49 @@ export default Profile;
 //     );
 //   }
 
+//     {/* <Card body>
+//         <CardTitle>Special Title Treatment</CardTitle>
+//         <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
+//         <Button>Go somewhere</Button>
+//     </Card> */}
+//     <Row>
+//         <Col sm="2">
+//             <Card body>
+//             <CardTitle>Plan to Apply</CardTitle>
+//             </Card>
+//         </Col>
+//         <Col sm="2">
+//             <Card body>
+//             <CardTitle>Sent Application</CardTitle>
+//             </Card>
+//         </Col>
+//         <Col sm="2">
+//             <Card body>
+//             <CardTitle>Response Recieved</CardTitle>
+//             </Card>
+//         </Col>
+//         <Col sm="2">
+//             <Card body>
+//             <CardTitle>Phone Interview</CardTitle>
+//             </Card>
+//         </Col>
+//         <Col sm="2">
+//         <Card body>
+//             <CardTitle>Live Interview</CardTitle>
+//             </Card>
+//         </Col>
+//         <Col sm="2">
+//         <Card body>
+//             <CardTitle>Received Offer</CardTitle>
+//             </Card>
+//         </Col>
+//     </Row>
+//     <Row>
+//         <Col sm="2"></Col>
+//         <Col sm="2"></Col>
+//         <Col sm="2"></Col>
+//         <Col sm="2"></Col>
+//         <Col sm="2"></Col>
+//         <Col sm="2"></Col>
+//         <Col sm="2"></Col>
+//     </Row>
