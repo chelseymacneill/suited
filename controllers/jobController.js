@@ -110,7 +110,7 @@ module.exports = {
     //       .then(dbJob => res.json(dbJob))
     //       .catch(err => res.status(422).json(err));
     //   })
-  }
+//   }
 
   //     display: function (req, res) {
 
@@ -123,7 +123,7 @@ module.exports = {
   //     // })
   //     .catch(err => res.status(422).json(err));
   // }
-};
+// };
 
     // findAll: function (req, res) {
     //     db.Job.find(req.query)
