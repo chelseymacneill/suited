@@ -79,5 +79,18 @@ export default {
         }
       }
     )
+  },
+
+  updateFavorite: function(data) {
+    console.log("move FAVORITE: ", data);
+
+    return axios.post("/api/jobs/updateStatus",
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
   }
 };
