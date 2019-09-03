@@ -25,7 +25,7 @@ module.exports = {
     update: function (req, res) {
         // db.UserJob.findOneAndUpdate({ id: req.params.id }, req.body)
         console.log("JOB CONTROLLER", req.body)
-        db.UserJob.findOneAndUpdate({ id: req.body.id }, req.body)
+        db.UserJob.updateOne({ _id: req.body.id }, { status: req.body.status} )
             .then(dbJob => res.json(dbJob))
             .catch(err => res.status(422).json(err));
     },

@@ -58,7 +58,7 @@ function handleDragEnd(cardId, sourceLaneId, targetLaneId, position, cardDetails
 
 function onCardClick(cardId, metadata, laneId) {
     let data = metadata;
-    console.log(data);
+    console.log(data, laneId);
 }
 
 
@@ -122,25 +122,25 @@ class Profile extends Component {
                                 }
                             };
                         console.log(eachJob.metadata)
-                        // switch (eachJob.metadata.status)  {
-                        //     case "lane1":
+                        switch (eachJob.metadata.status)  {
+                            case "lane1":
                                 lane1.push(eachJob);
-                        //         break;
-                        //     case "lane2":
-                        //             lane2.push(eachJob);
-                        //         break;
-                        //     case "lane3":
-                        //             lane3.push(eachJob);
-                        //         break;
-                        //     case "lane4":
-                        //             lane4.push(eachJob);
-                        //         break;
-                        //     case "lane5":
-                        //             lane5.push(eachJob);
-                        //         break;
-                        //     default:
-                        //         lane1.push(eachJob);
-                        // }   
+                                break;
+                            case "lane2":
+                                    lane2.push(eachJob);
+                                break;
+                            case "lane3":
+                                    lane3.push(eachJob);
+                                break;
+                            case "lane4":
+                                    lane4.push(eachJob);
+                                break;
+                            case "lane5":
+                                    lane5.push(eachJob);
+                                break;
+                            default:
+                                lane1.push(eachJob);
+                        }   
 
                     }
                     // console.log(lane1);
@@ -297,7 +297,7 @@ class Profile extends Component {
                                                 <Board data={data} onCardClick={onCardClick} handleDragEnd={handleDragEnd} />
                                             </Col>
                                         </Row>
-                                        <Row>
+                                        {/* <Row>
                                             <Col sm="12">
                                                 <CardColumns>
                                                     {this.state.jobs.length ? (
@@ -322,7 +322,7 @@ class Profile extends Component {
                                                         )}
                                                 </CardColumns>
                                             </Col>
-                                        </Row>
+                                        </Row> */}
                                     </TabPane>
                                     <TabPane tabId="3">
                                         <Row>
