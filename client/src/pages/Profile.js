@@ -41,6 +41,23 @@ function removeFavorite(job) {
     }
 }
 
+// Updating user preferences (I am unsure why I started to put this here.)
+// using userid as a standin for what the unique user identifier is
+function updateUserPreferences(sessionKey) {
+
+    console.log("storing User Preferences")
+    API.updateUserPreferences({ "userid": sessionKey })
+    .then(response => {
+        console.log('Update user preferences: ', response)
+        if (response.status === 200) {
+            console.log("Update user Preferences")
+            window.location.reload();
+        }
+    }).catch(error => {
+        console.log('remove favorite error: ', error)
+    });
+}
+
 
 class Profile extends Component {
     constructor(props) {

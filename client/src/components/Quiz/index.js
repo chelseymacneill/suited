@@ -37,7 +37,7 @@ class Quiz extends React.Component {
       return (
         <Form>
           <FormGroup>
-            <Label for="exampleCheckbox">Select skills that you are interested in: </Label>
+            <Label for="skillsInterested">Select skills that you are interested in: </Label>
             <div>
               <CustomInput type="checkbox" id="int-JS" label="JavaScript" inline />
               <CustomInput type="checkbox" id="int-CSS" label="CSS" inline />
@@ -46,7 +46,7 @@ class Quiz extends React.Component {
             </div>
           </FormGroup>
           <FormGroup>
-            <Label for="exampleCheckbox">Select skills that you are neutral towards: </Label>
+            <Label for="skillsNeutral">Select skills that you are neutral towards: </Label>
             <div>
               <CustomInput type="checkbox" id="int-JS" label="JavaScript" inline />
               <CustomInput type="checkbox" id="int-CSS" label="CSS" inline />
@@ -55,7 +55,7 @@ class Quiz extends React.Component {
             </div>
           </FormGroup>
           <FormGroup>
-            <Label for="exampleCheckbox">Select skills that you are NOT interested in: </Label>
+            <Label for="skillsDisinterested">Select skills that you are NOT interested in: </Label>
             <div>
             <CustomInput type="checkbox" id="not-JS" label="JavaScript" inline />
               <CustomInput type="checkbox" id="not-CSS" label="CSS" inline />

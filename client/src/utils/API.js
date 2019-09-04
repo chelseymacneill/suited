@@ -19,79 +19,71 @@ export default {
   // saveBook: function(bookData) {
   //   return axios.post("/api/books", bookData);
   // }
-  postSignup: function (data) {
-    return axios.post("/api/users",
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        }
+  postSignup: function(data) {
+    return axios.post("/api/users", data, {
+      headers: {
+        "Content-Type": "application/json"
       }
-    )
+    });
   },
-  postLogin: function (data) {
-    return axios.post("/api/users/login",
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        }
+  postLogin: function(data) {
+    return axios.post("/api/users/login", data, {
+      headers: {
+        "Content-Type": "application/json"
       }
-    )
+    });
   },
-  getCurrent: function () {
-    return axios.get("/api/users/current")
-
+  getCurrent: function() {
+    return axios.get("/api/users/current");
   },
 
   //////////////////favorite jobs//////////////////////
   postUserJob: function(data) {
-    // return axios.get("/api/userJobs", 
-    return axios.post("/api/jobs/favorite", 
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        }
+    // return axios.get("/api/userJobs",
+    return axios.post("/api/jobs/favorite", data, {
+      headers: {
+        "Content-Type": "application/json"
       }
-    )
+    });
   },
 
   getFavorites: function(data) {
     // console.log("GET FAVORITES: ", data);
-    return axios.post("/api/jobs/getFavorites",
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        }
+    return axios.post("/api/jobs/getFavorites", data, {
+      headers: {
+        "Content-Type": "application/json"
       }
-    )
+    });
   },
 
   removeFavorite: function(data) {
-        console.log("GET FAVORITES: ", data);
+    console.log("GET FAVORITES: ", data);
 
-    return axios.post("/api/jobs/removeFavorite",
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        }
+    return axios.post("/api/jobs/removeFavorite", data, {
+      headers: {
+        "Content-Type": "application/json"
       }
-    )
+    });
   },
 
   updateFavorite: function(data) {
     console.log("move FAVORITE: ", data);
 
-    return axios.post("/api/jobs/updateTracked",
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        }
+    return axios.post("/api/jobs/updateTracked", data, {
+      headers: {
+        "Content-Type": "application/json"
       }
-    )
+    });
+  },
+
+  // User Quiz Data
+  updateSkillPreferences: function(data) {
+    console.log("Updated User Preferences", data);
+
+    return axios.post("/api/jobs/updateSkillPreferences", data, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
   }
 };

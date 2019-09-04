@@ -32,4 +32,7 @@ router.route("/removeFavorite")
 router.route("/updateTracked")
 .post(userJobController.update)
 
+//Routing User Preferences from the Quiz 
+router.route("/updateSkillPreferences")
+
 module.exports = router;

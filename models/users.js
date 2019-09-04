@@ -8,6 +8,10 @@ const UsersSchema = new Schema({
   email: String,
   hash: String,
   salt: String,
+  // Arrays from quiz
+  skillsInterested: [String],
+  skillsNeutral:[String],
+  skillsDisinterested: [String]
 });
 
 UsersSchema.methods.setPassword = function(password) {
@@ -43,6 +47,9 @@ UsersSchema.methods.toAuthJSON = function() {
     token: this.generateJWT(),
   };
 };
+
+// Storing Quiz data 
+UsersSchema.methods.
 
 // const User = mongoose.model('User', UsersSchema);
 
