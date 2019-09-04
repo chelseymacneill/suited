@@ -9,7 +9,7 @@ import sessions from "../utils/sessions";
 
 // import BP_Card from "../components/BP_Card";
 import Job from "../components/Job";
-import SmJob from "../components/SmJob";
+// import SmJob from "../components/SmJob";
 import { List } from "../components/List";
 
 import API from "../utils/API";
@@ -52,6 +52,9 @@ class Profile extends Component {
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.onCardClick = this.onCardClick.bind(this);
 
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+
         this.state = {
             activeTab: '2',
             modal: false,
@@ -62,22 +65,75 @@ class Profile extends Component {
             lane4: [],
             lane5: [],
             message: "No Jobs saved yet, please use the search page",
-            editJob: {}
+            editJob: {},
+            text: "",
+            select: ""
         };
     }
+
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
-          [name]: value
+            [name]: value
         });
-      };
+    };
 
-      handleFormSubmit = event => {
+    handleFormSubmit = event => {
         event.preventDefault();
-        // this.getJobs();
-        console.log("handle form submit")
         this.toggleModal();
-      };
+        console.log(this.state.text, this.state.select)
+        console.log(this.state.editJob._id)
+
+        let data = {
+            id: this.state.editJob._id,
+            interest: this.state.select
+        }
+        API.updateFavorite(data)
+        .then(response => {
+            console.log('update user job status response: ', response)
+            if (response.status === 200) {
+                console.log("job interest level updated")
+            }
+        }).catch(error => {
+            console.log('remove favorite error: ', error)
+        });
+
+        let note = {
+            id: this.state.editJob._id,
+            text: this.state.text
+        }
+
+        // API.createNote(note)
+        // .then(response => {
+        //     console.log('update note status response: ', response)
+        //     if (response.status === 200) {
+        //         console.log("note updated")
+        //     }
+        // }).catch(error => {
+        //     console.log('create note error: ', error)
+        // });
+    };
+
+//     // Route for adding a note to an article
+// app.post("/articles/:id", function (req, res) {
+//     // Create a new note and pass the req.body to the entry
+//     db.Note.create(req.body)
+//         .then(function (dbNote) {
+//             // If a Note was created successfully, find one Article with an _id equal to req.params.id. Update the Article to be associated with the new Note
+//             // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
+//             // Since our mongoose query returns a promise, we can chain another .then which receives the result of the query
+//             //$push adds note to the list of notes
+//             return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { notes: dbNote._id } }, { new: true });
+//         })
+//         .then(function (dbArticle) {
+//             // If we were able to successfully update an Article, send it back to the client
+//             res.json(dbArticle);
+//         })
+//         .catch(function (err) {
+//             // If an error occurred, send it to the client
+//             res.json(err);
+//         });
+//  });
 
     toggleTab(tab) {
         if (this.state.activeTab !== tab) {
@@ -99,7 +155,8 @@ class Profile extends Component {
             id: cardId,
             status: targetLaneId
         }
-        API.updateFavorite(data).then(response => {
+        API.updateFavorite(data)
+        .then(response => {
             console.log('update job status response: ', response)
             if (response.status === 200) {
                 console.log("job status updated")
@@ -110,8 +167,10 @@ class Profile extends Component {
     }
 
     onCardClick(cardId, metadata, laneId) {
+
         let index = metadata.index;
         this.setState({
+            text: [],
             editJob: this.state.jobs[index]
         })
         this.toggleModal();
@@ -366,12 +425,13 @@ class Profile extends Component {
                                                                 <Col lg="12">
                                                                     <FormGroup>
                                                                         <Label for="interestSelect">Interest in Position:</Label>
-                                                                        <Input type="select" name="select" id="interestSelect">
-                                                                            <option>5 - Literal Dream Job!</option>
-                                                                            <option>4</option>
-                                                                            <option>3</option>
-                                                                            <option>2</option>
-                                                                            <option>1 - Doesn't Hurt to Apply</option>
+                                                                        <Input type="select" name="select" id="interestSelect" onChange={this.handleInputChange}>
+                                                                            <option>Choose...</option>
+                                                                            <option value="5">5 - Literal Dream Job!</option>
+                                                                            <option value="4">4</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="1">1 - Doesn't Hurt to Apply</option>
                                                                         </Input>
                                                                     </FormGroup>
                                                                 </Col>
@@ -383,8 +443,8 @@ class Profile extends Component {
                                                             <Row>
                                                                 <Col lg="12">
                                                                     <FormGroup>
-                                                                        <Label for="exampleText">Notes:</Label>
-                                                                        <Input type="textarea" name="text" id="exampleText" />
+                                                                        <Label for="noteText">Notes:</Label>
+                                                                        <Input type="textarea" name="text" id="noteText" onChange={this.handleInputChange} value={this.state.text} />
                                                                     </FormGroup>
                                                                 </Col>
                                                             </Row>

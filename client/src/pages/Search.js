@@ -37,7 +37,7 @@ function favoriteJob(job) {
     jobID: job.job._id,
     interest: null,
     status: "lane1",
-    notes: null
+    notes: [],
   }
 
   //   console.log(dummyJob);
@@ -94,6 +94,7 @@ class Search extends Component {
       [name]: value
     });
   };
+  
   handleFormSubmit = event => {
     event.preventDefault();
     this.getJobs();

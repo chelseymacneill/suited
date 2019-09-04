@@ -1,3 +1,4 @@
+const db = require("../models");
 
 module.exports = {
     //post new user route
@@ -28,5 +29,10 @@ module.exports = {
           .then(() => res.json({ user: finalUser.toAuthJSON() }));
 
         // db.User.create(req.body)
-    }
+    },
+    // update: function (req, res) {
+    //   db.User.updateOne({ _id: req.body.id }, req.body )
+    //       .then(dbJob => res.json(dbJob))
+    //       .catch(err => res.status(422).json(err));
+    // }
 };

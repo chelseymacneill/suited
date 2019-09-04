@@ -7,16 +7,16 @@ module.exports = {
             .then(dbJob => res.json(dbJob))
             .catch(err => res.status(422).json(err));
     },
-    findOne: function (req, res) {
-        db.UserJob.findOne(req.query)
-            .then(dbJob => res.json(dbJob))
-            .catch(err => res.status(422).json(err));
-    },
-    findById: function (req, res) {
-        db.UserJob.findById(req.params.id)
-            .then(dbJob => res.json(dbJob))
-            .catch(err => res.status(422).json(err));
-    },
+    // findOne: function (req, res) {
+    //     db.UserJob.findOne(req.query)
+    //         .then(dbJob => res.json(dbJob))
+    //         .catch(err => res.status(422).json(err));
+    // },
+    // findById: function (req, res) {
+    //     db.UserJob.findById(req.params.id)
+    //         .then(dbJob => res.json(dbJob))
+    //         .catch(err => res.status(422).json(err));
+    // },
     create: function (req, res) {
         db.UserJob.create(req.body)
             .then(dbJob => res.json(dbJob))
@@ -32,5 +32,16 @@ module.exports = {
             .then(dbJob => dbJob.remove())
             .then(dbJob => res.json(dbJob))
             .catch(err => res.status(422).json(err));
+    },
+    createNote: function (req, res) {
+        console.log("REQ.BODY", req.body)
+    //     db.UserJob.update({ _id: req.body.id }, 
+    //         { $push: { 
+    //                 notes: {text: "test"} 
+    //                     // {text: req.body.text} 
+    //             } 
+    //         }, { new: true })
+    //         .then(dbJob => res.json(dbJob))
+    //         .catch(err => res.status(422).json(err));
     }
 }

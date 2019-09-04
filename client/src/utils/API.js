@@ -1,5 +1,5 @@
 import axios from "axios";
-import { stringify } from "querystring";
+// import { stringify } from "querystring";
 
 export default {
   // Gets books from the Google API
@@ -86,6 +86,18 @@ export default {
     console.log("move FAVORITE: ", data);
 
     return axios.post("/api/jobs/updateTracked",
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
+  },
+
+  createNote: function(data) {
+    console.log("create Note: ", data);
+    return axios.post("/api/jobs/createNote",
       data,
       {
         headers: {
