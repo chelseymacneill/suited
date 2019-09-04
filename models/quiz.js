@@ -3,11 +3,9 @@ const Schema = mongoose.Schema;
 
 const quizSchema = new Schema({
   username: { type: String },
-  javaScriptSkill: { type: Boolean },
-  pythonSkill: { type: Boolean },
-  javaSkill: { type: Boolean },
-  cSharpSkill: { type: Boolean },
-  sqlSkill: { type: Boolean }
+  userInterests : {type: [String]},
+  user
+  userDisintersts : {type: [String]}
 });
 
 const Quiz = mongoose.model("Quiz", quizSchema);

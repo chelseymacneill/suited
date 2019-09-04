@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./style.css";
-
-import { CustomInput, Form, FormGroup, Label } from 'reactstrap';
+import { CustomInput, Form, FormGroup, Label, Button } from 'reactstrap';
 
 // Multiple Inputs
 class Quiz extends React.Component {
@@ -10,8 +9,9 @@ class Quiz extends React.Component {
     this.state = {
       // Capture the name of the user via the user typing it in or by inheriting it from their profile
       username: "username", // This should be the unique userid or sessionid whatever we are using to identify a user
-      skillInterests: [],
-      skillDisinterest: []
+      skillInterested: [],
+      skillNeutral: [],
+      skillDisinterested: []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -46,6 +46,15 @@ class Quiz extends React.Component {
             </div>
           </FormGroup>
           <FormGroup>
+            <Label for="exampleCheckbox">Select skills that you are neutral towards: </Label>
+            <div>
+              <CustomInput type="checkbox" id="int-JS" label="JavaScript" inline />
+              <CustomInput type="checkbox" id="int-CSS" label="CSS" inline />
+              <CustomInput type="checkbox" id="int-HTML" label="HTML" inline />
+              <CustomInput type="checkbox" id="int-Python" label="Python" inline />
+            </div>
+          </FormGroup>
+          <FormGroup>
             <Label for="exampleCheckbox">Select skills that you are NOT interested in: </Label>
             <div>
             <CustomInput type="checkbox" id="not-JS" label="JavaScript" inline />
@@ -54,6 +63,8 @@ class Quiz extends React.Component {
               <CustomInput type="checkbox" id="not-Python" label="Python" inline />
             </div>
           </FormGroup>
+
+          <Button>Submit</Button>
 
 </Form>
       );
