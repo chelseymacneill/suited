@@ -1,6 +1,6 @@
 import React from "react";
 
-function Card({ icon, title, children }) {
+function BP_Card({ icon, title, children }) {
   return (
     <div className="card mt-4">
       <div className="card-header">
@@ -15,4 +15,4 @@ function Card({ icon, title, children }) {
   );
 }
 
-export default Card;
+export default BP_Card;

@@ -4,7 +4,7 @@ import Form from "../components/Form";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 
-import Card from "../components/Card";
+import BP_Card from "../components/BP_Card";
 import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
@@ -18,6 +18,7 @@ let loggedIn;
 let sessionKey;
 
 function favoriteJob(job) {
+
   let userJob = {
     url: job.job.url,
     title: job.job.title,
@@ -31,53 +32,54 @@ function favoriteJob(job) {
     userID: sessionKey,
     jobID: job.job._id,
     interest: null,
-    status: null
+    status: "lane1",
+    notes: null
   }
 
-//   console.log(dummyJob);
+  //   console.log(dummyJob);
   API.postUserJob(userJob)
-        .then( response => {
-            console.log('favorite Job response: ', response)
-            if (response.status === 200) {
-              alert("job added to favorites!")
-            } 
-        }).catch(error => {
-            alert('create favorite error: ', error)
-        });
+    .then(response => {
+      console.log('favorite Job response: ', response)
+      if (response.status === 200) {
+        alert("job added to favorites!")
+      }
+    }).catch(error => {
+      alert('create favorite error: ', error)
+    });
 }
 
 class Search extends Component {
 
-     state = {
-        jobs: [],
-        q: "",
-        l: "",
-        s: ["html", "css", "crazy", "java "],
-        message: "Enter in your desired Job to begin!"
-    };
+  state = {
+    jobs: [],
+    q: "",
+    l: "",
+    s: ["html", "css", "crazy", "java "],
+    message: "Enter in your desired Job to begin!"
+  };
 
-    getJobs = () => {
-        API.getJobs(this.state.q, this.state.l, this.state.s)
-            .then(res => {
-                const myList = this.state.s;
-                const sorted = res.data.map(job => {
-                    const subj = job.subject.filter(j => myList.includes(j));
-                    job.subject = subj;
-                    return job;
-                }).sort((x, y) => y.subject.length - x.subject.length)
-                this.setState({
-                    jobs: sorted
-                })
-            }
-            )
-            .catch((err) => {
-                console.log(err);
-                this.setState({
-                    jobs: [],
-                    message: "No New Jobs Found, Try a Different Query"
-                })
-            });
-    };
+  getJobs = () => {
+    API.getJobs(this.state.q, this.state.l, this.state.s)
+      .then(res => {
+        const myList = this.state.s;
+        const sorted = res.data.map(job => {
+          const subj = job.subject.filter(j => myList.includes(j));
+          job.subject = subj;
+          return job;
+        }).sort((x, y) => y.subject.length - x.subject.length)
+        this.setState({
+          jobs: sorted
+        })
+      }
+      )
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          jobs: [],
+          message: "No New Jobs Found, Try a Different Query"
+        })
+      });
+  };
 
 
   handleInputChange = event => {
@@ -90,8 +92,8 @@ class Search extends Component {
     event.preventDefault();
     this.getJobs();
   };
-  
-  
+
+
   render() {
     sessionKey = sessions.getSession();
     if (sessionKey) {
@@ -109,9 +111,7 @@ class Search extends Component {
               <h1>
                 Hello World: Search Bar Here
               </h1>
-              {/* <button onClick={() => favoriteJob("test")} className="btn btn-light" rel="noopener noreferrer">Test</button> */}
-
-              {/* <input className="form-control" type="text" placeholder="Default input"></input> */}
+              
               <Form
                 handleInputChange={this.handleInputChange}
                 handleFormSubmit={this.handleFormSubmit}
@@ -130,32 +130,30 @@ class Search extends Component {
         </Row>
         <Row>
           <Col size="md-10 md-offset-1">
-            {/* insert job container and job card components */}
+            {/* insert job container and job BP_card components */}
             <h2>Job Cards live here - from Job DB Collection</h2>
-
-            <Card title="Results">
-              {this.state.jobs.length ? (
-                <List>
-                  {this.state.jobs.map(job => (
-                    <Job
-                      key={job.id}
-                      title={job.title}
-                      company={job.company}
-                      location={job.location}
-                      date={job.date}
-      //   <Moment date={job.date} />
-                      summary={job.summary}
-                      url={job.url}
-                      onClick={() => favoriteJob({job})}
-                    />
-                  ))}
-                </List>
-              ) : (
-                  <h2 className="text-center">{this.state.message}</h2>
-                )}
-            </Card>
-
-
+                <BP_Card title="Results">
+                  {this.state.jobs.length ? (
+                    <List>
+                      {this.state.jobs.map(job => (
+                        <Job
+                          key={job.id}
+                          title={job.title}
+                          company={job.company}
+                          location={job.location}
+                          date={job.date}
+                          //   <Moment date={job.date} />
+                          summary={job.summary}
+                          url={job.url}
+                          onClick={() => favoriteJob({ job })}
+                          search="true"
+                        />
+                      ))}
+                    </List>
+                  ) : (
+                      <h2 className="text-center">{this.state.message}</h2>
+                    )}
+                </BP_Card>
           </Col>
         </Row>
         <Row>
