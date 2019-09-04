@@ -10,8 +10,8 @@ module.exports = {
         const q = req.query.q;
         const l = req.query.l;
         const goodArray = req.query.g.split("-");
-        // const mehArray = req.query.y.split("-");
-        // const badArray = req.query.r.split("-");
+        const mehArray = req.query.y.split("-");
+        const badArray = req.query.r.split("-");
         console.log("array: " + goodArray);
         // const array 
         // db.Job.createIndex( { subject: "text" } );
@@ -30,7 +30,11 @@ module.exports = {
                                 const $ = cheerio.load(response.data);
                                 const str = $("body").text().toLowerCase();
                                 const green = goodArray.filter(element => str.includes(element));
+                                const yellow = mehArray.filter(element => str.includes(element));
+                                const red = badArray.filter(element => str.includes(element));
                                 job.green = green;
+                                job.yellow = yellow;
+                                job.red = red;
                                 console.log(job);
 
                             }
