@@ -9,7 +9,7 @@ import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
 
-// import Moment from 'react-moment';
+import Moment from "react-moment";
 
 //for logged in purposes
 import sessions from "../utils/sessions"
@@ -55,10 +55,12 @@ class Search extends Component {
     q: "",
     l: "",
     s: ["html", "css", "crazy", "java "],
-    message: "Enter in your desired Job to begin!"
+    message: "Enter in your desired Job to begin!",
+    loading: false
   };
 
   getJobs = () => {
+    this.setState({loading : true});
     API.getJobs(this.state.q, this.state.l, this.state.s)
       .then(res => {
         const myList = this.state.s;
@@ -68,7 +70,8 @@ class Search extends Component {
           return job;
         }).sort((x, y) => y.subject.length - x.subject.length)
         this.setState({
-          jobs: sorted
+          jobs: sorted,
+          loading: false
         })
       }
       )
@@ -103,6 +106,9 @@ class Search extends Component {
       loggedIn = false;
       // console.log("no user logged in")
     }
+
+    const {loading} = this.state;
+
     return (
       <Container fluid>
         <Row>
@@ -132,6 +138,7 @@ class Search extends Component {
           <Col size="md-10 md-offset-1">
             {/* insert job container and job BP_card components */}
             <h2>Job Cards live here - from Job DB Collection</h2>
+            {!loading &&
                 <BP_Card title="Results">
                   {this.state.jobs.length ? (
                     <List>
@@ -141,9 +148,10 @@ class Search extends Component {
                           title={job.title}
                           company={job.company}
                           location={job.location}
-                          date={job.date}
+                          date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
                           //   <Moment date={job.date} />
                           summary={job.summary}
+                          positiveMatches={job.subject.map(sub => (sub + " "))}
                           url={job.url}
                           onClick={() => favoriteJob({ job })}
                           search="true"
@@ -154,6 +162,8 @@ class Search extends Component {
                       <h2 className="text-center">{this.state.message}</h2>
                     )}
                 </BP_Card>
+                }
+                {loading && <h2 className="text-center">Jobs Loading</h2>}
           </Col>
         </Row>
         <Row>
