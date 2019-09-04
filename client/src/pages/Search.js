@@ -55,25 +55,25 @@ class Search extends Component {
     q: "",
     l: "",
     // these are the green words
-    s: ["html", "css", "crazy", "javascript", "bootstrap", "react"],
+    g: ["html", "css", "crazy", "javascript", "bootstrap", "react"],
     // these are the yellow words
-    y: ["html", "css", "crazy", "javascript", "bootstrap", "react"],
+    y: ["html", "css", "javascript"],
     // these are the red words
-    r: ["html", "css", "crazy", "javascript", "bootstrap", "react"],
+    r: ["bootstrap", "react"],
     message: "Enter in your desired Job to begin!",
     loading: false
   };
 
   getJobs = () => {
     this.setState({loading : true});
-    API.getJobs(this.state.q, this.state.l, this.state.s)
+    API.getJobs(this.state.q, this.state.l, this.state.g, this.state.y, this.state.r)
       .then(res => {
-        const myList = this.state.s;
+        const myList = this.state.g;
         const sorted = res.data.map(job => {
-          const subj = job.subject.filter(j => myList.includes(j));
-          job.subject = subj;
+          const green = job.green.filter(j => myList.includes(j));
+          job.green = green;
           return job;
-        }).sort((x, y) => y.subject.length - x.subject.length)
+        }).sort((x, y) => y.green.length - x.green.length)
         this.setState({
           jobs: sorted,
           loading: false
@@ -156,7 +156,7 @@ class Search extends Component {
                           date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
                           //   <Moment date={job.date} />
                           summary={job.summary}
-                          positiveMatches={job.subject.map(sub => (sub + " "))}
+                          positiveMatches={job.green.map(sub => (sub + " "))}
                           url={job.url}
                           onClick={() => favoriteJob({ job })}
                           search="true"

@@ -3,9 +3,9 @@ import { stringify } from "querystring";
 
 export default {
   // Gets books from the Google API
-  getJobs: function(q, l, s) {
+  getJobs: function(q, l, g, y, r) {
     //return axios.get(`https://indreed.herokuapp.com/api/jobs?q=${q}&l=${l}`);
-    return axios.get(`/api/jobs?q=${q}&l=${l}&s=${s.join("-")}`);
+    return axios.get(`/api/jobs?q=${q}&l=${l}&g=${g.join("-")}&y=${y.join("-")}&r=${r.join("-")}`);
   },
   // // Gets all saved books
   // getSavedBooks: function() {
