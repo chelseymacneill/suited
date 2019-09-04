@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import Form from "../components/Form";
-import { Col, Row, Container } from "../components/Grid";
+// import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 
 import BP_Card from "../components/BP_Card";
@@ -13,6 +13,10 @@ import Moment from "react-moment";
 
 //for logged in purposes
 import sessions from "../utils/sessions"
+
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardTitle, CardGroup, CardColumns, CardText, Row, Col, Container, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner } from 'reactstrap';
+
+
 
 let loggedIn;
 let sessionKey;
@@ -84,7 +88,6 @@ class Search extends Component {
       });
   };
 
-
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -117,7 +120,6 @@ class Search extends Component {
               <h1>
                 Hello World: Search Bar Here
               </h1>
-              
               <Form
                 handleInputChange={this.handleInputChange}
                 handleFormSubmit={this.handleFormSubmit}
@@ -163,7 +165,9 @@ class Search extends Component {
                     )}
                 </BP_Card>
                 }
-                {loading && <h2 className="text-center">Jobs Loading</h2>}
+                {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
+                {loading && <img src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" />
+}
           </Col>
         </Row>
         <Row>
