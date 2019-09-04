@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import "./style.css";
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-
+import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 
 // Multiple Inputs
-
 class Quiz extends React.Component {
   constructor(props) {
     super(props);
@@ -37,8 +35,10 @@ class Quiz extends React.Component {
     return (
       <Form>
         <FormGroup>
-          <Label for="exampleSelectMulti">Select languages you are interested in working with:</Label>
-          <Input type="select" name="selectMulti" id="exampleSelectMulti" multiple>
+          <Label for="exampleSelectMulti">
+            Select languages you are interested in working with:
+          </Label>
+          <Input type="select" name="selectMulti" id="skill-interests" multiple>
             <option>JavaScript</option>
             <option>Java</option>
             <option>Python</option>
@@ -46,12 +46,29 @@ class Quiz extends React.Component {
             <option>Visual Basic</option>
           </Input>
         </FormGroup>
-        
+        <br></br>
+        <FormGroup>
+          <Label for="exampleSelectMulti">
+            Select languages you would like to avoid working with:
+          </Label>
+          <Input
+            type="select"
+            name="selectMulti"
+            id="skill-disinterest"
+            multiple
+          >
+            <option>JavaScript</option>
+            <option>Java</option>
+            <option>Python</option>
+            <option>C#</option>
+            <option>Visual Basic</option>
+          </Input>
+        </FormGroup>
+
         <Button>Submit</Button>
       </Form>
     );
   }
 }
-
 
 export default Quiz;
