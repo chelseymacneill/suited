@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./style.css";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+
+import { CustomInput, Form, FormGroup, Label } from 'reactstrap';
 
 // Multiple Inputs
 class Quiz extends React.Component {
@@ -31,44 +32,32 @@ class Quiz extends React.Component {
     event.preventDefault();
   }
 
-  render() {
-    return (
-      <Form>
-        <FormGroup>
-          <Label for="exampleSelectMulti">
-            Select languages you are interested in working with:
-          </Label>
-          <Input type="select" name="selectMulti" id="skill-interests" multiple>
-            <option>JavaScript</option>
-            <option>Java</option>
-            <option>Python</option>
-            <option>C#</option>
-            <option>Visual Basic</option>
-          </Input>
-        </FormGroup>
-        <br></br>
-        <FormGroup>
-          <Label for="exampleSelectMulti">
-            Select languages you would like to avoid working with:
-          </Label>
-          <Input
-            type="select"
-            name="selectMulti"
-            id="skill-disinterest"
-            multiple
-          >
-            <option>JavaScript</option>
-            <option>Java</option>
-            <option>Python</option>
-            <option>C#</option>
-            <option>Visual Basic</option>
-          </Input>
-        </FormGroup>
 
-        <Button>Submit</Button>
-      </Form>
-    );
+    render() {
+      return (
+        <Form>
+          <FormGroup>
+            <Label for="exampleCheckbox">Select skills that you are interested in: </Label>
+            <div>
+              <CustomInput type="checkbox" id="int-JS" label="JavaScript" inline />
+              <CustomInput type="checkbox" id="int-CSS" label="CSS" inline />
+              <CustomInput type="checkbox" id="int-HTML" label="HTML" inline />
+              <CustomInput type="checkbox" id="int-Python" label="Python" inline />
+            </div>
+          </FormGroup>
+          <FormGroup>
+            <Label for="exampleCheckbox">Select skills that you are NOT interested in: </Label>
+            <div>
+            <CustomInput type="checkbox" id="not-JS" label="JavaScript" inline />
+              <CustomInput type="checkbox" id="not-CSS" label="CSS" inline />
+              <CustomInput type="checkbox" id="not-HTML" label="HTML" inline />
+              <CustomInput type="checkbox" id="not-Python" label="Python" inline />
+            </div>
+          </FormGroup>
+
+</Form>
+      );
+    }
   }
-}
 
 export default Quiz;
