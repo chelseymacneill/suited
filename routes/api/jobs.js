@@ -24,9 +24,12 @@ router.route("/favorite")
 .post(userJobController.create);
 //api/jobs/getFavorites
 router.route("/getFavorites")
-.get(userJobController.findAll)
+.post(userJobController.findAll)
  
 router.route("/removeFavorite")
 .post(userJobController.remove)
+
+router.route("/updateTracked")
+.post(userJobController.update)
 
 module.exports = router;

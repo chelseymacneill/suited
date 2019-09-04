@@ -7,7 +7,8 @@ import sessions from "../../utils/sessions"
 let loggedIn;
 let sessionKey;
 
-function Job({ key, title, company, location, date, summary, url, onClick, button }) {
+
+function Job({ jobID, title, company, location, date, summary, url, onClick, search, profile, button }) {
   sessionKey = sessions.getSession();
   if (sessionKey) {
     loggedIn = true;
@@ -31,11 +32,24 @@ function Job({ key, title, company, location, date, summary, url, onClick, butto
                   View
                 </a>
               </div>
-              <div className="btn-container">
-                <button onClick={onClick} className="btn btn-light" rel="noopener noreferrer">
-                  Favorite
+              { search ? ( 
+              <section>
+              <div className="btn-container" data-toggle="buttons">
+              <button onClick={onClick} className="btn btn-light" id={jobID} rel="noopener noreferrer" >
+                Favorite
+              </button>
+            </div>
+            </section>
+              ):(
+              <section> 
+              <div className="btn-container" data-toggle="buttons">
+                <button onClick={onClick} className="btn btn-light" id={jobID} rel="noopener noreferrer">
+                  Delete
                 </button>
               </div>
+              </section>
+              )}
+              
             </section>
           ) : (
             <section>

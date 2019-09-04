@@ -57,12 +57,41 @@ export default {
     )
   },
 
-  getFavorites: function(userID) {
-    return axios.get("/api/jobs/getFavorites")
+  getFavorites: function(data) {
+    // console.log("GET FAVORITES: ", data);
+    return axios.post("/api/jobs/getFavorites",
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
   },
 
-  removeFavorite: function(jobID) {
-    return axios.post("/api/jobs/removeFavorite")
+  removeFavorite: function(data) {
+        console.log("GET FAVORITES: ", data);
 
+    return axios.post("/api/jobs/removeFavorite",
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
+  },
+
+  updateFavorite: function(data) {
+    console.log("move FAVORITE: ", data);
+
+    return axios.post("/api/jobs/updateTracked",
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
   }
 };
