@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const jobSchema = new Schema({
   url: { type: String, unique: true},
   query: { type: String },
+  seachLocation: { type: [String], index: true },
   title: { type: String },
   company: { type: String },
   location: { type: String },
@@ -15,7 +16,7 @@ const jobSchema = new Schema({
 });
 
 //also removed index: true from subject
-// jobSchema.index({subject: "text"})
+jobSchema.index({searchLocation: "text"});
 
 const Job = mongoose.model("Job", jobSchema);
 

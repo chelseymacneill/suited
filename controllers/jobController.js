@@ -48,7 +48,7 @@ module.exports = {
                 Promise.all(
                     // Use map because it returns an array (of promises in our case)
                     jsonJobs.map(job => {
-                        job.query = q;
+                         job.query = q;
                         //console.log(job);
                         // Return the axios.get promise so it can be collected
                         return axios.get(job.url).then(function (response) {
@@ -66,7 +66,7 @@ module.exports = {
                                 // .replace(/[\n\t]/g, "");
                                 // Return the db promises so it is collected in the axios promise
                                 //console.log(subj);
-                                return db.Job.findOneAndUpdate({ url: job.url }, { $addToSet: { subject: { $each: subj } }, $set: job }, { upsert: true })
+                                return db.Job.findOneAndUpdate({ url: job.url }, { $addToSet: { subject: { $each: subj }, seachLocation: l} , $set: job }, { upsert: true })
                                     .then(function () {
 
                                     })
@@ -80,7 +80,8 @@ module.exports = {
                     // swap 1 here ////////////////////////////////////////////////////////
                 ).then(function () {
                     console.log("Searching for jobs...");
-                    db.Job.find({ query: q }).sort({ date: 1 })
+                    // db.Job.aggregate([{$match: {$text: { $search: l }}}, {$group: {query: q}}])
+                        db.Job.find({query: q})
                         // https://stackoverflow.com/questions/9040161/mongo-order-by-length-of-array
                         .then(function (dbJob) {
                             res.json(dbJob);
