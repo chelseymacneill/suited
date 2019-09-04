@@ -54,7 +54,12 @@ class Search extends Component {
     jobs: [],
     q: "",
     l: "",
-    s: ["html", "css", "crazy", "java "],
+    // these are the green words
+    s: ["html", "css", "crazy", "javascript", "bootstrap", "react"],
+    // these are the yellow words
+    y: ["html", "css", "crazy", "javascript", "bootstrap", "react"],
+    // these are the red words
+    r: ["html", "css", "crazy", "javascript", "bootstrap", "react"],
     message: "Enter in your desired Job to begin!",
     loading: false
   };
@@ -163,7 +168,7 @@ class Search extends Component {
                     )}
                 </BP_Card>
                 }
-                {loading && <h2 className="text-center">Jobs Loading</h2>}
+                {loading && <img src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" />}
           </Col>
         </Row>
         <Row>
