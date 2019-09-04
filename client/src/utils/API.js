@@ -41,6 +41,7 @@ export default {
   },
   getCurrent: function () {
     return axios.get("/api/users/current")
+
   },
 
   //////////////////favorite jobs//////////////////////

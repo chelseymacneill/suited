@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 //import { Row, Col } from "../components/Grid";
 // import { Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
-import { Redirect } from 'react-router-dom'
-import sessions from "../utils/sessions"
+import { Redirect } from 'react-router-dom';
+import sessions from "../utils/sessions";
+// import Quiz from "../components/Quiz";
 
 // import BP_Card from "../components/BP_Card";
 import Job from "../components/Job";
@@ -73,9 +74,9 @@ class Profile extends Component {
 
     toggleModal() {
         this.setState(prevState => ({
-          modal: !prevState.modal
+            modal: !prevState.modal
         }));
-      }
+    }
 
     handleDragEnd(cardId, sourceLaneId, targetLaneId, position, cardDetails) {
         console.log("card dropped", cardDetails, cardId)
@@ -98,10 +99,10 @@ class Profile extends Component {
         // console.log(data, laneId, cardId);
         this.setState(prevState => ({
             modal: !prevState.modal
-          }));
+        }));
     }
-    
-    
+
+
     componentDidMount() {
         let lane1 = [];
         let lane2 = [];
@@ -119,42 +120,42 @@ class Profile extends Component {
                 if (response.status === 200) {
                     //   alert("job added to favorites!")
 
-                    for (let i = 0; i < response.data.length;  i++) {
+                    for (let i = 0; i < response.data.length; i++) {
                         let job = response.data[i];
-                        let eachJob =  {           
-                                id: job._id,
-                                title: job.company,
-                                description: job.title,
-                                label: job.location,
-                                // draggable: true,
-                                laneDraggable: false,
-                                metadata: {
-                                    status: job.status,
-                                    index: i,
-                                    url: job.url,
-                                    interest: job.interest,
-                                    jobID: job.jobID
-                                }
-                            };
-                        switch (eachJob.metadata.status)  {
+                        let eachJob = {
+                            id: job._id,
+                            title: job.company,
+                            description: job.title,
+                            label: job.location,
+                            // draggable: true,
+                            laneDraggable: false,
+                            metadata: {
+                                status: job.status,
+                                index: i,
+                                url: job.url,
+                                interest: job.interest,
+                                jobID: job.jobID
+                            }
+                        };
+                        switch (eachJob.metadata.status) {
                             case "lane1":
                                 lane1.push(eachJob);
                                 break;
                             case "lane2":
-                                    lane2.push(eachJob);
+                                lane2.push(eachJob);
                                 break;
                             case "lane3":
-                                    lane3.push(eachJob);
+                                lane3.push(eachJob);
                                 break;
                             case "lane4":
-                                    lane4.push(eachJob);
+                                lane4.push(eachJob);
                                 break;
                             case "lane5":
-                                    lane5.push(eachJob);
+                                lane5.push(eachJob);
                                 break;
                             default:
                                 lane1.push(eachJob);
-                        }   
+                        }
 
                     }
                     this.setState({
@@ -177,42 +178,42 @@ class Profile extends Component {
     render() {
         const data = {
             lanes: [
-              {
-                id: 'lane1',
-                title: 'Unassigned',
-                label: '2/2',
-                cards: this.state.lane1
-              },
-              {
-                id: 'lane2',
-                title: 'Application Sent',
-                label: '0/0',
-                cards: this.state.lane2
-                //     [
-                //     {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false},
-                //     {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: {sha: 'be312a1'}}
-                //   ]
-              },
-              {
-                id: 'lane3',
-                title: 'Response Received',
-                label: '0/0',
-                cards: this.state.lane3
-              },
-              {
-                id: 'lane4',
-                title: 'Had Phone Interview',
-                label: '0/0',
-                cards: this.state.lane4
-              },
-              {
-                id: 'lane5',
-                title: 'Had Live Interview',
-                label: '0/0',
-                cards: this.state.lane5
-              }
+                {
+                    id: 'lane1',
+                    title: 'Unassigned',
+                    label: '2/2',
+                    cards: this.state.lane1
+                },
+                {
+                    id: 'lane2',
+                    title: 'Application Sent',
+                    label: '0/0',
+                    cards: this.state.lane2
+                    //     [
+                    //     {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false},
+                    //     {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: {sha: 'be312a1'}}
+                    //   ]
+                },
+                {
+                    id: 'lane3',
+                    title: 'Response Received',
+                    label: '0/0',
+                    cards: this.state.lane3
+                },
+                {
+                    id: 'lane4',
+                    title: 'Had Phone Interview',
+                    label: '0/0',
+                    cards: this.state.lane4
+                },
+                {
+                    id: 'lane5',
+                    title: 'Had Live Interview',
+                    label: '0/0',
+                    cards: this.state.lane5
+                }
             ]
-          }
+        }
 
         sessionKey = sessions.getSession();
         if (sessionKey) {
@@ -224,6 +225,7 @@ class Profile extends Component {
         if (loggedIn === false) {
             return <Redirect to={{ pathname: "/login" }} />
         } else {
+
             return (
                 <Container fluid>
                     <Row>
@@ -239,11 +241,15 @@ class Profile extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        
-                        {/* <Col size="md-4">
+                        <Col size="md-10 md-offset-1">
+                            {/* <Quiz userID={sessionKey} /> */}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col size="md-4">
                             {/* insert user card component */}
-                        {/* <h2>User Profile Details</h2> */}
-                        {/* </Col> */}
+                            {/* <h2>User Profile Details</h2> */}
+                        </Col>
                         <Col md="12">
                             <div>
                                 <Nav tabs>
@@ -252,21 +258,21 @@ class Profile extends Component {
                                             className={classnames({ active: this.state.activeTab === '1' })}
                                             onClick={() => { this.toggleTab('1'); }}>
                                             Saved Jobs
-                                        </NavLink>
+                                    </NavLink>
                                     </NavItem>
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '2' })}
                                             onClick={() => { this.toggleTab('2'); }}>
                                             Job Tracker
-                                        </NavLink>
+                                    </NavLink>
                                     </NavItem>
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '3' })}
                                             onClick={() => { this.toggleTab('3'); }}>
                                             Quiz
-                                        </NavLink>
+                                    </NavLink>
                                     </NavItem>
                                 </Nav>
 
@@ -274,33 +280,33 @@ class Profile extends Component {
                                     {/**************** SAVED JOBS **************/}
                                     <TabPane tabId="1">
                                         <Row>
-                                        <Col md="3">
-                                            <h2>Profile</h2>
-                                        </Col>
-                                        <Col sm="9">
-                                            <Card title="Saved Jobs">
-                                                {this.state.jobs.length ? (
-                                                    <List>
-                                                        {this.state.jobs.map((job, i) => (
-                                                            <Job
-                                                                key={i}
-                                                                jobID={job.id}
-                                                                title={job.title}
-                                                                company={job.company}
-                                                                location={job.location}
-                                                                date={job.date}
-                                                                summary={job.summary}
-                                                                url={job.url}
-                                                                onClick={() => removeFavorite({ job })}
-                                                                profile="true"
-                                                            />
-                                                        ))}
-                                                    </List>
-                                                ) : (
-                                                        <h2 className="text-center">{this.state.message}</h2>
-                                                    )}
-                                            </Card>
-                                        </Col>
+                                            <Col md="3">
+                                                <h2>Profile</h2>
+                                            </Col>
+                                            <Col sm="9">
+                                                <Card title="Saved Jobs">
+                                                    {this.state.jobs.length ? (
+                                                        <List>
+                                                            {this.state.jobs.map((job, i) => (
+                                                                <Job
+                                                                    key={i}
+                                                                    jobID={job.id}
+                                                                    title={job.title}
+                                                                    company={job.company}
+                                                                    location={job.location}
+                                                                    date={job.date}
+                                                                    summary={job.summary}
+                                                                    url={job.url}
+                                                                    onClick={() => removeFavorite({ job })}
+                                                                    profile="true"
+                                                                />
+                                                            ))}
+                                                        </List>
+                                                    ) : (
+                                                            <h2 className="text-center">{this.state.message}</h2>
+                                                        )}
+                                                </Card>
+                                            </Col>
                                         </Row>
                                     </TabPane>
                                     {/**************** JOB TRACKER BOARD **************/}
@@ -312,7 +318,7 @@ class Profile extends Component {
                                                     <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
                                                     <ModalBody>
                                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                                    </ModalBody>
+                                                </ModalBody>
                                                     <ModalFooter>
                                                         <Button color="primary" onClick={this.toggleModal}>Do Something</Button>{' '}
                                                         <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
@@ -321,31 +327,31 @@ class Profile extends Component {
                                             </Col>
                                         </Row>
                                         {/* <Row>
-                                            <Col sm="12">
-                                                <CardColumns>
-                                                    {this.state.jobs.length ? (
-                                                        <section>
-                                                            {this.state.jobs.map((job, i) => (
-                                                                <SmJob
-                                                                    key={i}
-                                                                    jobID={job.id}
-                                                                    title={job.title}
-                                                                    company={job.company}
-                                                                    location={job.location}
-                                                                    date={job.date}
-                                                                    summary={job.summary}
-                                                                    url={job.url}
-                                                                    onClick={() => console.log("clicked")}
-                                                                    profile="true"
-                                                                />
-                                                            ))}
-                                                        </section>
-                                                    ) : (
-                                                            <h2 className="text-center">{this.state.message}</h2>
-                                                        )}
-                                                </CardColumns>
-                                            </Col>
-                                        </Row> */}
+                                        <Col sm="12">
+                                            <CardColumns>
+                                                {this.state.jobs.length ? (
+                                                    <section>
+                                                        {this.state.jobs.map((job, i) => (
+                                                            <SmJob
+                                                                key={i}
+                                                                jobID={job.id}
+                                                                title={job.title}
+                                                                company={job.company}
+                                                                location={job.location}
+                                                                date={job.date}
+                                                                summary={job.summary}
+                                                                url={job.url}
+                                                                onClick={() => console.log("clicked")}
+                                                                profile="true"
+                                                            />
+                                                        ))}
+                                                    </section>
+                                                ) : (
+                                                        <h2 className="text-center">{this.state.message}</h2>
+                                                    )}
+                                            </CardColumns>
+                                        </Col>
+                                    </Row> */}
                                     </TabPane>
                                     <TabPane tabId="3">
                                         <Row>
@@ -356,6 +362,7 @@ class Profile extends Component {
                                     </TabPane>
                                 </TabContent>
                             </div>
+
 
                         </Col>
                     </Row>
