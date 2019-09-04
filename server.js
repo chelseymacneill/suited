@@ -4,8 +4,10 @@ const mongoose = require("mongoose");
 //////////////////////////////////////////////////
 //ORDER IS IMPORTANT - don't change
 //Configure Mongoose
-mongoose.connect('mongodb://localhost/suited_app');
+let uri = (process.env.MONGODB_URI || 'mongodb://localhost/suited_app')
+mongoose.connect(uri);
 mongoose.set('debug', true);
+
 
 //models & Routes
 require('./models/users');
@@ -115,10 +117,11 @@ app.use((err, req, res) => {
 mongoose.promise = global.Promise;
 
 //Configure Mongoose
-mongoose.connect(
-  process.env.MONGODB_URI,
-  { useNewUrlParser: true }
-);
+
+// mongoose.connect(
+//   process.env.MONGODB_URI,
+//   { useNewUrlParser: true }
+// );
 mongoose.set("debug", true);
 
 // ROUTES

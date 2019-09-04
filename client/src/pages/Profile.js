@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Jumbotron from "../components/Jumbotron";
 import { Redirect } from 'react-router-dom';
 import sessions from "../utils/sessions";
-// import Quiz from "../components/Quiz";
+import Quiz from "../components/Quiz";
 
 // import BP_Card from "../components/BP_Card";
 import Job from "../components/Job";
@@ -242,7 +242,7 @@ class Profile extends Component {
                     </Row>
                     <Row>
                         <Col size="md-10 md-offset-1">
-                            {/* <Quiz userID={sessionKey} /> */}
+                            <Quiz userID={sessionKey}></Quiz>
                         </Col>
                     </Row>
                     <Row>
