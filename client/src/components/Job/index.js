@@ -8,7 +8,7 @@ let loggedIn;
 let sessionKey;
 
 
-function Job({ jobID, title, company, location, date, summary, positiveMatches, url, onClick, search, profile, button }) {
+function Job({ jobID, title, company, location, date, summary, greenMatches, yellowMatches, redMatches, url, onClick, search, profile, button }) {
   sessionKey = sessions.getSession();
   if (sessionKey) {
     loggedIn = true;
@@ -71,7 +71,9 @@ function Job({ jobID, title, company, location, date, summary, positiveMatches, 
       <Row>
         <Col size="12 sm-8 md-10">
           <p>{summary}</p>
-          <h6 style={{color: "green"}}>{positiveMatches}</h6>
+          <h6 style={{color: "green"}}>{greenMatches}</h6>
+          <h6 style={{color: "yellow"}}>{yellowMatches}</h6>
+          <h6 style={{color: "red"}}>{redMatches}</h6>
         </Col>
       </Row>
     </ListItem>

@@ -58,21 +58,26 @@ class Search extends Component {
     jobs: [],
     q: "",
     l: "",
-    s: ["html", "css", "crazy", "java "],
+    // these are the green words
+    g: ["html", "css", "crazy", "javascript", "bootstrap", "react"],
+    // these are the yellow words
+    y: ["html", "css", "javascript"],
+    // these are the red words
+    r: ["bootstrap", "react"],
     message: "Enter in your desired Job to begin!",
     loading: false
   };
 
   getJobs = () => {
-    this.setState({loading : true});
-    API.getJobs(this.state.q, this.state.l, this.state.s)
+    this.setState({ loading: true });
+    API.getJobs(this.state.q, this.state.l, this.state.g, this.state.y, this.state.r)
       .then(res => {
-        const myList = this.state.s;
+        const myList = this.state.g;
         const sorted = res.data.map(job => {
-          const subj = job.subject.filter(j => myList.includes(j));
-          job.subject = subj;
+          const green = job.green.filter(j => myList.includes(j));
+          job.green = green;
           return job;
-        }).sort((x, y) => y.subject.length - x.subject.length)
+        }).sort((x, y) => y.green.length - x.green.length)
         this.setState({
           jobs: sorted,
           loading: false
@@ -88,13 +93,14 @@ class Search extends Component {
       });
   };
 
+
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
       [name]: value
     });
   };
-  
+
   handleFormSubmit = event => {
     event.preventDefault();
     this.getJobs();
@@ -111,7 +117,7 @@ class Search extends Component {
       // console.log("no user logged in")
     }
 
-    const {loading} = this.state;
+    const { loading } = this.state;
 
     return (
       <Container fluid>
@@ -142,33 +148,32 @@ class Search extends Component {
             {/* insert job container and job BP_card components */}
             <h2>Job Cards live here - from Job DB Collection</h2>
             {!loading &&
-                <BP_Card title="Results">
-                  {this.state.jobs.length ? (
-                    <List>
-                      {this.state.jobs.map(job => (
-                        <Job
-                          key={job.id}
-                          title={job.title}
-                          company={job.company}
-                          location={job.location}
-                          date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
-                          //   <Moment date={job.date} />
-                          summary={job.summary}
-                          positiveMatches={job.subject.map(sub => (sub + " "))}
-                          url={job.url}
-                          onClick={() => favoriteJob({ job })}
-                          search="true"
-                        />
-                      ))}
-                    </List>
-                  ) : (
-                      <h2 className="text-center">{this.state.message}</h2>
-                    )}
-                </BP_Card>
-                }
-                {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
-                {loading && <img src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" />
-}
+              <BP_Card title="Results">
+                {this.state.jobs.length ? (
+                  <List>
+                    {this.state.jobs.map(job => (
+                      <Job
+                        key={job.id}
+                        title={job.title}
+                        company={job.company}
+                        location={job.location}
+                        date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
+                        //   <Moment date={job.date} />
+                        summary={job.summary}
+                        positiveMatches={job.subject.map(sub => (sub + " "))}
+                        url={job.url}
+                        onClick={() => favoriteJob({ job })}
+                        search="true"
+                      />
+                    ))}
+                  </List>
+                ) : (
+                    <h2 className="text-center">{this.state.message}</h2>
+                  )}
+              </BP_Card>
+            }
+            {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
+            {loading && <img src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" />}
           </Col>
         </Row>
         <Row>

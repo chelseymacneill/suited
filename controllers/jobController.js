@@ -8,8 +8,10 @@ module.exports = {
 
         const q = req.query.q;
         const l = req.query.l;
-        const array = req.query.s.split("-");
-        console.log("array: " + array);
+        const goodArray = req.query.g.split("-");
+        const mehArray = req.query.y.split("-");
+        const badArray = req.query.r.split("-");
+        console.log("array: " + goodArray);
         // const array 
         // db.Job.createIndex( { subject: "text" } );
 
@@ -21,66 +23,39 @@ module.exports = {
                 // Collect all promises until we have them all
                 Promise.all(
                     // Use map because it returns an array (of promises in our case)
-                    jsonJobs.map(job => {
-                        job.query = q;
-                        //console.log(job);
-                        // Return the axios.get promise so it can be collected
+                    jsonJobs.map((job, i) => {
                         return axios.get(job.url).then(function (response) {
-                            if (response != undefined && response.status != 502) {
+                            // if (response != undefined && response.status != 500) {
                                 const $ = cheerio.load(response.data);
                                 const str = $("body").text().toLowerCase();
-                                const subj = array.filter(element => str.includes(element));//{
-                                //if(str.includes(element)){
-                                // job.subject.push(element);
-                                //  console.log(element);
-                                // db.Job.findOneAndUpdate({ url: job.url }, { $push: { subject: element } }, { new: true })
-                                //}
-                                //})
-                                // job.subject = ;
-                                // .replace(/[\n\t]/g, "");
-                                // Return the db promises so it is collected in the axios promise
-                                //console.log(subj);
-                                return db.Job.findOneAndUpdate({ url: job.url }, { $addToSet: { subject: { $each: subj } }, $set: job }, { upsert: true })
-                                    .then(function () {
+                                const green = goodArray.filter(element => str.includes(element));
+                                const yellow = mehArray.filter(element => str.includes(element));
+                                const red = badArray.filter(element => str.includes(element));
+                                job.green = green;
+                                job.yellow = yellow;
+                                job.red = red;
+                                console.log(job);
 
-                                    })
-                                    .catch(err => console.log(err))
-                            }
-                            else {
-                                console.log("skipped due to error")
-                            }
+                            // }
+                            // else {
+                            //     console.log("skipped due to error")
+                            // }
+                        }).catch((err) => {
+                            console.log("ERROR ERROR ERROR!!!!!" +err)
+                            jsonJobs.splice(i, 1);
                         });
                     })
-                    // swap 1 here ////////////////////////////////////////////////////////
+                    
                 ).then(function () {
-                    console.log("Searching for jobs...");
-                    db.Job.find({ query: q }).sort({ date: 1 })
-                        // https://stackoverflow.com/questions/9040161/mongo-order-by-length-of-array
-                        .then(function (dbJob) {
-                            res.json(dbJob);
-                            console.log("job displayed")
-                        })
-                        .catch(err => console.log(err))
+                    
+                            res.json(jsonJobs);
+                            console.log(jsonJobs);
+                            console.log("jobs displayed")
+                        
                 }).catch(err => console.log(err));
-
-                // swap 1 ends here  ////////////////////////////////////////////////////////
-                // swap 2 here ////////////////////////////////////////////////////////
-                // ).then(function () {
-                //     console.log("Searching for jobs...");
-                //     db.Job.find(
-                //             { $text: { $search: "javascript " } },
-                //             { score: { $meta: "textScore" } }
-                //          ).sort( { score: { $meta: "textScore" } } )
-                //         .then(function (dbSSJob) {
-                //             res.json( dbSSJob );
-                //             console.log("job using sort score displayed")
-                //         })
-                // });
-                // swap 2 ends here  ////////////////////////////////////////////////////////
 
             })
 
     },
 
 };
-
