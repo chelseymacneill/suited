@@ -111,13 +111,14 @@ class Search extends Component {
         this.getJobs();
     };
 
+
     componentDidMount (){
         let lane1 = [];
         let lane2 = [];
         let lane3 = [];
 
       
-        console.log(lane1);
+        
         for (let i = 0; i < this.state.g.length; i++) {
             let res = {
                 id: this.state.g[i],
@@ -125,8 +126,41 @@ class Search extends Component {
             }
             lane1.push(res);
         }
-        console.log(lane1);
-    }
+        for (let i = 0; i < this.state.y.length; i++) {
+            let res = {
+                id: this.state.y[i],
+                title: this.state.y[i],
+            }
+            lane2.push(res);
+        }
+        for (let i = 0; i < this.state.r.length; i++) {
+            let res = {
+                id: this.state.r[i],
+                title: this.state.r[i],
+            }
+            lane3.push(res);
+        }
+        
+        this.setState({
+            lane1: lane1,
+            lane2: lane2,
+            lane3: lane3
+        })
+    };
+
+    // handleDragEnd(cardId, sourceLaneId, targetLaneId, position, cardDetails) {
+    //     switch (sourceLaneId) {
+    //         case "lane1":
+    //             this.state.g;
+    //             break;
+    //         case "lane2":
+    //             this.state.y;
+    //             break;
+    //         case "lane3":
+    //             this.state.r;
+    //             break;
+    //     }
+    // }
 
 
     render() {
@@ -135,23 +169,20 @@ class Search extends Component {
               {
                 id: 'lane1',
                 title: 'Desired Skills',
-                label: '2/2',
-                cards: [
-                  {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false},
-                  {id: 'javascript', title: 'javascript'}
-                ]
+                label: this.state.lane1.length,
+                cards: this.state.lane1
               },
               {
                 id: 'lane2',
                 title: 'Interested Skills',
-                label: '0/0',
-                cards: []
+                label: this.state.lane2.length,
+                cards: this.state.lane2
               },
               {
                 id: 'lane3',
                 title: 'Unideal Skills',
-                label: '0/0',
-                cards: []
+                label: this.state.lane3.length,
+                cards: this.state.lane3
               },
 
             ]
