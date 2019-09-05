@@ -11,6 +11,8 @@ import API from "../utils/API";
 
 import Moment from "react-moment";
 
+import Board from 'react-trello'
+
 //for logged in purposes
 import sessions from "../utils/sessions"
 
@@ -61,7 +63,10 @@ class Search extends Component {
         // these are the red words
         r: ["bootstrap", "react"],
         message: "Enter in your desired Job to begin!",
-        loading: false
+        loading: false,
+        lane1: [],
+        lane2: [],
+        lane3: []
     };
 
     getJobs = () => {
@@ -101,8 +106,53 @@ class Search extends Component {
         this.getJobs();
     };
 
+    componentDidMount (){
+        let lane1 = [];
+        let lane2 = [];
+        let lane3 = [];
+
+      
+        console.log(lane1);
+        for (let i = 0; i < this.state.g.length; i++) {
+            let res = {
+                id: this.state.g[i],
+                title: this.state.g[i],
+            }
+            lane1.push(res);
+        }
+        console.log(lane1);
+    }
+
 
     render() {
+        const data = {
+            lanes: [
+              {
+                id: 'lane1',
+                title: 'Desired Skills',
+                label: '2/2',
+                cards: [
+                  {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false},
+                  {id: 'javascript', title: 'javascript'}
+                ]
+              },
+              {
+                id: 'lane2',
+                title: 'Interested Skills',
+                label: '0/0',
+                cards: []
+              },
+              {
+                id: 'lane3',
+                title: 'Unideal Skills',
+                label: '0/0',
+                cards: []
+              },
+
+            ]
+          }
+
+
         sessionKey = sessions.getSession();
         if (sessionKey) {
             loggedIn = true;
@@ -129,6 +179,7 @@ class Search extends Component {
                                 q={this.state.q}
                                 l={this.state.l}
                             />
+                            <Board data={data} />
                         </Jumbotron>
                     </Col>
                 </Row>
