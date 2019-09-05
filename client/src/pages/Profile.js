@@ -103,15 +103,15 @@ class Profile extends Component {
             text: this.state.text
         }
 
-        API.createNote(note)
-        .then(response => {
-            console.log('update note status response: ', response)
-            if (response.status === 200) {
-                console.log("note updated")
-            }
-        }).catch(error => {
-            console.log('create note error: ', error)
-        });
+        // API.createNote(note)
+        // .then(response => {
+        //     console.log('update note status response: ', response)
+        //     if (response.status === 200) {
+        //         console.log("note updated")
+        //     }
+        // }).catch(error => {
+        //     console.log('create note error: ', error)
+        // });
     };
 
 //     // Route for adding a note to an article
@@ -207,8 +207,7 @@ class Profile extends Component {
                                 index: i,
                                 url: job.url,
                                 interest: job.interest,
-                                jobID: job.jobID,
-                                notes: job.notes
+                                jobID: job.jobID
                             }
                         };
                         switch (eachJob.metadata.status) {
@@ -419,23 +418,8 @@ class Profile extends Component {
                                                         <Row>
                                                             <Col lg="12">
                                                                 <p>{this.state.editJob.summary}</p>
-                                                                
-                                                                {/* {this.state.editJob.notes.length ? (
-                                                                <p>Test1</p>
-                                                                ):(
-                                                                <p>test2</p>
-                                                                )} */}
-                                                                <h4>Notes:</h4>
-                                                                <p>{this.state.editJob.notes}</p>
                                                             </Col>
                                                         </Row>
-                                                        {/* <Row>
-                                                            <Col lg="12">
-                                                            {this.state.editJob.notes.map( (note, i) => (
-                                                                    <p key={i}>{note}</p>
-                                                                ))}
-                                                            </Col>
-                                                        </Row> */}
                                                         <Form>
                                                             <Row>
                                                                 <Col lg="12">
