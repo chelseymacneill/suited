@@ -160,7 +160,10 @@ class Search extends Component {
                         date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
                         //   <Moment date={job.date} />
                         summary={job.summary}
-                        positiveMatches={job.subject.map(sub => (sub + " "))}
+                        // positiveMatches={job.subject.map(sub => (sub + " "))}
+                        greenMatches={job.green.map(sub => (sub + " "))}
+                        yellowMatches={job.yellow.map(sub => (sub + " "))}
+                        redMatches={job.red.map(sub => (sub + " "))}
                         url={job.url}
                         onClick={() => favoriteJob({ job })}
                         search="true"
