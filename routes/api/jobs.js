@@ -20,4 +20,7 @@ router.route("/removeFavorite")
 router.route("/updateTracked")
 .post(userJobController.update)
 
+router.route("/createNote")
+.post(userJobController.createNote)
+
 module.exports = router;

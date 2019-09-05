@@ -4,7 +4,6 @@ const cheerio = require("cheerio");
 
 // Defining methods for the jobController
 module.exports = {
-   
     scrape: function (req, res) {
 
         const q = req.query.q;
