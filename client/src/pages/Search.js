@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import Form from "../components/Form";
+import FormSort from "../components/FormSort";
 // import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 
@@ -61,17 +62,19 @@ class Search extends Component {
 
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.onCardDelete = this.onCardDelete.bind(this);
+        this.handleSortFormSubmit = this.handleSortFormSubmit.bind(this);
 
         this.state = {
             jobs: [],
             q: "",
             l: "",
+            skill: "",
             // these are the green words
-            g: ["g1", "g2", "g3"],
+            g: ["javascript"],
             // these are the yellow words
-            y: ["y1", "y2", "y3"],
+            y: ["css"],
             // these are the red words
-            r: ["r1", "r2", "r3"],
+            r: ["html"],
             message: "Enter in your desired Job to begin!",
             loading: false,
             lanes: []
@@ -79,6 +82,7 @@ class Search extends Component {
     }
     getJobs = () => {
         this.setState({ loading: true });
+
         API.getJobs(this.state.q, this.state.l, this.state.g, this.state.y, this.state.r)
             .then(res => {
                 const myList = this.state.g;
@@ -114,10 +118,24 @@ class Search extends Component {
         this.getJobs();
     };
 
+    
+
+    handleSortFormSubmit = event => {
+        console.log("this is handle sort form submit")
+        event.preventDefault();
+        console.log(this.state.skill)
+        let newLanes = this.state.lanes
+        newLanes.push({ id: this.state.skill, title: this.state.skill, metadata: { status: "lane2" } })
+        this.setState({
+            lanes: newLanes,
+            skill: ""
+        })
+    };
+
 
     componentDidMount() {
         let lanes = [];
-        
+
 
 
 
@@ -125,7 +143,7 @@ class Search extends Component {
             let res = {
                 id: this.state.g[i],
                 title: this.state.g[i],
-                metadata: { status: "lane1", index: i }
+                metadata: { status: "lane1" }
             }
             lanes.push(res);
         }
@@ -133,7 +151,7 @@ class Search extends Component {
             let res = {
                 id: this.state.y[i],
                 title: this.state.y[i],
-                metadata: { status: "lane2", index: i }
+                metadata: { status: "lane2" }
             }
             lanes.push(res);
         }
@@ -141,7 +159,7 @@ class Search extends Component {
             let res = {
                 id: this.state.r[i],
                 title: this.state.r[i],
-                metadata: { status: "lane3", index: i }
+                metadata: { status: "lane3" }
             }
             lanes.push(res);
         }
@@ -151,12 +169,12 @@ class Search extends Component {
         })
     };
 
-    
+
 
     handleDragEnd(cardId, sourceLaneId, targetLaneId, position, cardDetails) {
         // console.log("state before: " + JSON.stringify(this.state));
 
-        let card = this.state.lanes.filter(a => (a.id === cardDetails.id ))[0];
+        let card = this.state.lanes.filter(a => (a.id === cardDetails.id))[0];
         console.log("card: " + JSON.stringify(card));
         card.metadata.status = targetLaneId;
 
@@ -172,14 +190,14 @@ class Search extends Component {
     //     console.log(cardId, laneId);
     // }
 
-    onCardDelete(cardId, laneId){
+    onCardDelete(cardId, laneId) {
         console.log(cardId, this.state.lanes);
-        let deleteArray = this.state.lanes.filter(a => (a.id !== cardId ));
-        
+        let deleteArray = this.state.lanes.filter(a => (a.id !== cardId));
+
         this.setState({
             lanes: deleteArray
         })
-        
+
 
     }
 
@@ -189,9 +207,9 @@ class Search extends Component {
 
 
     render() {
-        let lane1 = this.state.lanes.filter(a=> a.metadata.status=== "lane1");
-        let lane2 = this.state.lanes.filter(a=> a.metadata.status=== "lane2");
-        let lane3 = this.state.lanes.filter(a=> a.metadata.status=== "lane3");
+        let lane1 = this.state.lanes.filter(a => a.metadata.status === "lane1");
+        let lane2 = this.state.lanes.filter(a => a.metadata.status === "lane2");
+        let lane3 = this.state.lanes.filter(a => a.metadata.status === "lane3");
         const data = {
             lanes: [
                 {
@@ -204,16 +222,16 @@ class Search extends Component {
                 {
                     id: 'lane2',
                     title: 'Interested Skills',
-                    label: this.state.lanes.filter(a=> a.metadata.status=== "lane2").length,
+                    label: this.state.lanes.filter(a => a.metadata.status === "lane2").length,
                     style: { backgroundColor: 'yellow' },
-                    cards: this.state.lanes.filter(a=> a.metadata.status=== "lane2")
+                    cards: this.state.lanes.filter(a => a.metadata.status === "lane2")
                 },
                 {
                     id: 'lane3',
                     title: 'Unideal Skills',
-                    label: this.state.lanes.filter(a=> a.metadata.status=== "lane3").length,
+                    label: this.state.lanes.filter(a => a.metadata.status === "lane3").length,
                     style: { backgroundColor: 'red' },
-                    cards: this.state.lanes.filter(a=> a.metadata.status=== "lane3")
+                    cards: this.state.lanes.filter(a => a.metadata.status === "lane3")
                 },
 
             ]
@@ -246,8 +264,13 @@ class Search extends Component {
                                 q={this.state.q}
                                 l={this.state.l}
                             />
-                            <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick}/>
                         </Jumbotron>
+                        <FormSort
+                            handleInputChange={this.handleInputChange}
+                            handleSortFormSubmit={this.handleSortFormSubmit}
+                            skill={this.state.skill}
+                        />
+                        <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} />
                     </Col>
                 </Row>
                 <Row>
