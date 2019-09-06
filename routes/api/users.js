@@ -6,6 +6,9 @@ const router = require('express').Router();
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
+const usersController = require("../../controllers/usersController");
+
+
 generateJWT = function(id, email) {
   const today = new Date();
   const expirationDate = new Date(today);
