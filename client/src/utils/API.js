@@ -31,10 +31,21 @@ export default {
     return axios.get("/api/users/current")
 
   },
+  //////////////////user quiz results//////////////////////
+  postQuiz: function (data) {
+    return axios.post("/api/users/quiz",
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
+  },
 
   //////////////////favorite jobs//////////////////////
   postUserJob: function(data) {
-    // return axios.get("/api/userJobs", 
+    console.log("POST USER JOB", data)
     return axios.post("/api/jobs/favorite", 
       data,
       {
@@ -84,8 +95,20 @@ export default {
   },
 
   createNote: function(data) {
-    console.log("create Note: ", data);
+    console.log("CREATE NOTE API: ", data);
     return axios.post("/api/jobs/createNote",
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
+  },
+
+  deleteNote: function(data) {
+    console.log("DELETE NOTE API: ", data);
+    return axios.post("/api/jobs/deleteNote",
       data,
       {
         headers: {

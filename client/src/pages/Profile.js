@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Jumbotron from "../components/Jumbotron";
 import { Redirect } from 'react-router-dom';
 import sessions from "../utils/sessions";
-// import Quiz from "../components/Quiz";
+import Quiz from "../components/Quiz";
 
 // import BP_Card from "../components/BP_Card";
 import Job from "../components/Job";
@@ -19,28 +19,19 @@ import classnames from 'classnames';
 // import PropTypes from "prop-types"
 
 import Board from 'react-trello'
+import "../style.css";
+
 
 let loggedIn;
 let sessionKey;
 
-function removeFavorite(job) {
 
-    const id = job.job.jobID;
-    let result = window.confirm("Are you sure you wish to delete this item?");
-    if (result) {
-        console.log("user wants to delete: ", id)
-        API.removeFavorite({ "jobID": id })
-            .then(response => {
-                console.log('remove favorite Job response: ', response)
-                if (response.status === 200) {
-                    console.log("job removed from favorites")
-                    window.location.reload();
-                }
-            }).catch(error => {
-                console.log('remove favorite error: ', error)
-            });
-    }
-}
+
+// let index = metadata.index;
+//         this.setState({
+//             text: [],
+//             editJob: this.state.jobs[index]
+//         })
 
 
 class Profile extends Component {
@@ -51,12 +42,17 @@ class Profile extends Component {
         this.toggleModal = this.toggleModal.bind(this);
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.onCardClick = this.onCardClick.bind(this);
+        this.removeFavorite = this.removeFavorite.bind(this);
+        this.onCardDelete = this.onCardDelete.bind(this);
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
+        // this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+        this.quizState = this.quizState.bind(this);
+
         this.state = {
-            activeTab: '2',
+            activeTab: '3',
             modal: false,
             jobs: [],
             lane1: [],
@@ -67,8 +63,48 @@ class Profile extends Component {
             message: "No Jobs saved yet, please use the search page",
             editJob: {},
             text: "",
-            select: ""
+            select: "",
+            noteIndex: null,
+            // quizState: []
         };
+    }
+
+    quizState = event => {
+        // this.setState({ quizState: event })
+        // console.log(this.state.quizState)
+        let array = event;
+        let g = [];
+        let y = [];
+        let r = [];
+
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].radio === "g") {
+                g.push(array[i].skill)
+            } else if (array[i].radio === "y") {
+                y.push(array[i].skill)
+            } else if (array[i].radio === "r"){
+                r.push(array[i].skill)
+            }
+        }
+
+        let data = {
+            id: sessionKey,
+            g: g,
+            y: y,
+            r: r,
+            // quiz: { g: g, y: y, r: r }
+        }
+        console.log(data)
+
+        API.postQuiz(data)
+        .then(response => {
+            console.log('user quiz results: ', response)
+            if (response.status === 200) {
+                console.log("user quiz results updated")
+            }
+        }).catch(error => {
+            console.log('user quiz error: ', error)
+        });
     }
 
     handleInputChange = event => {
@@ -84,56 +120,110 @@ class Profile extends Component {
         console.log(this.state.text, this.state.select)
         console.log(this.state.editJob._id)
 
-        let data = {
-            id: this.state.editJob._id,
-            interest: this.state.select
-        }
-        API.updateFavorite(data)
-        .then(response => {
-            console.log('update user job status response: ', response)
-            if (response.status === 200) {
-                console.log("job interest level updated")
+        //////////// IF THE USER CHANGES THEIR LEVEL OF INTEREST ON THE KANBAN  ///////////////////
+        if (this.state.select) {
+            let data = {
+                id: this.state.editJob._id,
+                interest: this.state.select
             }
-        }).catch(error => {
-            console.log('remove favorite error: ', error)
-        });
 
-        let note = {
-            id: this.state.editJob._id,
-            text: this.state.text
+            API.updateFavorite(data)
+            .then(response => {
+                console.log('update user job status response: ', response)
+                if (response.status === 200) {
+                    console.log("job interest level updated")
+                    window.location.reload();
+                }
+            }).catch(error => {
+                console.log('remove favorite error: ', error)
+            });
         }
 
-        // API.createNote(note)
-        // .then(response => {
-        //     console.log('update note status response: ', response)
-        //     if (response.status === 200) {
-        //         console.log("note updated")
-        //     }
-        // }).catch(error => {
-        //     console.log('create note error: ', error)
-        // });
+        //////////// IF THE USER TYPES NOTES ON THE KANBAN  ///////////////////
+        if (this.state.text) {
+            let note = {
+                id: this.state.editJob._id,
+                text: this.state.text
+            }
+    
+            API.createNote(note)
+            .then(response => {
+                console.log('update note status response: ', response)
+                if (response.status === 200) {
+                    console.log("note updated", response)
+                    window.location.reload();
+                }
+            }).catch(error => {
+                console.log('create note error: ', error)
+            });
+        }
+        
     };
 
-//     // Route for adding a note to an article
-// app.post("/articles/:id", function (req, res) {
-//     // Create a new note and pass the req.body to the entry
-//     db.Note.create(req.body)
-//         .then(function (dbNote) {
-//             // If a Note was created successfully, find one Article with an _id equal to req.params.id. Update the Article to be associated with the new Note
-//             // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
-//             // Since our mongoose query returns a promise, we can chain another .then which receives the result of the query
-//             //$push adds note to the list of notes
-//             return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { notes: dbNote._id } }, { new: true });
-//         })
-//         .then(function (dbArticle) {
-//             // If we were able to successfully update an Article, send it back to the client
-//             res.json(dbArticle);
-//         })
-//         .catch(function (err) {
-//             // If an error occurred, send it to the client
-//             res.json(err);
-//         });
-//  });
+    removeFavorite(job) {
+        console.log("REMOVE FAVORITE", job, job.job._id)
+        let fav = {
+            id: job.job._id,
+        }
+        let result = window.confirm("Are you sure you wish to delete this item?");
+        if (result) {
+            console.log("user wants to delete: ", fav)
+            API.removeFavorite(fav)
+                .then(response => {
+                    console.log('remove favorite Job response: ', response)
+                    if (response.status === 200) {
+                        console.log("job removed from favorites")
+                        window.location.reload();
+                    }
+                }).catch(error => {
+                    console.log('remove favorite error: ', error)
+                });
+        }
+    }
+
+    onCardDelete(cardId, laneId) {
+        console.log(cardId);
+        for (let i = 0; i < this.state.jobs.length; i++) {
+            if (this.state.jobs[i]._id == cardId) {
+                let job = {job: this.state.jobs[i]};
+                return this.removeFavorite(job)
+            } 
+        }
+    }
+
+    deleteNote = i => {
+        // event.preventDefault();
+        let note = {
+            id: this.state.editJob._id,
+            note:  this.state.editJob.notes[i]
+        }
+        console.log(note);
+        API.deleteNote(note)
+        .then(response => {
+            console.log('update note status response: ', response)
+            if (response.status === 200) {
+                console.log("note updated", response)
+                // alert("Note Deleted")
+                // window.location.reload();
+                API.getFavorites({ "userID": sessionKey })
+                .then(response => {
+                    console.log('update job status response: ', response)
+                    if (response.status === 200) {
+                        console.log("job status updated")
+                        this.setState({
+                            jobs: response.data
+                        })
+    
+                    }
+                }).catch(error => {
+                    console.log('remove favorite error: ', error)
+                });
+
+            }
+        }).catch(error => {
+            console.log('create note error: ', error)
+        });
+    }
 
     toggleTab(tab) {
         if (this.state.activeTab !== tab) {
@@ -207,7 +297,9 @@ class Profile extends Component {
                                 index: i,
                                 url: job.url,
                                 interest: job.interest,
-                                jobID: job.jobID
+                                notes: job.notes
+                                // date: job.date
+                                // jobID: job.jobID
                             }
                         };
                         switch (eachJob.metadata.status) {
@@ -304,16 +396,11 @@ class Profile extends Component {
                     {/************ JUMBOTRON *******************88*/}
                     <Row>
                         <Col size="md-12">
-                            <Jumbotron>
+                            <Jumbotron className="Jumbotron">
                                 <h1>
                                     Hello World:
                                 </h1>
                                 <p>{sessionKey}</p>
-                                {/* insert recommended job container and job card components */}
-                                <h2>Recommended Jobs (Job Cards) live here - from Swing Table DB Collection</h2>
-                                {/* <div>
-                                    <Spinner type="grow" color="primary">Loading...</Spinner>
-                                </div> */}
                             </Jumbotron>
                         </Col>
                     </Row>
@@ -355,7 +442,7 @@ class Profile extends Component {
                                                     </CardHeader>
                                                 </Card>
                                             </Col>
-                                            <Col sm="9">
+                                            <Col md="9">
                                                 <Card >
                                                     <CardHeader>
                                                         <h2>Favorite Jobs</h2>
@@ -372,7 +459,7 @@ class Profile extends Component {
                                                                     date={job.date}
                                                                     summary={job.summary}
                                                                     url={job.url}
-                                                                    onClick={() => removeFavorite({ job })}
+                                                                    onClick={() => this.removeFavorite({ job })}
                                                                     profile="true"
                                                                 />
                                                             ))}
@@ -388,25 +475,11 @@ class Profile extends Component {
                                     <TabPane tabId="2">
                                         <Row>
                                             <Col lg="12">
-                                                <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} />
-
+                                                <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} className="boardContainer"/>
+                                                {/* onClick={() => this.removeFavorite({ job })} */}
                                                 <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
                                                     <ModalHeader toggle={this.toggleModal}>{this.state.editJob.company}</ModalHeader>
                                                     <ModalBody>
-                                                        {/* company: "ERNIESYS"
-                                                    interest: null
-                                                    jobID: "5d6edce5c7861b6c6d0f4c1d"
-                                                    location: "Seattle, WA"
-                                                    notes: null
-                                                    status: "lane3"
-                                                    summary: "Number of openings | 01. Position Type | Full Time/Contract. Do you consider yourself a top tier web developer who is looking for your next challenge?"
-                                                    title: "UI Developer"
-                                                    updated: "2019-09-03T21:36:45.402Z"
-                                                    url: "http://www.indeed.com/rc/clk?jk=2a7fb592213d1f99&from=vj&pos=bottom"
-                                                    userID: "5d69b194af59245788c8bfac"
-                                                    __v: 0
-                                                    _id: "5d6edceda3df6d0c107e0d7a"
-                                                    __proto__: Object */}
                                                         <Row>
                                                             <Col lg="8">
                                                                 <h1>{this.state.editJob.title}</h1>
@@ -422,11 +495,11 @@ class Profile extends Component {
                                                         </Row>
                                                         <Form>
                                                             <Row>
-                                                                <Col lg="12">
+                                                                <Col md="6">
                                                                     <FormGroup>
-                                                                        <Label for="interestSelect">Interest in Position:</Label>
+                                                                        <Label for="interestSelect"><h4>Interest in Position:</h4></Label>
                                                                         <Input type="select" name="select" id="interestSelect" onChange={this.handleInputChange}>
-                                                                            <option>Choose...</option>
+                                                                            <option>Update...</option>
                                                                             <option value="5">5 - Literal Dream Job!</option>
                                                                             <option value="4">4</option>
                                                                             <option value="3">3</option>
@@ -435,17 +508,43 @@ class Profile extends Component {
                                                                         </Input>
                                                                     </FormGroup>
                                                                 </Col>
-                                                                <Col lg="6">
-                                                                    {/* <Button>Link</Button> */}
+                                                                <Col md="6">
+                                                                    <h4>{this.state.editJob.interest}</h4>
                                                                 </Col>
                                                             </Row>
 
                                                             <Row>
                                                                 <Col lg="12">
                                                                     <FormGroup>
-                                                                        <Label for="noteText">Notes:</Label>
+                                                                        <Label for="noteText">Add a New Note:</Label>
                                                                         <Input type="textarea" name="text" id="noteText" onChange={this.handleInputChange} value={this.state.text} />
                                                                     </FormGroup>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row>
+                                                                <Col lg="12">
+                                                                    {/* <p>{this.state.editJob.notes}</p> */}
+                                                                    {this.state.editJob.notes ? (
+                                                                        <div>
+                                                                        <h4>Notes:</h4>
+                                                                            {this.state.editJob.notes.map((note, i) => (
+                                                                                <Row>
+                                                                                    <Col md="1">
+                                                                                    <p>{i+1})</p>
+                                                                                    </Col>
+                                                                                    <Col md="9">
+                                                                                    <p key={this.state.editJob._id}>{note}</p>
+                                                                                    </Col>
+                                                                                    <Col md="1">
+                                                                                    <Button close onClick={() => this.deleteNote(i)}/>
+                                                                                    </Col>
+                                                                                </Row>
+                                                                            ))}
+                                                                        </div>
+                                                                    // <p>Test</p>
+                                                                    ):(
+                                                                    <p>No notes yet</p>
+                                                                    )}
                                                                 </Col>
                                                             </Row>
                                                         </Form>
@@ -462,7 +561,7 @@ class Profile extends Component {
                                     <TabPane tabId="3">
                                         <Row>
                                             <Col sm="12">
-                                                {/* <Quiz></Quiz> */}
+                                                <Quiz onClick={this.quizState}/>
                                             </Col>
                                         </Row>
                                     </TabPane>

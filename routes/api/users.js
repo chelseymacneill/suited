@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 const usersController = require("../../controllers/usersController");
 
 
+
 generateJWT = function(id, email) {
   const today = new Date();
   const expirationDate = new Date(today);
@@ -100,6 +101,28 @@ router.post('/login', auth.optional, (req, res, next) => {
         return res.json()
       }
     });
+    
 });
+
+
+///////////////////QUIZ 
+router.post("/quiz", auth.optional, (req, res, next) => {
+  console.log("CREATE USER QUIZ: ", req.body)
+
+  Users.updateOne({ _id: req.body.id }, 
+    { $set: 
+      { 
+            // quiz: req.body.quiz
+            g: req.body.g,
+            y: req.body.y,
+            r: req.body.r
+                // {text: req.body.text} 
+        } 
+    })
+    .then(dbJob => res.json(dbJob))
+    .catch(err => res.status(422).json(err));
+})
+// })
+// .post(usersController.updateQuiz);
 
 module.exports = router;

@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import "./style.css";
+import { Row, Col, CustomInput, Form, FormGroup, Label, Button, ButtonGroup } from 'reactstrap';
 
-// Abandoned or unused imports
-import { RadioGroup, Radio } from "react-radio-buttons";
-// This isn't being used below
 import sessions from "../../utils/sessions";
 
-const topLang = [
+let top = [
   "Java",
   "C",
   "Python",
@@ -54,9 +52,7 @@ const topLang = [
   "Awk",
   "Bash",
   "Haskell",
-  "Powershell"
-];
-const buzz = [
+  "Powershell",
   "Algorithms",
   "Algorithm",
   "Agile",
@@ -96,6 +92,39 @@ const buzz = [
   "UX",
   "Version Control"
 ];
+top = top.sort();
+
+let g = [];
+let y = [];
+let r = [];
+
+let combo = [];
+
+function chunkArray(myArray, chunk_size){
+  var index = 0;
+  var arrayLength = myArray.length;
+  var tempArray = [];
+  
+  for (index = 0; index < arrayLength; index += chunk_size) {
+      let myChunk = myArray.slice(index, index+chunk_size);
+      // Do something if you want with the group
+      tempArray.push(myChunk);
+  }
+
+  return tempArray;
+}
+var result = chunkArray(top, 5);
+
+function setArrays(skill, array) {
+  combo.push({ "skill": skill, "radio": array })
+    for (let i = 0; i < combo.length - 1; i++) {
+      if (skill === combo[i].skill) {
+        combo.splice(i, 1); 
+        i--;
+      }
+    }
+}
+
 const jobTitles = [
   "Cybersecurity engineer",
   "AI/machine learning engineer",
@@ -109,176 +138,34 @@ const jobTitles = [
   "DevOps engineer"
 ];
 
-/* Old
 class Quiz extends Component {
+
   render() {
-    console.log(topLang);
 
     return (
-      <div>
-        <h1>Hello World: {this.props.userID}</h1>
-        <p>{topLang}</p>
-        <p>{buzz}</p>
-        <p>{jobTitles}</p>
+      <div className="quizContainer">
+        <Row>
+          {result.map( (array, j) => (
+            <Col md="2">
+            {array.map( (top, i) => (
+            <FormGroup >
+            <Label for={array + j}>{top}</Label>              
+              <div>
+                <CustomInput type="radio" id={"y" + top[i] + i + j} name={"Radio" + j + i} label="+" onClick={ () => setArrays( top, "g" ) } />
+                <CustomInput type="radio" id={"g" + top[i] + i + j} name={"Radio" + j + i} label="..." onClick={ () => setArrays( top, "y" ) } />
+                <CustomInput type="radio" id={"r" + top[i] + i + j} name={"Radio" + j + i} label="-" onClick={ () => setArrays( top, "r" ) } />
+              </div>
+            </FormGroup>
+            ))}
+          </Col>
+          ))}
+          <FormGroup check row>
+            <Col sm="12">
+              <Button onClick={() => this.props.onClick(combo)}>Submit</Button>
+            </Col>
+          </FormGroup>
+        </Row>
       </div>
-    );
-  }
-}
-*/
-
-/*
-class Quiz extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // What Sam needs passed to her
-    this.state = {
-      // Should pull this in from their username
-      username: "Enter your name here is the default for now",
-      JS: "n"
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({ username: event.target.value });
-  }
-
-  handleSubmit(event) {
-    alert("A name was submitted: " + this.state.value);
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <h1>Hello {this.state.username}</h1>
-        <p>Enter your name: </p>
-        <input type="text" name="username" onChange={this.handleChange} />
-        <br></br>
-        <br></br>
-        <p>
-          We'd like to ask you some questions about your skills and interests to
-          help you find you a job your're best SUITED for. Ready?
-        </p>
-        <br></br>
-        <br></br>
-        <p> Q1. Are you skilled in Javascript? </p>
-        <input type="radio" name="JS" onChange={this.handleChange} value="no" />
-        No
-        <input type="radio" value="yes" />
-        Yes
-        <br></br>
-        <input type="submit" value="Submit" />
-        <br></br>
-      </form>
-    );
-  }
-}
-*/
-
-// Multiple Inputs
-
-class Quiz extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // Capture the name of the user via the user typing it in or by inheriting it from their profile
-      username: "username",
-      javaScriptSkill: false,
-      pythonSkill: false,
-      javaSkill: false,
-      cSharpSkill: false,
-      sqlSkill: false
-    };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  handleSubmit(event) {
-    alert("A name was submitted: " + this.state.value);
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <form>
-        <h1>Hello {this.state.username}</h1>
-        <br></br>
-        <br></br>
-        <p>
-          We'd like to ask you some questions about your skills and interests to
-          help you find you a job your're best SUITED for. Ready?
-        </p>
-        <br></br>
-        <br></br>
-
-        <label>
-          Are you skilled in JavaScript?
-          <input
-            name="javaScriptSkill"
-            type="checkbox"
-            checked={this.state.JSskill}
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <br></br>
-        <label>
-          Are you skilled in Python?
-          <input
-            name="pythonSkill"
-            type="checkbox"
-            checked={this.state.pythonSkill}
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <br></br>
-        <label>
-          Are you skilled in Java?
-          <input
-            name="javaSkill"
-            type="checkbox"
-            checked={this.state.javaSkill}
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <br></br>
-        <label>
-          Are you skilled in C#?
-          <input
-            name="cSharpSkill"
-            type="checkbox"
-            checked={this.state.cSharpSkill}
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <br></br>
-        <label>
-          Are you skilled in SQL?
-          <input
-            name="sqlSkill"
-            type="checkbox"
-            checked={this.state.sqlSkill}
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <br />
-        <br></br>
-        <input type="submit" value="Submit" />
-        <br></br>
-      </form>
     );
   }
 }
