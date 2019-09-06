@@ -46,7 +46,7 @@ export default {
 
   //////////////////favorite jobs//////////////////////
   postUserJob: function(data) {
-    // return axios.get("/api/userJobs", 
+    console.log("POST USER JOB", data)
     return axios.post("/api/jobs/favorite", 
       data,
       {

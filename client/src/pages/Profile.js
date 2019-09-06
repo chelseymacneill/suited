@@ -207,7 +207,7 @@ class Profile extends Component {
                                 index: i,
                                 url: job.url,
                                 interest: job.interest,
-                                jobID: job.jobID
+                                // jobID: job.jobID
                             }
                         };
                         switch (eachJob.metadata.status) {

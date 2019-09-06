@@ -18,9 +18,12 @@ module.exports = {
     //         .catch(err => res.status(422).json(err));
     // },
     create: function (req, res) {
+        console.log("CREATE USERJOB CONTROLLER: ", req.body)
         db.UserJob.create(req.body)
             .then(dbJob => res.json(dbJob))
-            .catch(err => res.status(422).json(err));
+            // .catch(err => res.status(422).json(err));
+            .catch(err => console.log(err));
+
     },
     update: function (req, res) {
         db.UserJob.updateOne({ _id: req.body.id }, req.body )
