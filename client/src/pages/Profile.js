@@ -19,6 +19,8 @@ import classnames from 'classnames';
 // import PropTypes from "prop-types"
 
 import Board from 'react-trello'
+import "../style.css";
+
 
 let loggedIn;
 let sessionKey;
@@ -342,7 +344,7 @@ class Profile extends Component {
                     {/************ JUMBOTRON *******************88*/}
                     <Row>
                         <Col size="md-12">
-                            <Jumbotron>
+                            <Jumbotron className="Jumbotron">
                                 <h1>
                                     Hello World:
                                 </h1>
@@ -421,7 +423,7 @@ class Profile extends Component {
                                     <TabPane tabId="2">
                                         <Row>
                                             <Col lg="12">
-                                                <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} />
+                                                <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} className="boardContainer"/>
 
                                                 <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
                                                     <ModalHeader toggle={this.toggleModal}>{this.state.editJob.company}</ModalHeader>
