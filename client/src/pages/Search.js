@@ -94,18 +94,6 @@ class Search extends Component {
     let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id);
     let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id);
 
-    console.log(lane1, lane2, lane3);
-
-    // *** Don't think we need to update g,y,r in state...
-    /*
-    this.setState({
-        g: lane1,
-        y: lane2,
-        r: lane3
-
-    }, ()=> {
-    */
-    console.log(lane1, lane2, lane3);
     API.getJobs(this.state.q, this.state.l, lane1, lane2, lane3)
       .then(res => {
         const myList = lane1;
@@ -127,7 +115,7 @@ class Search extends Component {
           message: "No New Jobs Found, Try a Different Query"
         })
       });
-    // })
+    
 
 
 
@@ -205,13 +193,8 @@ class Search extends Component {
       lanes: this.state.lanes
     })
 
-    // console.log("state after: " + JSON.stringify(this.state));
   }
 
-  // onCardClick(cardId, metadata, laneId) {
-
-  //     console.log(cardId, laneId);
-  // }
 
   onCardDelete(cardId, laneId) {
     console.log(cardId, this.state.lanes);
@@ -264,10 +247,10 @@ class Search extends Component {
     sessionKey = sessions.getSession();
     if (sessionKey) {
       loggedIn = true;
-      // console.log("logged in: ", sessionKey)
+      
     } else {
       loggedIn = false;
-      // console.log("no user logged in")
+     
     }
 
     const { loading } = this.state;
@@ -275,7 +258,7 @@ class Search extends Component {
     return (
       <Container fluid>
         <Row>
-          <Col size="md-12">
+          <Col size="md-10 md-offset-1">
             <Jumbotron>
               <h1>
                 Hello World: Search Bar Here
@@ -288,25 +271,28 @@ class Search extends Component {
                 l={this.state.l}
               />
             </Jumbotron>
+            
+            </Col>
+            <Col size="md-10 md-offset-1">
+            <Row>
             <FormSort
               handleInputChange={this.handleInputChange}
               handleSortFormSubmit={this.handleSortFormSubmit}
               skill={this.state.skill}
             />
+            </Row>
+            <Row>
             <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} />
+            </Row>
           </Col>
         </Row>
         <Row>
           <h2 className="text-center">{this.state.message}</h2>
           <Col size="md-10 md-offset-1">
-            {/* insert search filter component */}
-            <h2>Search Filter goes here</h2>
           </Col>
         </Row>
         <Row>
           <Col size="md-10 md-offset-1">
-            {/* insert job container and job BP_card components */}
-            <h2>Job Cards live here - from Job DB Collection</h2>
             {!loading &&
               <BP_Card title="Results">
                 {this.state.jobs.length ? (

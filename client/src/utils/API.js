@@ -4,10 +4,6 @@ import axios from "axios";
 export default {
   // Gets books from the Google API
   getJobs: function(q, l, g, y, r) {
-    // console.log(g);
-    // console.log(y);
-    // console.log(r);
-    console.log(g.join("-"))
     return axios.get(`/api/jobs?q=${q}&l=${l}&g=${g.join("-")}&y=${y.join("-")}&r=${r.join("-")}`);
   },
   
