@@ -96,7 +96,7 @@ export default {
   },
 
   createNote: function(data) {
-    console.log("create Note: ", data);
+    console.log("CREATE NOTE API: ", data);
     return axios.post("/api/jobs/createNote",
       data,
       {

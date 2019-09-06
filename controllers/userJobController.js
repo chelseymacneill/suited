@@ -38,13 +38,13 @@ module.exports = {
     },
     createNote: function (req, res) {
         console.log("REQ.BODY", req.body)
-    //     db.UserJob.update({ _id: req.body.id }, 
-    //         { $push: { 
-    //                 notes: {text: "test"} 
-    //                     // {text: req.body.text} 
-    //             } 
-    //         }, { new: true })
-    //         .then(dbJob => res.json(dbJob))
-    //         .catch(err => res.status(422).json(err));
+        db.UserJob.updateOne({ _id: req.body.id }, 
+            { $push: { 
+                    notes: req.body.text
+                        // {text: req.body.text} 
+                } 
+            }, { new: true })
+            .then(dbJob => res.json(dbJob))
+            .catch(err => res.status(422).json(err));
     }
 }

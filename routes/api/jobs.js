@@ -23,4 +23,5 @@ router.route("/updateTracked")
 router.route("/createNote")
 .post(userJobController.createNote)
 
+
 module.exports = router;

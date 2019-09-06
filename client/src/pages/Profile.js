@@ -67,7 +67,8 @@ class Profile extends Component {
             message: "No Jobs saved yet, please use the search page",
             editJob: {},
             text: "",
-            select: ""
+            select: "",
+            userNotes: []
         };
     }
 
@@ -84,34 +85,43 @@ class Profile extends Component {
         console.log(this.state.text, this.state.select)
         console.log(this.state.editJob._id)
 
-        let data = {
-            id: this.state.editJob._id,
-            interest: this.state.select
-        }
-        API.updateFavorite(data)
-        .then(response => {
-            console.log('update user job status response: ', response)
-            if (response.status === 200) {
-                console.log("job interest level updated")
+        //////////// IF THE USER CHANGES THEIR LEVEL OF INTEREST ON THE KANBAN  ///////////////////
+        if (this.state.select) {
+            let data = {
+                id: this.state.editJob._id,
+                interest: this.state.select
             }
-        }).catch(error => {
-            console.log('remove favorite error: ', error)
-        });
 
-        let note = {
-            id: this.state.editJob._id,
-            text: this.state.text
+            API.updateFavorite(data)
+            .then(response => {
+                console.log('update user job status response: ', response)
+                if (response.status === 200) {
+                    console.log("job interest level updated")
+                    window.location.reload();
+                }
+            }).catch(error => {
+                console.log('remove favorite error: ', error)
+            });
         }
 
-        // API.createNote(note)
-        // .then(response => {
-        //     console.log('update note status response: ', response)
-        //     if (response.status === 200) {
-        //         console.log("note updated")
-        //     }
-        // }).catch(error => {
-        //     console.log('create note error: ', error)
-        // });
+        //////////// IF THE USER TYPES NOTES ON THE KANBAN  ///////////////////
+        if (this.state.text) {
+            let note = {
+                id: this.state.editJob._id,
+                text: this.state.text
+            }
+    
+            API.createNote(note)
+            .then(response => {
+                console.log('update note status response: ', response)
+                if (response.status === 200) {
+                    console.log("note updated", response)
+                }
+            }).catch(error => {
+                console.log('create note error: ', error)
+            });
+        }
+        
     };
 
 //     // Route for adding a note to an article
@@ -207,6 +217,7 @@ class Profile extends Component {
                                 index: i,
                                 url: job.url,
                                 interest: job.interest,
+                                notes: job.notes
                                 // jobID: job.jobID
                             }
                         };
@@ -309,11 +320,6 @@ class Profile extends Component {
                                     Hello World:
                                 </h1>
                                 <p>{sessionKey}</p>
-                                {/* insert recommended job container and job card components */}
-                                <h2>Recommended Jobs (Job Cards) live here - from Swing Table DB Collection</h2>
-                                {/* <div>
-                                    <Spinner type="grow" color="primary">Loading...</Spinner>
-                                </div> */}
                             </Jumbotron>
                         </Col>
                     </Row>
@@ -422,11 +428,11 @@ class Profile extends Component {
                                                         </Row>
                                                         <Form>
                                                             <Row>
-                                                                <Col lg="12">
+                                                                <Col md="6">
                                                                     <FormGroup>
-                                                                        <Label for="interestSelect">Interest in Position:</Label>
+                                                                        <Label for="interestSelect"><h4>Interest in Position:</h4></Label>
                                                                         <Input type="select" name="select" id="interestSelect" onChange={this.handleInputChange}>
-                                                                            <option>Choose...</option>
+                                                                            <option>Update...</option>
                                                                             <option value="5">5 - Literal Dream Job!</option>
                                                                             <option value="4">4</option>
                                                                             <option value="3">3</option>
@@ -435,8 +441,8 @@ class Profile extends Component {
                                                                         </Input>
                                                                     </FormGroup>
                                                                 </Col>
-                                                                <Col lg="6">
-                                                                    {/* <Button>Link</Button> */}
+                                                                <Col md="6">
+                                                                    <h4>{this.state.editJob.interest}</h4>
                                                                 </Col>
                                                             </Row>
 
@@ -446,6 +452,28 @@ class Profile extends Component {
                                                                         <Label for="noteText">Notes:</Label>
                                                                         <Input type="textarea" name="text" id="noteText" onChange={this.handleInputChange} value={this.state.text} />
                                                                     </FormGroup>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row>
+                                                                <Col lg="12">
+                                                                    {/* <p>{this.state.editJob.notes}</p> */}
+                                                                    {this.state.editJob.notes ? (
+                                                                        <div>
+                                                                            {this.state.editJob.notes.map((note, i) => (
+                                                                                <Row>
+                                                                                    <Col md="6">
+                                                                                    <p key={i}>{note}</p>
+                                                                                    </Col>
+                                                                                    <Col md="6">
+                                                                                    <Button close />
+                                                                                    </Col>
+                                                                                </Row>
+                                                                            ))}
+                                                                        </div>
+                                                                    // <p>Test</p>
+                                                                    ):(
+                                                                    <p>No notes yet</p>
+                                                                    )}
                                                                 </Col>
                                                             </Row>
                                                         </Form>
