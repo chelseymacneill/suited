@@ -116,15 +116,14 @@ function chunkArray(myArray, chunk_size){
 var result = chunkArray(top, 5);
 
 function setArrays(skill, array) {
-  // for (let i = 0; i < combo.length; i++) {
-    // if (combo.length > 0 && combo[i].skill == skill) {
-    //     return console.log("dupe found")
-    // } else {
-      combo.push({ "skill": skill, "radio": array })
-  //     console.log( skill, array);
-  //   }
-  // }
-  console.log(combo);
+    combo.push({ "skill": skill, "radio": array })
+        for (let i = 0; i < combo.length - 1; i++) {
+          if (skill === combo[i].skill) {
+            combo.splice(i, 1); 
+            i--;
+          }
+        }
+        console.log(combo);
 }
 
 const jobTitles = [
@@ -164,12 +163,12 @@ class Quiz extends Component {
             // </FormGroup>
             /////////////////////////////////////////////
             // onChangeCapture={ () => console.log({top, j, i})}
-            <FormGroup>
+            <FormGroup >
             <Label for={array + j}>{top}</Label>              
           <div>
-            <CustomInput type="radio" id={"y" + top[i] + i + j} name={"Radio" + j + i} label="+" onChangeCapture={ () => setArrays( top, "g" ) } />
-            <CustomInput type="radio" id={"g" + top[i] + i + j} name={"Radio" + j + i} label="..." onChangeCapture={ () => setArrays( top, "y" ) } />
-            <CustomInput type="radio" id={"r" + top[i] + i + j} name={"Radio" + j + i} label="-" onChangeCapture={ () => setArrays( top, "r" ) } />
+            <CustomInput type="radio" id={"y" + top[i] + i + j} name={"Radio" + j + i} label="+" onClick={ () => setArrays( top, "g" ) } />
+            <CustomInput type="radio" id={"g" + top[i] + i + j} name={"Radio" + j + i} label="..." onClick={ () => setArrays( top, "y" ) } />
+            <CustomInput type="radio" id={"r" + top[i] + i + j} name={"Radio" + j + i} label="-" onClick={ () => setArrays( top, "r" ) } />
               </div>
             </FormGroup>
             
