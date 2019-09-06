@@ -8,6 +8,9 @@ const jwt = require('jsonwebtoken');
 
 const usersController = require("../../controllers/usersController");
 
+///////////////////QUIZ 
+router.route("/quiz")
+.post(usersController.updateQuiz);
 
 generateJWT = function(id, email) {
   const today = new Date();
@@ -100,6 +103,7 @@ router.post('/login', auth.optional, (req, res, next) => {
         return res.json()
       }
     });
+    
 });
 
 module.exports = router;

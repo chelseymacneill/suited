@@ -21,8 +21,8 @@ module.exports = {
         console.log("CREATE USERJOB CONTROLLER: ", req.body)
         db.UserJob.create(req.body)
             .then(dbJob => res.json(dbJob))
-            // .catch(err => res.status(422).json(err));
-            .catch(err => console.log(err));
+            .catch(err => res.status(422).json(err));
+            // .catch(err => console.log(err));
 
     },
     update: function (req, res) {

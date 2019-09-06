@@ -116,14 +116,13 @@ function chunkArray(myArray, chunk_size){
 var result = chunkArray(top, 5);
 
 function setArrays(skill, array) {
-    combo.push({ "skill": skill, "radio": array })
-        for (let i = 0; i < combo.length - 1; i++) {
-          if (skill === combo[i].skill) {
-            combo.splice(i, 1); 
-            i--;
-          }
-        }
-        console.log(combo);
+  combo.push({ "skill": skill, "radio": array })
+    for (let i = 0; i < combo.length - 1; i++) {
+      if (skill === combo[i].skill) {
+        combo.splice(i, 1); 
+        i--;
+      }
+    }
 }
 
 const jobTitles = [
@@ -148,7 +147,7 @@ class Quiz extends Component {
   //   console.log(this.props.rState)
 
   // }
-  render(props) {
+  render() {
 
     return (
       <div className="quizContainer">

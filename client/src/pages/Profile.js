@@ -72,8 +72,39 @@ class Profile extends Component {
     quizState = event => {
         // this.setState({ quizState: event })
         // console.log(this.state.quizState)
-        console.log(event)
+        let array = event;
+        let g = [];
+        let y = [];
+        let r = [];
 
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].radio === "g") {
+                g.push(array[i].skill)
+            } else if (array[i].radio === "y") {
+                y.push(array[i].skill)
+            } else if (array[i].radio === "r"){
+                r.push(array[i].skill)
+            }
+        }
+
+        let data = {
+            id: sessionKey,
+            g: g,
+            y: y,
+            r: r,
+            // quiz: { g: g, y: y, r: r }
+        }
+        console.log(data)
+
+        API.postQuiz(data)
+        .then(response => {
+            console.log('user quiz results: ', response)
+            if (response.status === 200) {
+                console.log("user quiz results updated")
+            }
+        }).catch(error => {
+            console.log('user quiz error: ', error)
+        });
     }
 
     handleInputChange = event => {

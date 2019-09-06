@@ -43,6 +43,17 @@ export default {
     return axios.get("/api/users/current")
 
   },
+  //////////////////user quiz results//////////////////////
+  postQuiz: function (data) {
+    return axios.post("/api/users/quiz",
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
+  },
 
   //////////////////favorite jobs//////////////////////
   postUserJob: function(data) {
