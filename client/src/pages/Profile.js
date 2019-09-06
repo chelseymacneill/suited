@@ -43,6 +43,7 @@ class Profile extends Component {
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.onCardClick = this.onCardClick.bind(this);
         this.removeFavorite = this.removeFavorite.bind(this);
+        this.onCardDelete = this.onCardDelete.bind(this);
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -118,11 +119,10 @@ class Profile extends Component {
     };
 
     removeFavorite(job) {
-    
+        console.log("REMOVE FAVORITE", job, job.job._id)
         let fav = {
             id: job.job._id,
         }
-        console.log(fav);
         let result = window.confirm("Are you sure you wish to delete this item?");
         if (result) {
             console.log("user wants to delete: ", fav)
@@ -136,6 +136,16 @@ class Profile extends Component {
                 }).catch(error => {
                     console.log('remove favorite error: ', error)
                 });
+        }
+    }
+
+    onCardDelete(cardId, laneId) {
+        console.log(cardId);
+        for (let i = 0; i < this.state.jobs.length; i++) {
+            if (this.state.jobs[i]._id == cardId) {
+                let job = {job: this.state.jobs[i]};
+                return this.removeFavorite(job)
+            } 
         }
     }
 
@@ -423,8 +433,8 @@ class Profile extends Component {
                                     <TabPane tabId="2">
                                         <Row>
                                             <Col lg="12">
-                                                <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} className="boardContainer"/>
-
+                                                <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} className="boardContainer"/>
+                                                {/* onClick={() => this.removeFavorite({ job })} */}
                                                 <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
                                                     <ModalHeader toggle={this.toggleModal}>{this.state.editJob.company}</ModalHeader>
                                                     <ModalBody>
