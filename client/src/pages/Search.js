@@ -60,7 +60,7 @@ class Search extends Component {
         super(props)
 
         this.handleDragEnd = this.handleDragEnd.bind(this);
-        // this.onCardDelete = this.onCardDelete.bind(this);
+        this.onCardDelete = this.onCardDelete.bind(this);
 
         this.state = {
             jobs: [],
@@ -154,91 +154,34 @@ class Search extends Component {
     
 
     handleDragEnd(cardId, sourceLaneId, targetLaneId, position, cardDetails) {
-        console.log("state before: " + JSON.stringify(this.state));
+        // console.log("state before: " + JSON.stringify(this.state));
 
         let card = this.state.lanes.filter(a => (a.id === cardDetails.id ))[0];
         console.log("card: " + JSON.stringify(card));
         card.metadata.status = targetLaneId;
 
-
-        
-
-
-        // let g = this.state.g;
-        // let y = this.state.y;
-        // let r = this.state.r;
-
-        // let lanes = this.state.lanes;
-        
-
-        // console.log(cardId, targetLaneId, sourceLaneId);
-
-
-        // let coolNew = {id: cardId,
-        //     title: cardId};
-
-        // if (sourceLaneId == "lane1"){
-        //     g = g.filter(a => a !== cardId);
-        //     lanes = lanes.filter(a => a.id = cardId);
-        // }
-        // else if(sourceLaneId =="lane2"){
-        //     y = y.filter(a => a !== cardId);
-        //     l2 = l2.filter(a => a.id !== cardId);
-        // }
-        // else {
-        //     r = r.filter(a => a !== cardId);
-        //     l3 = l3.filter(a => a.id !== cardId);
-        // }
-        // console.log(g, y, r)
-        
-        // if (targetLaneId == "lane1"){
-        //     g.push(cardId);
-        //     l1.push(
-        //         coolNew)
-        // }
-        // else if(targetLaneId =="lane2"){
-        //     y.push(cardId);
-        //     l2.push(
-        //         coolNew)
-        // }
-        // else {
-        //     r.push(cardId);
-        //     l3.push(
-        //         coolNew)
-        // }
-        // console.log(l1, l2, l3)
-
         this.setState({
             lanes: this.state.lanes
         })
 
-        console.log("state after: " + JSON.stringify(this.state));
+        // console.log("state after: " + JSON.stringify(this.state));
     }
 
-    onCardClick(cardId, metadata, laneId) {
+    // onCardClick(cardId, metadata, laneId) {
 
-        console.log(cardId, laneId);
-    }
-
-    // onCardDelete(cardId, laneId){
-        
-    //     switch (laneId) {
-    //         case "lane1":
-    //             const sortArray1 = this.state.lane1;
-    //             sortArray1.filter(a => a !== cardId);
-    //             this.setState({ g: sortArray1 });
-    //             break;
-    //         case "lane2":
-    //             const sortArray2 = this.state.y.filter(a => a !== cardId);
-    //             this.setState({ y: sortArray2 });
-    //             break;
-    //         case "lane3":
-    //             const sortArray3 = this.state.r.filter(a => a !== cardId);
-    //             this.setState({ r: sortArray3 });
-    //             break;
-    //     }
-
+    //     console.log(cardId, laneId);
     // }
+
+    onCardDelete(cardId, laneId){
+        console.log(cardId, this.state.lanes);
+        let deleteArray = this.state.lanes.filter(a => (a.id !== cardId ));
+        
+        this.setState({
+            lanes: deleteArray
+        })
+        
+
+    }
 
 
 
