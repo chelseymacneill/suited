@@ -1,8 +1,10 @@
 import React from "react";
 import { ListItem } from "../List";
-import { Row, Col } from "../Grid";
+// import { Row, Col } from "../Grid";
 import "./style.css";
 import sessions from "../../utils/sessions"
+import { Row, Col } from 'reactstrap';
+
 
 let loggedIn;
 let sessionKey;
@@ -43,7 +45,7 @@ function Job({ jobID, title, company, location, date, summary, greenMatches, yel
               ):(
               <section> 
               <div className="btn-container" data-toggle="buttons">
-                <button onClick={onClick} className="btn btn-light" id={jobID} rel="noopener noreferrer">
+                <button close onClick={onClick} className="btn btn-light" id={jobID} rel="noopener noreferrer">
                   Delete
                 </button>
               </div>

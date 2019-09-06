@@ -31,7 +31,9 @@ module.exports = {
             .catch(err => res.status(422).json(err));
     },
     remove: function (req, res) {
-        db.UserJob.findOne(req.body)
+        console.log("DELETE FAVORITE", req.body)
+
+        db.UserJob.findOne({ _id: req.body.id })
             .then(dbJob => dbJob.remove())
             .then(dbJob => res.json(dbJob))
             .catch(err => res.status(422).json(err));

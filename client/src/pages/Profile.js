@@ -23,24 +23,13 @@ import Board from 'react-trello'
 let loggedIn;
 let sessionKey;
 
-function removeFavorite(job) {
 
-    const id = job.job.jobID;
-    let result = window.confirm("Are you sure you wish to delete this item?");
-    if (result) {
-        console.log("user wants to delete: ", id)
-        API.removeFavorite({ "jobID": id })
-            .then(response => {
-                console.log('remove favorite Job response: ', response)
-                if (response.status === 200) {
-                    console.log("job removed from favorites")
-                    window.location.reload();
-                }
-            }).catch(error => {
-                console.log('remove favorite error: ', error)
-            });
-    }
-}
+
+// let index = metadata.index;
+//         this.setState({
+//             text: [],
+//             editJob: this.state.jobs[index]
+//         })
 
 
 class Profile extends Component {
@@ -51,6 +40,7 @@ class Profile extends Component {
         this.toggleModal = this.toggleModal.bind(this);
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.onCardClick = this.onCardClick.bind(this);
+        this.removeFavorite = this.removeFavorite.bind(this);
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -125,6 +115,28 @@ class Profile extends Component {
         
     };
 
+    removeFavorite(job) {
+    
+        let fav = {
+            id: job.job._id,
+        }
+        console.log(fav);
+        let result = window.confirm("Are you sure you wish to delete this item?");
+        if (result) {
+            console.log("user wants to delete: ", fav)
+            API.removeFavorite(fav)
+                .then(response => {
+                    console.log('remove favorite Job response: ', response)
+                    if (response.status === 200) {
+                        console.log("job removed from favorites")
+                        window.location.reload();
+                    }
+                }).catch(error => {
+                    console.log('remove favorite error: ', error)
+                });
+        }
+    }
+
     deleteNote = i => {
         // event.preventDefault();
         let note = {
@@ -137,8 +149,22 @@ class Profile extends Component {
             console.log('update note status response: ', response)
             if (response.status === 200) {
                 console.log("note updated", response)
-                alert("Note Deleted")
-                window.location.reload();
+                // alert("Note Deleted")
+                // window.location.reload();
+                API.getFavorites({ "userID": sessionKey })
+                .then(response => {
+                    console.log('update job status response: ', response)
+                    if (response.status === 200) {
+                        console.log("job status updated")
+                        this.setState({
+                            jobs: response.data
+                        })
+    
+                    }
+                }).catch(error => {
+                    console.log('remove favorite error: ', error)
+                });
+
             }
         }).catch(error => {
             console.log('create note error: ', error)
@@ -218,6 +244,7 @@ class Profile extends Component {
                                 url: job.url,
                                 interest: job.interest,
                                 notes: job.notes
+                                // date: job.date
                                 // jobID: job.jobID
                             }
                         };
@@ -378,7 +405,7 @@ class Profile extends Component {
                                                                     date={job.date}
                                                                     summary={job.summary}
                                                                     url={job.url}
-                                                                    onClick={() => removeFavorite({ job })}
+                                                                    onClick={() => this.removeFavorite({ job })}
                                                                     profile="true"
                                                                 />
                                                             ))}
@@ -399,20 +426,6 @@ class Profile extends Component {
                                                 <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
                                                     <ModalHeader toggle={this.toggleModal}>{this.state.editJob.company}</ModalHeader>
                                                     <ModalBody>
-                                                        {/* company: "ERNIESYS"
-                                                    interest: null
-                                                    jobID: "5d6edce5c7861b6c6d0f4c1d"
-                                                    location: "Seattle, WA"
-                                                    notes: null
-                                                    status: "lane3"
-                                                    summary: "Number of openings | 01. Position Type | Full Time/Contract. Do you consider yourself a top tier web developer who is looking for your next challenge?"
-                                                    title: "UI Developer"
-                                                    updated: "2019-09-03T21:36:45.402Z"
-                                                    url: "http://www.indeed.com/rc/clk?jk=2a7fb592213d1f99&from=vj&pos=bottom"
-                                                    userID: "5d69b194af59245788c8bfac"
-                                                    __v: 0
-                                                    _id: "5d6edceda3df6d0c107e0d7a"
-                                                    __proto__: Object */}
                                                         <Row>
                                                             <Col lg="8">
                                                                 <h1>{this.state.editJob.title}</h1>
@@ -449,7 +462,7 @@ class Profile extends Component {
                                                             <Row>
                                                                 <Col lg="12">
                                                                     <FormGroup>
-                                                                        <Label for="noteText">Notes:</Label>
+                                                                        <Label for="noteText">Add a New Note:</Label>
                                                                         <Input type="textarea" name="text" id="noteText" onChange={this.handleInputChange} value={this.state.text} />
                                                                     </FormGroup>
                                                                 </Col>
@@ -459,12 +472,16 @@ class Profile extends Component {
                                                                     {/* <p>{this.state.editJob.notes}</p> */}
                                                                     {this.state.editJob.notes ? (
                                                                         <div>
+                                                                        <h4>Notes:</h4>
                                                                             {this.state.editJob.notes.map((note, i) => (
                                                                                 <Row>
-                                                                                    <Col md="6">
+                                                                                    <Col md="1">
+                                                                                    <p>{i+1})</p>
+                                                                                    </Col>
+                                                                                    <Col md="9">
                                                                                     <p key={this.state.editJob._id}>{note}</p>
                                                                                     </Col>
-                                                                                    <Col md="6">
+                                                                                    <Col md="1">
                                                                                     <Button close onClick={() => this.deleteNote(i)}/>
                                                                                     </Col>
                                                                                 </Row>
