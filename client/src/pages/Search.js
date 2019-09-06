@@ -80,10 +80,31 @@ class Search extends Component {
             lanes: []
         };
     }
+
+    
+
     getJobs = () => {
         this.setState({ loading: true });
 
-        API.getJobs(this.state.q, this.state.l, this.state.g, this.state.y, this.state.r)
+        console.log("lane1=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id)))
+        console.log("lane2=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id)))
+        console.log("lane3=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id)))
+        
+        let lane1 = JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id));
+        let lane2 = JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id));
+        let lane3 = JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id));
+
+        console.log(lane1, lane2, lane3);
+
+        
+        this.setState({
+            g: lane1,
+            y: lane2,
+            r: lane3
+
+        }, ()=> {
+            console.log(this.state.g, this.state.y, this.state.r);
+            API.getJobs(this.state.q, this.state.l, this.state.g, this.state.y, this.state.r)
             .then(res => {
                 const myList = this.state.g;
                 const sorted = res.data.map(job => {
@@ -104,6 +125,10 @@ class Search extends Component {
                     message: "No New Jobs Found, Try a Different Query"
                 })
             });
+        })
+        
+
+        
     };
 
 
