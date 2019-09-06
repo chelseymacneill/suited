@@ -1,21 +1,27 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+// const mongoose = require("mongoose");
+// const Schema = mongoose.Schema;
 
-const jobSchema = new Schema({
-  url: { type: String, unique: true},
-  title: { type: String },
-  company: { type: String },
-  location: { type: String },
-  summary: { type: String },
-  date: { type: String },
-  ratings: { type: String},
-  salary: { type: String}
-});
+// const jobSchema = new Schema({
+//   url: { type: String, unique: true},
+//   query: { type: String },
+//   title: { type: String },
+//   company: { type: String },
+//   location: { type: String },
+//   summary: { type: String },
+//   date: { type: String },
+//   ratings: { type: String},
+//   salary: { type: String},
+//   subject: { type: [String]}
+// });
 
-const Job = mongoose.model("Job", jobSchema);
+// //also removed index: true from subject
+// // jobSchema.index({subject: "text"})
 
-module.exports = Job;
+// const Job = mongoose.model("Job", jobSchema);
 
+
+
+// module.exports = Job;
 
 
 // ({

@@ -1,51 +1,9 @@
-import React, { Component } from "react";
-// import Jumbotron from "../components/Jumbotron";
-import API from "../utils/API";
-// import { Link } from "react-router-dom";
+import React, { Component } from 'react';
 import { Col, Row, Container } from "../components/Grid";
 import SignIn from "../components/SignIn";
 
 
 class Login extends Component {
-    state = {
-        userToken: "",
-        userID: "",
-        email: "",
-        password: "",
-    };
-
-    handleInputChange = event => {
-        const { name, value } = event.target;
-        this.setState({
-          [name]: value
-        });
-
-        console.log("test")
-      };
-
-    //   componentWillMount = () => {
-    //     API.postSignup({
-    //         "user": {
-    //           "email": "test3@test3.com",
-    //           "password": "test3"
-    //         }
-    //       })
-    //       .then( response => {
-    //         // console.log(response.data);
-    //         const user = response.data;
-    //         // console.log(user.email)
-    //         // this.setState({
-    //         //     userEmail: user.email,
-    //         //      userToken: user.token,
-    //         //      userID: user._id
-    //         // })
-    //         this.setState({userToken: user.token, userId: user._id});
-    //       });
-    //   };
-
-    componentDidMount = () => {
-        console.log(this.state);
-    }
     
     render(){
         return(

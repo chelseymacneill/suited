@@ -1,99 +1,61 @@
 const db = require("../models");
 const axios = require("axios");
+const cheerio = require("cheerio");
 
-// Defining methods for the bookController
+// Defining methods for the jobController
 module.exports = {
-  findAll: function(req, res) {
-    db.Job.find(req.query)
-      .then(dbJob => res.json(dbJob))
-      .catch(err => res.status(422).json(err));
-  },
-  findById: function(req, res) {
-    db.Job.findById(req.params.id)
-      .then(dbJob => res.json(dbJob))
-      .catch(err => res.status(422).json(err));
-  },
-  create: function(req, res) {
-    db.Job.create(req.body)
-      .then(dbJob => res.json(dbJob))
-      .catch(err => res.status(422).json(err));
-  },
-  update: function(req, res) {
-    db.Job.findOneAndUpdate({ id: req.params.id }, req.body)
-      .then(dbJob => res.json(dbJob))
-      .catch(err => res.status(422).json(err));
-  },
-  remove: function(req, res) {
-    db.Job.findById(req.params.id)
-      .then(dbJob => dbJob.remove())
-      .then(dbJob => res.json(dbJob))
-      .catch(err => res.status(422).json(err));
-  },
-  scrape: function(req, res) {
-    // const dummy = 
-    // {url: "hey",
-    // title: "hi",
-    // company: "hi",
-    // location: "hi",
-    // summary: "hi",
-    // date: "hi",
-    // ratings: "hi",
-    // apiID: "hi"}
+    scrape: function (req, res) {
 
-    // db.Job.create(dummy).catch(err => res.status(422).json(err));
+        const q = req.query.q;
+        const l = req.query.l;
+        const goodArray = req.query.g.split("-");
+        const mehArray = req.query.y.split("-");
+        const badArray = req.query.r.split("-");
+        console.log("array: " + goodArray);
+        // const array 
+        // db.Job.createIndex( { subject: "text" } );
 
+        axios.get(`https://indreed.herokuapp.com/api/jobs?q=${q}&l=${l}`)
 
-    const q = req.query.q;
-    const l = req.query.l;
-    
-    axios.get(`https://indreed.herokuapp.com/api/jobs?q=${q}&l=${l}`)
-    // .then(results =>
-    //     results.data.filter(
-    //       result =>
-    //         result.url &&
-    //         result.title &&
-    //         result.company &&
-    //         result.location &&
-    //         result.summary &&
-    //         result.date 
-    //     )
-    //   )
+            .then(jobs => {
+                let jsonJobs = jobs.data;
 
-    //const jobListings = jobs.map( )
+                // Collect all promises until we have them all
+                Promise.all(
+                    // Use map because it returns an array (of promises in our case)
+                    jsonJobs.map((job, i) => {
+                        return axios.get(job.url).then(function (response) {
+                            // if (response != undefined && response.status != 500) {
+                                const $ = cheerio.load(response.data);
+                                const str = $("body").text().toLowerCase();
+                                const green = goodArray.filter(element => str.includes(element));
+                                const yellow = mehArray.filter(element => str.includes(element));
+                                const red = badArray.filter(element => str.includes(element));
+                                job.green = green;
+                                job.yellow = yellow;
+                                job.red = red;
+                                console.log(job);
 
-    .then(jobs => {
-        let jsonJobs = jobs.data;
-        console.log(jsonJobs);
-        res.json(jsonJobs);
-        db.Job.create(jsonJobs);
-        
-        //console.log(jsonJobs)
-    })
-    .catch(err => res.status(422).json(err));
-    
-    //   .then(apiJobs =>
-    //     db.Job.find().then(dbJobs =>
-    //         apiJobs.filter(apiJob =>
-    //         dbJobs.every(dbJob => dbJob.apiID.toString() !== apiJob.id)
-    //       )
-    //     )
-        
-    //   )
-    //   .then(db.Job.insert(result, function (err, result) {
-    //     if (err)
-    //        console.log('Error');
-    //     else
-    //     console.log('Success');
-  
-    // }))
-    // .then(function(jobs) {
-    //     db.Job.create(jobs)
-    //       .then(dbJob => res.json(dbJob))
-    //       .catch(err => res.status(422).json(err));
-    //   })
-    
-    
-  }
-    
-    
+                            // }
+                            // else {
+                            //     console.log("skipped due to error")
+                            // }
+                        }).catch((err) => {
+                            console.log("ERROR ERROR ERROR!!!!!" +err)
+                            jsonJobs.splice(i, 1);
+                        });
+                    })
+                    
+                ).then(function () {
+                    
+                            res.json(jsonJobs);
+                            console.log(jsonJobs);
+                            console.log("jobs displayed")
+                        
+                }).catch(err => console.log(err));
+
+            })
+
+    },
+
 };

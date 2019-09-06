@@ -1,17 +1,22 @@
 const path = require("path");
 const router = require("express").Router();
 const jobRoutes = require("./jobs");
-const googleRoutes = require("./google");
+// const googleRoutes = require("./google");
 const usersRoutes = require("./users")
 
 // Book routes
 router.use("/jobs", jobRoutes);
 
+// //userJobs Routes
+// router.use("/jobs", userJobsRoutes)
+
+
 // Google Routes
-router.use("/google", googleRoutes);
+// router.use("/google", googleRoutes);
 
 //Users Routes
 router.use("/users", usersRoutes)
+
 
 // For anything else, render the html page
 router.use(function(req, res) {
