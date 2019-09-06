@@ -274,16 +274,13 @@ class Search extends Component {
             
             </Col>
             <Col size="md-10 md-offset-1">
-            <Row>
             <FormSort
               handleInputChange={this.handleInputChange}
               handleSortFormSubmit={this.handleSortFormSubmit}
               skill={this.state.skill}
             />
-            </Row>
-            <Row>
+
             <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} />
-            </Row>
           </Col>
         </Row>
         <Row>
