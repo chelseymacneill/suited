@@ -138,79 +138,30 @@ const jobTitles = [
   "DevOps engineer"
 ];
 
-
-// function Quiz({onClick, rState}) {
 class Quiz extends Component {
-  // rState = rState;
 
-  // componentDidMount () {
-  //   console.log(this.props.rState)
-
-  // }
   render() {
 
     return (
       <div className="quizContainer">
-        {/* <p>{topLang}</p> */}
         <Row>
           {result.map( (array, j) => (
             <Col md="2">
             {array.map( (top, i) => (
-            //   <FormGroup>
-            //   <Label for="exampleCustomRange">{top}</Label>
-            //   <CustomInput type="range" id="exampleCustomRange" name="customRange" />
-            // </FormGroup>
-            /////////////////////////////////////////////
-            // onChangeCapture={ () => console.log({top, j, i})}
             <FormGroup >
             <Label for={array + j}>{top}</Label>              
-          <div>
-            <CustomInput type="radio" id={"y" + top[i] + i + j} name={"Radio" + j + i} label="+" onClick={ () => setArrays( top, "g" ) } />
-            <CustomInput type="radio" id={"g" + top[i] + i + j} name={"Radio" + j + i} label="..." onClick={ () => setArrays( top, "y" ) } />
-            <CustomInput type="radio" id={"r" + top[i] + i + j} name={"Radio" + j + i} label="-" onClick={ () => setArrays( top, "r" ) } />
+              <div>
+                <CustomInput type="radio" id={"y" + top[i] + i + j} name={"Radio" + j + i} label="+" onClick={ () => setArrays( top, "g" ) } />
+                <CustomInput type="radio" id={"g" + top[i] + i + j} name={"Radio" + j + i} label="..." onClick={ () => setArrays( top, "y" ) } />
+                <CustomInput type="radio" id={"r" + top[i] + i + j} name={"Radio" + j + i} label="-" onClick={ () => setArrays( top, "r" ) } />
               </div>
             </FormGroup>
-            
-          ////////////////////////////////////////////////
-        //   <FormGroup tag="fieldset">
-        //   <legend>Radio Buttons</legend>
-        //   <FormGroup check>
-        //     <Label check>
-        //       <Input type="radio" name="radio1" />{' '}
-        //       Option one is this and that—be sure to include why it's great
-        //     </Label>
-        //   </FormGroup>
-        //   <FormGroup check>
-        //     <Label check>
-        //       <Input type="radio" name="radio1" />{' '}
-        //       Option two can be something else and selecting it will deselect option one
-        //     </Label>
-        //   </FormGroup>
-        //   <FormGroup check disabled>
-        //     <Label check>
-        //       <Input type="radio" name="radio1" disabled />{' '}
-        //       Option three is disabled
-        //     </Label>
-        //   </FormGroup>
-        // </FormGroup>
-          /////////////////////////////////////////////////
-        //   <div>
-        //   <h5>{top}</h5>
-        // <ButtonGroup>
-        //   <Button color="primary" onClick={() => onClick(1)} active={rState[i] === 1}>One</Button>
-        //   <Button color="primary" onClick={() => onClick(2)} active={rState[i] === 2}>Two</Button>
-        //   <Button color="primary" onClick={() => onClick(3)} active={rState[i] === 3}>Three</Button>
-        // </ButtonGroup>
-        // {/* <p>Selected: {rState[i]}</p> */}
-        // </div>
             ))}
           </Col>
           ))}
           <FormGroup check row>
             <Col sm="12">
-              {/* <Button onClick={()=>console.log(combo)}>Submit</Button> */}
               <Button onClick={() => this.props.onClick(combo)}>Submit</Button>
-
             </Col>
           </FormGroup>
         </Row>
@@ -218,44 +169,5 @@ class Quiz extends Component {
     );
   }
 }
-
-
-
-// class Quiz extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       // Capture the name of the user via the user typing it in or by inheriting it from their profile
-//       username: "username",
-//       javaScriptSkill: false,
-//       pythonSkill: false,
-//       javaSkill: false,
-//       cSharpSkill: false,
-//       sqlSkill: false
-//     };
-
-//     this.handleInputChange = this.handleInputChange.bind(this);
-//   }
-
-//   handleInputChange(event) {
-//     const target = event.target;
-//     const value = target.type === "checkbox" ? target.checked : target.value;
-//     const name = target.name;
-
-//     this.setState({
-//       [name]: value
-//     });
-//   }
-
-//   handleSubmit(event) {
-//     alert("A name was submitted: " + this.state.value);
-//     event.preventDefault();
-//   }
-
-//   render() {
-//     return (
-//     );
-//   }
-// }
 
 export default Quiz;
