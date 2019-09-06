@@ -68,7 +68,7 @@ class Profile extends Component {
             editJob: {},
             text: "",
             select: "",
-            userNotes: []
+            noteIndex: null
         };
     }
 
@@ -116,6 +116,7 @@ class Profile extends Component {
                 console.log('update note status response: ', response)
                 if (response.status === 200) {
                     console.log("note updated", response)
+                    window.location.reload();
                 }
             }).catch(error => {
                 console.log('create note error: ', error)
@@ -124,26 +125,25 @@ class Profile extends Component {
         
     };
 
-//     // Route for adding a note to an article
-// app.post("/articles/:id", function (req, res) {
-//     // Create a new note and pass the req.body to the entry
-//     db.Note.create(req.body)
-//         .then(function (dbNote) {
-//             // If a Note was created successfully, find one Article with an _id equal to req.params.id. Update the Article to be associated with the new Note
-//             // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
-//             // Since our mongoose query returns a promise, we can chain another .then which receives the result of the query
-//             //$push adds note to the list of notes
-//             return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { notes: dbNote._id } }, { new: true });
-//         })
-//         .then(function (dbArticle) {
-//             // If we were able to successfully update an Article, send it back to the client
-//             res.json(dbArticle);
-//         })
-//         .catch(function (err) {
-//             // If an error occurred, send it to the client
-//             res.json(err);
-//         });
-//  });
+    deleteNote = i => {
+        // event.preventDefault();
+        let note = {
+            id: this.state.editJob._id,
+            note:  this.state.editJob.notes[i]
+        }
+        console.log(note);
+        API.deleteNote(note)
+        .then(response => {
+            console.log('update note status response: ', response)
+            if (response.status === 200) {
+                console.log("note updated", response)
+                alert("Note Deleted")
+                window.location.reload();
+            }
+        }).catch(error => {
+            console.log('create note error: ', error)
+        });
+    }
 
     toggleTab(tab) {
         if (this.state.activeTab !== tab) {
@@ -361,7 +361,7 @@ class Profile extends Component {
                                                     </CardHeader>
                                                 </Card>
                                             </Col>
-                                            <Col sm="9">
+                                            <Col md="9">
                                                 <Card >
                                                     <CardHeader>
                                                         <h2>Favorite Jobs</h2>
@@ -462,10 +462,10 @@ class Profile extends Component {
                                                                             {this.state.editJob.notes.map((note, i) => (
                                                                                 <Row>
                                                                                     <Col md="6">
-                                                                                    <p key={i}>{note}</p>
+                                                                                    <p key={this.state.editJob._id}>{note}</p>
                                                                                     </Col>
                                                                                     <Col md="6">
-                                                                                    <Button close />
+                                                                                    <Button close onClick={() => this.deleteNote(i)}/>
                                                                                     </Col>
                                                                                 </Row>
                                                                             ))}

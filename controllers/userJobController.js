@@ -37,13 +37,23 @@ module.exports = {
             .catch(err => res.status(422).json(err));
     },
     createNote: function (req, res) {
-        console.log("REQ.BODY", req.body)
         db.UserJob.updateOne({ _id: req.body.id }, 
             { $push: { 
                     notes: req.body.text
                         // {text: req.body.text} 
                 } 
             }, { new: true })
+            .then(dbJob => res.json(dbJob))
+            .catch(err => res.status(422).json(err));
+    },
+    deleteNote: function (req, res) {
+        console.log("DELETE NOTE", req.body)
+        db.UserJob.updateOne({ _id: req.body.id }, 
+            { $pull: { 
+                    notes: req.body.note
+                        // {text: req.body.text} 
+                } 
+            })
             .then(dbJob => res.json(dbJob))
             .catch(err => res.status(422).json(err));
     }

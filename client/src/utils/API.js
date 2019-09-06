@@ -105,5 +105,17 @@ export default {
         }
       }
     )
+  },
+
+  deleteNote: function(data) {
+    console.log("DELETE NOTE API: ", data);
+    return axios.post("/api/jobs/deleteNote",
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    )
   }
 };

@@ -23,5 +23,7 @@ router.route("/updateTracked")
 router.route("/createNote")
 .post(userJobController.createNote)
 
+router.route("/deleteNote")
+.post(userJobController.deleteNote)
 
 module.exports = router;
