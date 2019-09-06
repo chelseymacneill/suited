@@ -209,8 +209,8 @@ class Quiz extends Component {
           ))}
           <FormGroup check row>
             <Col sm="12">
-              <Button onClick={()=>console.log(combo)}>Submit</Button>
-              {/* <Button onClick={this.props.onClick} onSubmitCapture={ () => console.log(this)}>Submit</Button> */}
+              {/* <Button onClick={()=>console.log(combo)}>Submit</Button> */}
+              <Button onClick={() => this.props.onClick(combo)}>Submit</Button>
 
             </Col>
           </FormGroup>

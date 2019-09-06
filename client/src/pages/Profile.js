@@ -49,7 +49,7 @@ class Profile extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
         // this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-        // this.rSelected = this.rSelected.bind(this);
+        this.quizState = this.quizState.bind(this);
 
         this.state = {
             activeTab: '3',
@@ -65,17 +65,16 @@ class Profile extends Component {
             text: "",
             select: "",
             noteIndex: null,
-            // rSelected: []
+            // quizState: []
         };
     }
 
-    // onRadioBtnClick(rSelected) {
-    //     this.setState({ rSelected });
-    // }
+    quizState = event => {
+        // this.setState({ quizState: event })
+        // console.log(this.state.quizState)
+        console.log(event)
 
-    // rSelected(selected) {
-    //     this.setState
-    // }
+    }
 
     handleInputChange = event => {
         const { name, value } = event.target;
@@ -531,7 +530,7 @@ class Profile extends Component {
                                     <TabPane tabId="3">
                                         <Row>
                                             <Col sm="12">
-                                                <Quiz onClick={ () => console.log("on click submit")}/>
+                                                <Quiz onClick={this.quizState}/>
                                             </Col>
                                         </Row>
                                     </TabPane>
