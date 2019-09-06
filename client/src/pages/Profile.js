@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Jumbotron from "../components/Jumbotron";
 import { Redirect } from 'react-router-dom';
 import sessions from "../utils/sessions";
-// import Quiz from "../components/Quiz";
+import Quiz from "../components/Quiz";
 
 // import BP_Card from "../components/BP_Card";
 import Job from "../components/Job";
@@ -48,8 +48,11 @@ class Profile extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
+        // this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+        // this.rSelected = this.rSelected.bind(this);
+
         this.state = {
-            activeTab: '2',
+            activeTab: '3',
             modal: false,
             jobs: [],
             lane1: [],
@@ -61,9 +64,18 @@ class Profile extends Component {
             editJob: {},
             text: "",
             select: "",
-            noteIndex: null
+            noteIndex: null,
+            // rSelected: []
         };
     }
+
+    // onRadioBtnClick(rSelected) {
+    //     this.setState({ rSelected });
+    // }
+
+    // rSelected(selected) {
+    //     this.setState
+    // }
 
     handleInputChange = event => {
         const { name, value } = event.target;
@@ -519,7 +531,7 @@ class Profile extends Component {
                                     <TabPane tabId="3">
                                         <Row>
                                             <Col sm="12">
-                                                {/* <Quiz></Quiz> */}
+                                                <Quiz onClick={ () => console.log("on click submit")}/>
                                             </Col>
                                         </Row>
                                     </TabPane>
