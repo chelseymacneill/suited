@@ -1,6 +1,20 @@
 body {
     background-color: #657589;
 }
+
+#heading {
+    color: #231824;
+    size: 3rem;
+}
+
+#loader {
+    max-width:100%; 
+    height:auto;
+    margin: auto;
+}
+
+
+
 .jumbotron {
     padding-top: 65px;
     background-color: #F5F7F5;

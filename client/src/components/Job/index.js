@@ -26,41 +26,41 @@ function Job({ jobID, title, company, location, date, summary, greenMatches, yel
           <h5 className="font-italic">{company}</h5>
         </Col>
         <Col size="md-4">
-           
+
           {loggedIn ? (
             <section>
               <div className="btn-container">
-                <a className="btn btn-light" target="_blank" rel="noopener noreferrer" href={url}>
+                <a className="btn btn-light cardButton ml-1" target="_blank" rel="noopener noreferrer" href={url}>
                   View
                 </a>
               </div>
-              { search ? ( 
-              <section>
-              <div className="btn-container" data-toggle="buttons">
-              <button onClick={onClick} className="btn btn-light" id={jobID} rel="noopener noreferrer" >
-                Favorite
+              {search ? (
+                <section>
+                  <div className="btn-container" data-toggle="buttons">
+                    <button onClick={onClick} className="btn btn-light cardButton mr-1" id={jobID} rel="noopener noreferrer" >
+                      Favorite
               </button>
-            </div>
-            </section>
-              ):(
-              <section> 
-              <div className="btn-container" data-toggle="buttons">
-                <button close onClick={onClick} className="btn btn-light" id={jobID} rel="noopener noreferrer">
-                  Delete
+                  </div>
+                </section>
+              ) : (
+                  <section>
+                    <div className="btn-container" data-toggle="buttons">
+                      <button close onClick={onClick} className="btn btn-light cardButton mr-1" id={jobID} rel="noopener noreferrer">
+                        Delete
                 </button>
-              </div>
-              </section>
-              )}
-              
+                    </div>
+                  </section>
+                )}
+
             </section>
           ) : (
-            <section>
-              <div className="btn-container">
-                <a className="btn btn-light" target="_blank" rel="noopener noreferrer" href={url}>
-                  View
+              <section>
+                <div className="btn-container">
+                  <a className="btn btn-light" target="_blank" rel="noopener noreferrer" href={url}>
+                    View
                   </a>
-              </div>
-            </section>
+                </div>
+              </section>
             )}
         </Col>
       </Row>
@@ -73,11 +73,20 @@ function Job({ jobID, title, company, location, date, summary, greenMatches, yel
       <Row>
         <Col size="12 sm-8 md-10">
           <p>{summary}</p>
-          <h6 style={{color: "green"}}>{greenMatches}</h6>
-          <h6 style={{color: "yellow"}}>{yellowMatches}</h6>
-          <h6 style={{color: "red"}}>{redMatches}</h6>
         </Col>
-      </Row>
+        </Row>
+        <Row>
+          <Col size="md-4">
+            <h6 id="greenMatchesCardDisplay">{greenMatches}</h6>
+          </Col>
+          <Col size="md-4">
+            <h6 id="yellowMatchesCardDisplay">{yellowMatches}</h6>
+          </Col>
+          <Col size="md-4">
+            <h6 id="redMatchesCardDisplay">{redMatches}</h6>
+          </Col>
+        </Row>
+      
     </ListItem>
   );
 }

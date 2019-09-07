@@ -18,6 +18,7 @@ import sessions from "../utils/sessions"
 import { Row, Col, Container, Card, CardHeader, Button, ButtonGroup } from 'reactstrap';
 import Footer from "../components/Footer";
 import Filter from "../components/Filter";
+import "../style.css";
 
 let loggedIn;
 let sessionKey;
@@ -294,21 +295,21 @@ class Search extends Component {
                     id: 'lane1',
                     title: 'Desired Skills',
                     label: lane1.length,
-                    style: { backgroundColor: 'green' },
+                    style: { backgroundColor: '#D1F73C', border: '3px solid #D1F73C'},
                     cards: lane1
                 },
                 {
                     id: 'lane2',
                     title: 'Interested Skills',
                     label: lane2.length,
-                    style: { backgroundColor: 'yellow' },
+                    style: { backgroundColor: '#b8c1ca', border: '3px solid #b8c1ca' },
                     cards: lane2
                 },
                 {
                     id: 'lane3',
                     title: 'Unideal Skills',
                     label: lane3.length,
-                    style: { backgroundColor: 'red' },
+                    style: { backgroundColor: '#AA4154', border: '3px solid #AA4154' },
                     cards: lane3
                 },
 
@@ -330,10 +331,10 @@ class Search extends Component {
         const { loading } = this.state;
 
         return (
-            <Container fluid>
+            <Container fluid id="search">
                 <Row>
                     <Col size="md-10 md-offset-1">
-                        <Card className="p-5 m-5 rounded-0">
+                        <Card className="p-5 mt-5 rounded-0">
                             <h1> Click Search to Find Job Titles with your Displayed Filters</h1>
 
                             <Form
@@ -354,25 +355,25 @@ class Search extends Component {
                     {loggedIn ? (
 
                         <Col size="md-10 md-offset-1">
-                            <Card className="p-5 m-5 rounded-0">
+                            <Card className="p-3 mt-5 rounded-0">
 
+                                
+                            <h2 id="heading" className="text-center p-3"><strong>Filters</strong></h2>
+
+                                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "25rem", overflow: "scroll" }} className="boardContainer" />
+
+                                <br /> <br /> <br />
                                 <FormSort
                                     handleInputChange={this.handleInputChange}
                                     handleSortFormSubmit={this.handleSortFormSubmit}
                                     skill={this.state.skill}
                                 />
-                                <br /> <br /> <br />
 
-                                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "25rem", overflow: "scroll" }} className="boardContainer" />
                             </Card>
                         </Col>
                     ) : ("")}
                 </Row>
-                <Row>
-
-                    <Col size="md-10 md-offset-1">
-                    </Col>
-                </Row>
+            
                 <Row>
                     <Col size="md-10 md-offset-1">
                         {!loading &&
@@ -380,7 +381,7 @@ class Search extends Component {
                                 {this.state.jobs.length ? (
                                     
                                     <List>
-                                       <h2 className="text-center"><strong>Results</strong></h2>
+                                       <h2 id="heading" className="text-center"><strong>Results</strong></h2>
                                         {this.state.jobs.map((job, i) => (
                                             <Job
                                                 key={i}
@@ -406,7 +407,7 @@ class Search extends Component {
                             </Card>
                         }
                         {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
-                        {loading && <img src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" />}
+                        {loading && <Card className="p-5 m-5 rounded-0"><img id="loader" className="text-center" src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" /></Card>}
                     </Col>
                 </Row>
                 <Row>

@@ -1,4 +1,6 @@
 import React from "react";
+import "./style.css";
+
 
 
 function Form({ q, l, handleInputChange, handleFormSubmit, redFilterTrue, updateDBTrue }) {
@@ -13,7 +15,7 @@ function Form({ q, l, handleInputChange, handleFormSubmit, redFilterTrue, update
           id="Job"
           type="text"
           value={q}
-          placeholder="Job"
+          placeholder="Web Developer"
           name="q"
           onChange={handleInputChange}
         />
@@ -27,14 +29,14 @@ function Form({ q, l, handleInputChange, handleFormSubmit, redFilterTrue, update
           id="Location"
           type="text"
           value={l}
-          placeholder="Location"
+          placeholder="Seattle"
           name="l"
           onChange={handleInputChange}
         />
       </div>
 
       <div className="pull-right">
-        <button
+        <button id="formButton"
           onClick={handleFormSubmit}
           type="submit"
           className="btn btn-lg btn-danger float-right"
