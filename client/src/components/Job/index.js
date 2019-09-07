@@ -46,41 +46,42 @@ function Job({ title, company, location, date, summary, greenMatches, yellowMatc
           <h5 className="font-italic">{company}</h5>
         </Col>
         <Col size="md-4">
-           
+
           {loggedIn ? (
             <section>
               <div className="btn-container">
-                <a className="btn btn-light" target="_blank" rel="noopener noreferrer" href={url}>
-                  View
+                <a className="btn btn-light cardButton ml-1" target="_blank" rel="noopener noreferrer" href={url}>
+                <i class="fas fa-external-link-alt"></i>
                 </a>
               </div>
-              { !isFavorite ? ( 
+              {/* { isFavorite ? (  */}
               <section>
               <div className="btn-container" data-toggle="buttons">
               <button onClick={onClick} className="btn btn-light" id={url} rel="noopener noreferrer" >
-                Favorite
+              <i class="fas fa-heart"></i>
               </button>
             </div>
             </section>
-              ):(
+              {/* ):(
               <section> 
               <div className="btn-container" data-toggle="buttons">
                 <button close onClick={onClick} className="btn btn-light" id={url} rel="noopener noreferrer">
                   Delete
                 </button>
-              </div>
-              </section>
-              )}
-              
+                    </div>
+                  </section>
+                )}
+ */}
             </section>
           ) : (
-            <section>
-              <div className="btn-container">
-                <a className="btn btn-light" target="_blank" rel="noopener noreferrer" href={url}>
-                  View
+              <section>
+                <div className="btn-container">
+                  <a className="btn btn-light" target="_blank" rel="noopener noreferrer" href={url}>
+                  <i class="fas fa-external-link-alt"></i>
+
                   </a>
-              </div>
-            </section>
+                </div>
+              </section>
             )}
         </Col>
       </Row>
@@ -93,11 +94,20 @@ function Job({ title, company, location, date, summary, greenMatches, yellowMatc
       <Row>
         <Col size="12 sm-8 md-10">
           <p>{summary}</p>
-          <h6 style={{color: "green"}}>{greenMatches}</h6>
-          <h6 style={{color: "yellow"}}>{yellowMatches}</h6>
-          <h6 style={{color: "red"}}>{redMatches}</h6>
         </Col>
-      </Row>
+        </Row>
+        <Row>
+          <Col size="md-4">
+            <h6 id="greenMatchesCardDisplay">{greenMatches}</h6>
+          </Col>
+          <Col size="md-4">
+            <h6 id="yellowMatchesCardDisplay">{yellowMatches}</h6>
+          </Col>
+          <Col size="md-4">
+            <h6 id="redMatchesCardDisplay">{redMatches}</h6>
+          </Col>
+        </Row>
+      
     </ListItem>
   );
 }

@@ -7,3 +7,25 @@
     margin-bottom: 15px;
   }
 }
+
+.cardButton {
+  background-color: #D1F73C;
+  box-shadow: none;
+  border-radius: 0px;
+  color: #231824;
+}
+
+#greenMatchesCardDisplay {
+  border-bottom: 2px solid #D1F73C;
+  border-left: 2px solid #D1F73C;
+}
+
+#yellowMatchesCardDisplay {
+  border-bottom: 2px solid #b8c1ca;
+  border-left: 2px solid #b8c1ca;
+}
+
+#redMatchesCardDisplay {
+  border-bottom: 2px solid #AA4154;
+  border-left: 2px solid #AA4154;
+}

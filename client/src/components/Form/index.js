@@ -1,10 +1,13 @@
 import React from "react";
+import "./style.css";
 
-function Form({ q, l, handleInputChange, handleFormSubmit }) {
+
+
+function Form({ q, l, handleInputChange, handleFormSubmit, redFilterTrue, updateDBTrue }) {
   return (
     <form>
       <div className="form-group">
-        <label htmlFor="Query">
+        <label htmlFor="Query" id="formTitle">
           <strong>Job</strong>
         </label>
         <input
@@ -12,13 +15,13 @@ function Form({ q, l, handleInputChange, handleFormSubmit }) {
           id="Job"
           type="text"
           value={q}
-          placeholder="Job"
+          placeholder="Web Developer"
           name="q"
           onChange={handleInputChange}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="Location">
+        <label htmlFor="Location" id="formTitle">
           <strong>Location</strong>
         </label>
         <input
@@ -26,13 +29,14 @@ function Form({ q, l, handleInputChange, handleFormSubmit }) {
           id="Location"
           type="text"
           value={l}
-          placeholder="Location"
+          placeholder="Seattle"
           name="l"
           onChange={handleInputChange}
         />
       </div>
+
       <div className="pull-right">
-        <button
+        <button id="formButton"
           onClick={handleFormSubmit}
           type="submit"
           className="btn btn-lg btn-danger float-right"
