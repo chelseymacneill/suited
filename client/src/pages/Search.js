@@ -63,9 +63,9 @@ class Search extends Component {
   getJobs = () => {
     this.setState({ loading: true });
 
-    console.log("lane1=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id)))
-    console.log("lane2=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id)))
-    console.log("lane3=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id)))
+    // console.log("lane1=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id)))
+    // console.log("lane2=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id)))
+    // console.log("lane3=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id)))
 
     let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id);
     let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id);
@@ -160,26 +160,33 @@ class Search extends Component {
 
   componentDidMount() {
     let lanes = [];
-    for (let i = 0; i < this.state.g.length; i++) {
+    
+    API.getQuiz({ "userID": sessionKey })
+            // API.getFavorites(sessionKey)
+            .then(response => {
+                console.log('quiz response: ', response)
+                if (response.status === 200) {
+
+    for (let i = 0; i < response.data.g.length; i++) {
       let res = {
-        id: this.state.g[i],
-        title: this.state.g[i],
+        id: response.data.g[i],
+        title: response.data.g[i],
         metadata: { status: "lane1" }
       }
       lanes.push(res);
     }
-    for (let i = 0; i < this.state.y.length; i++) {
+    for (let i = 0; i < response.data.y.length; i++) {
       let res = {
-        id: this.state.y[i],
-        title: this.state.y[i],
+        id: response.data.y[i],
+        title: response.data.y[i],
         metadata: { status: "lane2" }
       }
       lanes.push(res);
     }
-    for (let i = 0; i < this.state.r.length; i++) {
+    for (let i = 0; i < response.data.r.length; i++) {
       let res = {
-        id: this.state.r[i],
-        title: this.state.r[i],
+        id: response.data.r[i],
+        title: response.data.r[i],
         metadata: { status: "lane3" }
       }
       lanes.push(res);
@@ -188,6 +195,13 @@ class Search extends Component {
     this.setState({
       lanes: lanes
     })
+}
+
+}).catch(error => {
+    alert('get quiz error: ', error)
+});
+
+
   };
 
 
