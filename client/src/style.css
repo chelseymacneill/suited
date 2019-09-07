@@ -42,7 +42,29 @@ body {
     background-color: #657589;
 }
 
-/* JUMBOTRON */
+#heading {
+    color: #231824;
+    size: 4rem;
+}
+
+#loader {
+    max-width:100%; 
+    height:auto;
+    margin: auto;
+}
+
+.fa-heart {
+    color: #AA4154;
+}
+
+#formTitle {
+    color: #231824;
+    size: 2rem;
+    margin-bottom: 0;
+}
+
+
+
 .jumbotron {
     padding-top: 65px;
     background-color: #F5F7F5;

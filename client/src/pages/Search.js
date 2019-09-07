@@ -14,8 +14,10 @@ import Board from 'react-trello'
 
 //for logged in purposes
 import sessions from "../utils/sessions"
-import { Card, Row, Col, Container } from 'reactstrap';
+import { Row, Col, Container, Card, CardHeader, Button, ButtonGroup } from 'reactstrap';
 import Footer from "../components/Footer";
+import Filter from "../components/Filter";
+import "../style.css";
 
 let loggedIn;
 let sessionKey;
@@ -34,6 +36,8 @@ class Search extends Component {
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.onCardDelete = this.onCardDelete.bind(this);
     this.handleSortFormSubmit = this.handleSortFormSubmit.bind(this);
+    this.updateDBTrue = this.updateDBTrue.bind(this);
+    this.redFilterTrue = this.redFilterTrue.bind(this);
 
 
     this.state = {
@@ -51,6 +55,8 @@ class Search extends Component {
       loading: false,
       lanes: [],
       favoriteJob: [],
+      updateDB: false,
+      redFilter: false,
       favoriteURLs: []
     };
   }
@@ -64,18 +70,28 @@ class Search extends Component {
     // console.log("lane2=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id)))
     // console.log("lane3=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id)))
 
-    let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id);
-    let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id);
-    let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id);
+    let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id.toLowerCase());
+    let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id.toLowerCase());
+    let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id.toLowerCase());
 
     API.getJobs(this.state.q, this.state.l, lane1, lane2, lane3)
       .then(res => {
         const myList = lane1;
-        const sorted = res.data.map(job => {
+        // const notmyList = lane3;
+        // if(this.state.redFilter==true){
+        //     res.data.map(job => {
+        //     const red = job.red.filter(a => !notmyList.includes(a))})
+        //     job.red = red;
+        //     return job;
+
+        // }
+        // const sorted = res.data.map(job => {
+        let sorted = res.data.map(job => {
           const green = job.green.filter(j => myList.includes(j));
           job.green = green;
           return job;
         }).sort((x, y) => y.green.length - x.green.length)
+
         this.setState({
           jobs: sorted,
           loading: false
@@ -223,8 +239,6 @@ class Search extends Component {
         }).catch(error => {
           console.log('job - get favorite error: ', error)
         });
-
-
     };
   };
 
@@ -255,38 +269,97 @@ class Search extends Component {
 
 
 
+  redFilterTrue = event => {
+    event.preventDefault();
+    console.log("redFilterTrue")
+    if (this.state.redFilter == true) {
+      this.setState({
+        redFilter: false
+      })
+    }
+    else {
+      this.setState({
+        redFilter: true
+      })
+    }
+  }
 
+
+  updateDBTrue = event => {
+    console.log("updateDBTrue")
+    event.preventDefault();
+    if (this.state.updateDB == true) {
+      this.setState({
+        updateDB: false
+      })
+    }
+    else {
+      this.setState({
+        updateDB: true
+      })
+    }
+
+  }
 
 
   render() {
+    // let lane1 = this.state.lanes.filter(a => a.metadata.status === "lane1");
+    // let lane2 = this.state.lanes.filter(a => a.metadata.status === "lane2");
+    // let lane3 = this.state.lanes.filter(a => a.metadata.status === "lane3");
+    // const data = {
+    //   lanes: [
+    //     {
+    //       id: 'lane1',
+    //       title: 'Desired Skills',
+    //       label: lane1.length,
+    //       style: { backgroundColor: 'green' },
+    //       cards: lane1
+    //     },
+    //     {
+    //       id: 'lane2',
+    //       title: 'Interested Skills',
+    //       label: lane2.length,
+    //       style: { backgroundColor: 'yellow' },
+    //       cards: lane2
+    //     },
+    //     {
+    //       id: 'lane3',
+    //       title: 'Unideal Skills',
+    //       label: lane3.length,
+    //       style: { backgroundColor: 'red' },
+    //       cards: lane3
+    //     },
+
+    //   ]
+    // }
+
     let lane1 = this.state.lanes.filter(a => a.metadata.status === "lane1");
     let lane2 = this.state.lanes.filter(a => a.metadata.status === "lane2");
     let lane3 = this.state.lanes.filter(a => a.metadata.status === "lane3");
     const data = {
-      lanes: [
-        {
-          id: 'lane1',
-          title: 'Desired Skills',
-          label: lane1.length,
-          style: { backgroundColor: 'green' },
-          cards: lane1
-        },
-        {
-          id: 'lane2',
-          title: 'Interested Skills',
-          label: lane2.length,
-          style: { backgroundColor: 'yellow' },
-          cards: lane2
-        },
-        {
-          id: 'lane3',
-          title: 'Unideal Skills',
-          label: lane3.length,
-          style: { backgroundColor: 'red' },
-          cards: lane3
-        },
-
-      ]
+        lanes: [
+            {
+                id: 'lane1',
+                title: 'Desired Skills',
+                label: lane1.length,
+                style: { backgroundColor: '#D1F73C', border: '3px solid #D1F73C'},
+                cards: lane1
+            },
+            {
+                id: 'lane2',
+                title: 'Interested Skills',
+                label: lane2.length,
+                style: { backgroundColor: '#b8c1ca', border: '3px solid #b8c1ca' },
+                cards: lane2
+            },
+            {
+                id: 'lane3',
+                title: 'Unideal Skills',
+                label: lane3.length,
+                style: { backgroundColor: '#AA4154', border: '3px solid #AA4154' },
+                cards: lane3
+            },
+        ]
     }
 
 
@@ -305,13 +378,12 @@ class Search extends Component {
     const { loading } = this.state;
 
     return (
-      <Container fluid>
+      <Container fluid id="search">
         <Row>
           <Col size="md-10 md-offset-1">
-            <Jumbotron>
-              <h1>
-                Hello World: Search Bar Here
-              </h1>
+            <Card className="p-4 mt-5 rounded-0">
+              <h1>Job Search</h1>
+              <h2 id="heading" className="mb-4"><strong>Click Search to Find Job Titles with your Displayed Filters</strong></h2>
 
               <Form
                 handleInputChange={this.handleInputChange}
@@ -320,35 +392,43 @@ class Search extends Component {
                 l={this.state.l}
               />
 
-            </Jumbotron>
+              {/* {loggedIn ? (<div>
+                            <Button color="primary" onClick={() => this.redFilterTrue} active={this.state.cSelected}>Exclude Jobs with Unideal Skills</Button>
+                            <Button color="primary" onClick={() => this.updateDBTrue} active={this.state.cSelected}>Update Filterrs To Profile</Button>
+                            </div>
+                            ) : ""} */}
+            </Card>
 
           </Col>
           {loggedIn ? (
+
             <Col size="md-10 md-offset-1">
-              <Row>
+              <Card className="p-3 mt-5 rounded-0">
+
+
+                <h2 id="heading" className="text-center p-1 mb-0"><strong>Filters</strong></h2>
+
+                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "25rem", overflow: "scroll" }} className="boardContainer" />
+                <br /> <br /> <br />
                 <FormSort
                   handleInputChange={this.handleInputChange}
                   handleSortFormSubmit={this.handleSortFormSubmit}
                   skill={this.state.skill}
                 />
-              </Row>
-              <Row>
-                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} />
-              </Row>
+
+              </Card>
             </Col>
           ) : ("")}
         </Row>
-        <Row>
-          <h2 className="text-center">{this.state.message}</h2>
-          <Col size="md-10 md-offset-1">
-          </Col>
-        </Row>
+
         <Row>
           <Col size="md-10 md-offset-1">
             {!loading &&
-              <Card title="Results">
+              <Card className="p-5 m-5 rounded-0">
                 {this.state.jobs.length ? (
+
                   <List>
+                    <h2 id="heading" className="text-center"><strong>Results</strong></h2>
                     {this.state.jobs.map((job, i) => (
                       <Job
                         key={i}
@@ -362,12 +442,13 @@ class Search extends Component {
                         redMatches={job.red.map(sub => (sub + " "))}
                         url={job.url}
                         onClick={() => this.favoriteJob({ job })}
-                        // search="true"
+                        search="true"
                         favorites={favorites}
                         index={i}
                       />
                     ))}
                   </List>
+
                 ) : (
 
                     <h2 className="text-center">{this.state.message}</h2>
@@ -375,10 +456,14 @@ class Search extends Component {
               </Card>
             }
             {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
-            {loading && <img src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" />}
+            {loading && <Card className="p-5 m-5 rounded-0"><img id="loader" className="text-center" src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" /></Card>}
           </Col>
         </Row>
-        <Footer />
+        <Row>
+          <Col size="md-10 md-offset-1">
+            <Footer />
+          </Col>
+        </Row>
       </Container>
     );
   }
