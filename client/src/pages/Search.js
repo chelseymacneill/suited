@@ -63,9 +63,9 @@ class Search extends Component {
         // console.log("lane2=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id)))
         // console.log("lane3=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id)))
 
-        let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id);
-        let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id);
-        let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id);
+        let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id.toLowerCase());
+        let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id.toLowerCase());
+        let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id.toLowerCase());
 
         API.getJobs(this.state.q, this.state.l, lane1, lane2, lane3)
             .then(res => {
