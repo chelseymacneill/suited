@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./style.css";
-import { Row, Col, CustomInput, Form, FormGroup, Label, Button, ButtonGroup } from 'reactstrap';
+import { Row, Col, CustomInput, FormGroup, Label, Button, } from 'reactstrap';
 
-import sessions from "../../utils/sessions";
+// import sessions from "../../utils/sessions";
 
 let top = [
   "Java",
@@ -94,10 +94,6 @@ let top = [
 ];
 top = top.sort();
 
-let g = [];
-let y = [];
-let r = [];
-
 let combo = [];
 
 function chunkArray(myArray, chunk_size){
@@ -124,19 +120,6 @@ function setArrays(skill, array) {
       }
     }
 }
-
-const jobTitles = [
-  "Cybersecurity engineer",
-  "AI/machine learning engineer",
-  " Full stack developer",
-  "Data scientist",
-  "Python developer",
-  "Java developer",
-  "JavaScript developer",
-  "Cloud engineer",
-  "Scrum master",
-  "DevOps engineer"
-];
 
 class Quiz extends Component {
 

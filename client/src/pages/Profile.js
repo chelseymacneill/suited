@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Jumbotron from "../components/Jumbotron";
 import { Redirect } from 'react-router-dom';
 import sessions from "../utils/sessions";
@@ -21,6 +21,7 @@ import Footer from "../components/Footer";
 
 let loggedIn;
 let sessionKey;
+let favorites = [];
 
 class Profile extends Component {
     constructor(props) {
@@ -53,6 +54,7 @@ class Profile extends Component {
             text: "",
             select: "",
             noteIndex: null,
+            // favorites;
             // quizState: []
         };
     }
@@ -172,7 +174,7 @@ class Profile extends Component {
     onCardDelete(cardId, laneId) {
         console.log(cardId);
         for (let i = 0; i < this.state.jobs.length; i++) {
-            if (this.state.jobs[i]._id == cardId) {
+            if (this.state.jobs[i]._id === cardId) {
                 let job = {job: this.state.jobs[i]};
                 return this.removeFavorite(job)
             } 
@@ -267,6 +269,7 @@ class Profile extends Component {
         API.getFavorites({ "userID": sessionKey })
             // API.getFavorites(sessionKey)
             .then(response => {
+                // let favorites = [];
                 console.log('favorite Job response: ', response)
                 if (response.status === 200) {
                     //   alert("job added to favorites!")
@@ -309,6 +312,8 @@ class Profile extends Component {
                             default:
                                 lane1.push(eachJob);
                         }
+                        favorites.push(response.data[i].url)
+
 
                     }
                     this.setState({
@@ -448,7 +453,9 @@ class Profile extends Component {
                                                                     summary={job.summary}
                                                                     url={job.url}
                                                                     onClick={() => this.removeFavorite({ job })}
-                                                                    profile="true"
+                                                                    // profile="true"
+                                                                    favorites={favorites}
+                                                                    index={i}
                                                                 />
                                                             ))}
                                                         </List>

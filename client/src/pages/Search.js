@@ -4,7 +4,6 @@ import Form from "../components/Form";
 import FormSort from "../components/FormSort";
 import Jumbotron from "../components/Jumbotron";
 
-import BP_Card from "../components/BP_Card";
 import Job from "../components/Job";
 import { List } from "../components/List";
 import API from "../utils/API";
@@ -15,354 +14,378 @@ import Board from 'react-trello'
 
 //for logged in purposes
 import sessions from "../utils/sessions"
-import { Row, Col, Container } from 'reactstrap';
+import { Card, Row, Col, Container } from 'reactstrap';
 import Footer from "../components/Footer";
 
 let loggedIn;
 let sessionKey;
+let favorites = [];
 
 
 class Search extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
-        this.favoriteJob = this.favoriteJob.bind(this);
+    this.favoriteJob = this.favoriteJob.bind(this);
 
-        this.handleDragEnd = this.handleDragEnd.bind(this);
-        this.onCardDelete = this.onCardDelete.bind(this);
-        this.handleSortFormSubmit = this.handleSortFormSubmit.bind(this);
+    this.handleDragEnd = this.handleDragEnd.bind(this);
+    this.onCardDelete = this.onCardDelete.bind(this);
+    this.handleSortFormSubmit = this.handleSortFormSubmit.bind(this);
 
 
-        this.state = {
-            jobs: [],
-            q: "",
-            l: "",
-            skill: "",
-            // these are the green words
-            g: ["javascript"],
-            // these are the yellow words
-            y: ["css"],
-            // these are the red words
-            r: ["html"],
-            message: "Enter in your desired Job to begin!",
-            loading: false,
-            lanes: [],
-            favoriteJob: []
-        };
+    this.state = {
+      jobs: [],
+      q: "",
+      l: "",
+      skill: "",
+      // these are the green words
+      g: ["javascript"],
+      // these are the yellow words
+      y: ["css"],
+      // these are the red words
+      r: ["html"],
+      message: "Enter in your desired Job to begin!",
+      loading: false,
+      lanes: [],
+      favoriteJob: [],
+      favoriteURLs: []
+    };
+  }
+
+
+
+  getJobs = () => {
+    this.setState({ loading: true });
+
+    // console.log("lane1=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id)))
+    // console.log("lane2=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id)))
+    // console.log("lane3=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id)))
+
+    let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id);
+    let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id);
+    let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id);
+
+    API.getJobs(this.state.q, this.state.l, lane1, lane2, lane3)
+      .then(res => {
+        const myList = lane1;
+        const sorted = res.data.map(job => {
+          const green = job.green.filter(j => myList.includes(j));
+          job.green = green;
+          return job;
+        }).sort((x, y) => y.green.length - x.green.length)
+        this.setState({
+          jobs: sorted,
+          loading: false
+        })
+      }
+      )
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          jobs: [],
+          message: "No New Jobs Found, Try a Different Query"
+        })
+      });
+
+
+
+
+  };
+
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+  handleFormSubmit = event => {
+    event.preventDefault();
+    this.getJobs();
+
+
+
+  };
+
+  favoriteJob(job) {
+
+    let userJob = {
+      url: job.job.url,
+      title: job.job.title,
+      company: job.job.company,
+      location: job.job.location,
+      summary: job.job.summary,
+      // date: job.job.date,
+      // ratings: job.job.ratings,
+      // salary: job.job.salary,
+      /////////////new user specific things//////////////////
+      userID: sessionKey,
+      // jobID: job.job._id,
+      interest: null,
+      status: "lane1",
+      notes: [],
     }
 
+    let favoriteJob = this.state.favoriteJob;
+    favoriteJob.push(userJob);
+    this.setState(favoriteJob);
+    //   console.log(dummyJob);
+    API.postUserJob(userJob)
+      .then(response => {
+        console.log('favorite Job response: ', response)
+        if (response.status === 200) {
+          alert("job added to favorites!")
+        }
+      }).catch(error => {
+        alert('create favorite error: ', error)
+      });
+  }
 
 
-    getJobs = () => {
-        this.setState({ loading: true });
+  handleSortFormSubmit = event => {
+    console.log("this is handle sort form submit")
+    event.preventDefault();
+    // console.log(this.state.skill)
+    let newLanes = this.state.lanes
+    newLanes.push({ id: this.state.skill, title: this.state.skill, metadata: { status: "lane2" } })
 
-        // console.log("lane1=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id)))
-        // console.log("lane2=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id)))
-        // console.log("lane3=" + JSON.stringify(this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id)))
+    this.setState({
+      lanes: newLanes,
+      skill: "",
+    })
 
-        let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id);
-        let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id);
-        let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id);
+  };
 
-        API.getJobs(this.state.q, this.state.l, lane1, lane2, lane3)
-            .then(res => {
-                const myList = lane1;
-                const sorted = res.data.map(job => {
-                    const green = job.green.filter(j => myList.includes(j));
-                    job.green = green;
-                    return job;
-                }).sort((x, y) => y.green.length - x.green.length)
-                this.setState({
-                    jobs: sorted,
-                    loading: false
-                })
+
+  componentDidMount() {
+    if (loggedIn) {
+      let lanes = [];
+
+      API.getQuiz({ "userID": sessionKey })
+        // API.getFavorites(sessionKey)
+        .then(response => {
+          ////////////////////////////////////////////////////////////
+          // console.log('quiz response: ', response)
+          if (response.status === 200) {
+
+            for (let i = 0; i < response.data.g.length; i++) {
+              let res = {
+                id: response.data.g[i],
+                title: response.data.g[i],
+                metadata: { status: "lane1" }
+              }
+              lanes.push(res);
             }
-            )
-            .catch((err) => {
-                console.log(err);
-                this.setState({
-                    jobs: [],
-                    message: "No New Jobs Found, Try a Different Query"
-                })
-            });
+            for (let i = 0; i < response.data.y.length; i++) {
+              let res = {
+                id: response.data.y[i],
+                title: response.data.y[i],
+                metadata: { status: "lane2" }
+              }
+              lanes.push(res);
+            }
+            for (let i = 0; i < response.data.r.length; i++) {
+              let res = {
+                id: response.data.r[i],
+                title: response.data.r[i],
+                metadata: { status: "lane3" }
+              }
+              lanes.push(res);
+            }
 
+            this.setState({
+              lanes: lanes,
+              g: response.data.g,
+              y: response.data.y,
+              r: response.data.r
 
+            })
 
+          }
 
-    };
-
-
-    handleInputChange = event => {
-        const { name, value } = event.target;
-        this.setState({
-            [name]: value
+        }).catch(error => {
+          alert('get quiz error: ', error)
         });
+
+
+      ///////////////get favorites///////////////////
+      API.getFavorites({ "userID": sessionKey })
+        .then(response => {
+          console.log('job - get favorites response: ', response.data)
+          if (response.status === 200) {
+            for (let i = 0; i < response.data.length; i++) {
+              favorites.push(response.data[i].url)
+            }
+          }
+        }).catch(error => {
+          console.log('job - get favorite error: ', error)
+        });
+
+
     };
-    handleFormSubmit = event => {
-        event.preventDefault();
-        this.getJobs();
-    };
+  };
 
-    favoriteJob(job) {
 
-        let userJob = {
-            url: job.job.url,
-            title: job.job.title,
-            company: job.job.company,
-            location: job.job.location,
-            summary: job.job.summary,
-            // date: job.job.date,
-            // ratings: job.job.ratings,
-            // salary: job.job.salary,
-            /////////////new user specific things//////////////////
-            userID: sessionKey,
-            // jobID: job.job._id,
-            interest: null,
-            status: "lane1",
-            notes: [],
-        }
 
-        let favoriteJob = this.state.favoriteJob;
-        favoriteJob.push(userJob);
-        this.setState(favoriteJob);
-        //   console.log(dummyJob);
-        API.postUserJob(userJob)
-            .then(response => {
-                console.log('favorite Job response: ', response)
-                if (response.status === 200) {
-                    alert("job added to favorites!")
-                }
-            }).catch(error => {
-                alert('create favorite error: ', error)
-            });
+  handleDragEnd(cardId, sourceLaneId, targetLaneId, position, cardDetails) {
+    // console.log("state before: " + JSON.stringify(this.state));
+
+    let card = this.state.lanes.filter(a => (a.id === cardDetails.id))[0];
+    console.log("card: " + JSON.stringify(card));
+    card.metadata.status = targetLaneId;
+
+    this.setState({
+      lanes: this.state.lanes
+    })
+
+  }
+
+
+  onCardDelete(cardId, laneId) {
+    console.log(cardId, this.state.lanes);
+    let deleteArray = this.state.lanes.filter(a => (a.id !== cardId));
+
+    this.setState({
+      lanes: deleteArray
+    })
+  }
+
+
+
+
+
+
+  render() {
+    let lane1 = this.state.lanes.filter(a => a.metadata.status === "lane1");
+    let lane2 = this.state.lanes.filter(a => a.metadata.status === "lane2");
+    let lane3 = this.state.lanes.filter(a => a.metadata.status === "lane3");
+    const data = {
+      lanes: [
+        {
+          id: 'lane1',
+          title: 'Desired Skills',
+          label: lane1.length,
+          style: { backgroundColor: 'green' },
+          cards: lane1
+        },
+        {
+          id: 'lane2',
+          title: 'Interested Skills',
+          label: lane2.length,
+          style: { backgroundColor: 'yellow' },
+          cards: lane2
+        },
+        {
+          id: 'lane3',
+          title: 'Unideal Skills',
+          label: lane3.length,
+          style: { backgroundColor: 'red' },
+          cards: lane3
+        },
+
+      ]
     }
 
 
-    handleSortFormSubmit = event => {
-        console.log("this is handle sort form submit")
-        event.preventDefault();
-        console.log(this.state.skill)
-        let newLanes = this.state.lanes
-        newLanes.push({ id: this.state.skill, title: this.state.skill, metadata: { status: "lane2" } })
-        this.setState({
-            lanes: newLanes,
-            skill: ""
-        })
-    };
+    sessionKey = sessions.getSession();
 
+    if (sessionKey) {
+      loggedIn = true;
 
-    componentDidMount() {
-        if (loggedIn) {
-            let lanes = [];
-
-            API.getQuiz({ "userID": sessionKey })
-                // API.getFavorites(sessionKey)
-                .then(response => {
-                    console.log('quiz response: ', response)
-                    if (response.status === 200) {
-
-                        for (let i = 0; i < response.data.g.length; i++) {
-                            let res = {
-                                id: response.data.g[i],
-                                title: response.data.g[i],
-                                metadata: { status: "lane1" }
-                            }
-                            lanes.push(res);
-                        }
-                        for (let i = 0; i < response.data.y.length; i++) {
-                            let res = {
-                                id: response.data.y[i],
-                                title: response.data.y[i],
-                                metadata: { status: "lane2" }
-                            }
-                            lanes.push(res);
-                        }
-                        for (let i = 0; i < response.data.r.length; i++) {
-                            let res = {
-                                id: response.data.r[i],
-                                title: response.data.r[i],
-                                metadata: { status: "lane3" }
-                            }
-                            lanes.push(res);
-                        }
-
-                        this.setState({
-                            lanes: lanes,
-                            g: response.data.g,
-                            y: response.data.y,
-                            r: response.data.r
-
-                        })
-                        
-                    }
-
-                }).catch(error => {
-                    alert('get quiz error: ', error)
-                });
-
-        };
-    };
-
-
-
-    handleDragEnd(cardId, sourceLaneId, targetLaneId, position, cardDetails) {
-        // console.log("state before: " + JSON.stringify(this.state));
-
-        let card = this.state.lanes.filter(a => (a.id === cardDetails.id))[0];
-        console.log("card: " + JSON.stringify(card));
-        card.metadata.status = targetLaneId;
-
-        this.setState({
-            lanes: this.state.lanes
-        })
-
-    }
-
-
-    onCardDelete(cardId, laneId) {
-        console.log(cardId, this.state.lanes);
-        let deleteArray = this.state.lanes.filter(a => (a.id !== cardId));
-
-        this.setState({
-            lanes: deleteArray
-        })
-
+    } else {
+      loggedIn = false;
 
     }
 
 
 
+    const { loading } = this.state;
 
-
-
-    render() {
-        let lane1 = this.state.lanes.filter(a => a.metadata.status === "lane1");
-        let lane2 = this.state.lanes.filter(a => a.metadata.status === "lane2");
-        let lane3 = this.state.lanes.filter(a => a.metadata.status === "lane3");
-        const data = {
-            lanes: [
-                {
-                    id: 'lane1',
-                    title: 'Desired Skills',
-                    label: lane1.length,
-                    style: { backgroundColor: 'green' },
-                    cards: lane1
-                },
-                {
-                    id: 'lane2',
-                    title: 'Interested Skills',
-                    label: lane2.length,
-                    style: { backgroundColor: 'yellow' },
-                    cards: lane2
-                },
-                {
-                    id: 'lane3',
-                    title: 'Unideal Skills',
-                    label: lane3.length,
-                    style: { backgroundColor: 'red' },
-                    cards: lane3
-                },
-
-            ]
-        }
-
-
-        sessionKey = sessions.getSession();
-        if (sessionKey) {
-            loggedIn = true;
-
-        } else {
-            loggedIn = false;
-
-        }
-
-
-
-        const { loading } = this.state;
-
-        return (
-            <Container fluid>
-                <Row>
-                    <Col size="md-10 md-offset-1">
-                        <Jumbotron>
-                            <h1>
-                                Hello World: Search Bar Here
+    return (
+      <Container fluid>
+        <Row>
+          <Col size="md-10 md-offset-1">
+            <Jumbotron>
+              <h1>
+                Hello World: Search Bar Here
               </h1>
 
-                            <Form
-                                handleInputChange={this.handleInputChange}
-                                handleFormSubmit={this.handleFormSubmit}
-                                q={this.state.q}
-                                l={this.state.l}
-                            />
+              <Form
+                handleInputChange={this.handleInputChange}
+                handleFormSubmit={this.handleFormSubmit}
+                q={this.state.q}
+                l={this.state.l}
+              />
 
-                        </Jumbotron>
+            </Jumbotron>
 
-                    </Col>
-                    {loggedIn ? (
-                        <Col size="md-10 md-offset-1">
-                            <Row>
-                                <FormSort
-                                    handleInputChange={this.handleInputChange}
-                                    handleSortFormSubmit={this.handleSortFormSubmit}
-                                    skill={this.state.skill}
-                                />
-                            </Row>
-                            <Row>
-                                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} />
-                            </Row>
-                        </Col>
-                    ) : ("")}
-                </Row>
-                <Row>
+          </Col>
+          {loggedIn ? (
+            <Col size="md-10 md-offset-1">
+              <Row>
+                <FormSort
+                  handleInputChange={this.handleInputChange}
+                  handleSortFormSubmit={this.handleSortFormSubmit}
+                  skill={this.state.skill}
+                />
+              </Row>
+              <Row>
+                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} />
+              </Row>
+            </Col>
+          ) : ("")}
+        </Row>
+        <Row>
+          <h2 className="text-center">{this.state.message}</h2>
+          <Col size="md-10 md-offset-1">
+          </Col>
+        </Row>
+        <Row>
+          <Col size="md-10 md-offset-1">
+            {!loading &&
+              <Card title="Results">
+                {this.state.jobs.length ? (
+                  <List>
+                    {this.state.jobs.map((job, i) => (
+                      <Job
+                        key={i}
+                        title={job.title}
+                        company={job.company}
+                        location={job.location}
+                        date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
+                        summary={job.summary}
+                        greenMatches={job.green.map(sub => (sub + " "))}
+                        yellowMatches={job.yellow.map(sub => (sub + " "))}
+                        redMatches={job.red.map(sub => (sub + " "))}
+                        url={job.url}
+                        onClick={() => this.favoriteJob({ job })}
+                        // search="true"
+                        favorites={favorites}
+                        index={i}
+                      />
+                    ))}
+                  </List>
+                ) : (
+
                     <h2 className="text-center">{this.state.message}</h2>
-                    <Col size="md-10 md-offset-1">
-                    </Col>
-                </Row>
-                <Row>
-                    <Col size="md-10 md-offset-1">
-                        {!loading &&
-                            <BP_Card title="Results">
-                                {this.state.jobs.length ? (
-                                    <List>
-                                        {this.state.jobs.map((job, i) => (
-                                            <Job
-                                                key={i}
-                                                title={job.title}
-                                                company={job.company}
-                                                location={job.location}
-                                                date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
-                                                summary={job.summary}
-                                                greenMatches={job.green.map(sub => (sub + " "))}
-                                                yellowMatches={job.yellow.map(sub => (sub + " "))}
-                                                redMatches={job.red.map(sub => (sub + " "))}
-                                                url={job.url}
-                                                onClick={() => this.favoriteJob({ job })}
-                                                search="true"
-                                            />
-                                        ))}
-                                    </List>
-                                ) : (
-
-                                        <h2 className="text-center">{this.state.message}</h2>
-                                    )}
-                            </BP_Card>
-                        }
-                        {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
-                        {loading && <img src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" />}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col size="md-10 md-offset-1">
-                    <Footer />
-                    </Col>
-                </Row>
-            </Container>
-        );
-    }
+                  )}
+              </Card>
+            }
+            {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
+            {loading && <img src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" />}
+          </Col>
+        </Row>
+        <Row>
+          <Col size="md-10 md-offset-1">
+            <Footer />
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 }
 
 export default Search;
