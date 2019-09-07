@@ -334,8 +334,9 @@ class Search extends Component {
             <Container fluid id="search">
                 <Row>
                     <Col size="md-10 md-offset-1">
-                        <Card className="p-5 mt-5 rounded-0">
-                            <h1> Click Search to Find Job Titles with your Displayed Filters</h1>
+                        <Card className="p-4 mt-5 rounded-0">
+                            <h1>Job Search</h1>
+                            <h2 id="heading"><strong>Click Search to Find Job Titles with your Displayed Filters</strong></h2>
 
                             <Form
                                 handleInputChange={this.handleInputChange}

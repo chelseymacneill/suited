@@ -31,14 +31,14 @@ function Job({ jobID, title, company, location, date, summary, greenMatches, yel
             <section>
               <div className="btn-container">
                 <a className="btn btn-light cardButton ml-1" target="_blank" rel="noopener noreferrer" href={url}>
-                  View
+                <i class="fas fa-external-link-alt"></i>
                 </a>
               </div>
               {search ? (
                 <section>
                   <div className="btn-container" data-toggle="buttons">
                     <button onClick={onClick} className="btn btn-light cardButton mr-1" id={jobID} rel="noopener noreferrer" >
-                      Favorite
+                    <i class="fas fa-heart"></i>
               </button>
                   </div>
                 </section>
@@ -57,7 +57,8 @@ function Job({ jobID, title, company, location, date, summary, greenMatches, yel
               <section>
                 <div className="btn-container">
                   <a className="btn btn-light" target="_blank" rel="noopener noreferrer" href={url}>
-                    View
+                  <i class="fas fa-external-link-alt"></i>
+
                   </a>
                 </div>
               </section>
