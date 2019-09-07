@@ -15,7 +15,7 @@ import Board from 'react-trello'
 
 //for logged in purposes
 import sessions from "../utils/sessions"
-import { Row, Col, Container } from 'reactstrap';
+import { Row, Col, Container, Card } from 'reactstrap';
 import Footer from "../components/Footer";
 
 let loggedIn;
@@ -287,10 +287,8 @@ class Search extends Component {
             <Container fluid>
                 <Row>
                     <Col size="md-10 md-offset-1">
-                        <Jumbotron>
-                            <h1>
-                                Hello World: Search Bar Here
-              </h1>
+                        <Card>
+                            <h1> Click Search to Find Job Titles with your Displayed Filters</h1>
 
                             <Form
                                 handleInputChange={this.handleInputChange}
@@ -299,26 +297,27 @@ class Search extends Component {
                                 l={this.state.l}
                             />
 
-                        </Jumbotron>
+                        </Card>
 
                     </Col>
                     {loggedIn ? (
                         <Col size="md-10 md-offset-1">
-                            <Row>
+                       
+                            
                                 <FormSort
                                     handleInputChange={this.handleInputChange}
                                     handleSortFormSubmit={this.handleSortFormSubmit}
                                     skill={this.state.skill}
                                 />
-                            </Row>
-                            <Row>
-                                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} />
-                            </Row>
+                                <br/> <br/> <br/> 
+                            
+                                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{fontFamily: 'Verdana', height: "25rem", overflow: "scroll"}} className="boardContainer"/>
+                                
                         </Col>
                     ) : ("")}
                 </Row>
                 <Row>
-                    <h2 className="text-center">{this.state.message}</h2>
+                    
                     <Col size="md-10 md-offset-1">
                     </Col>
                 </Row>
