@@ -194,8 +194,13 @@ class Search extends Component {
                         }
 
                         this.setState({
-                            lanes: lanes
+                            lanes: lanes,
+                            g: response.data.g,
+                            y: response.data.y,
+                            r: response.data.r
+
                         })
+                        
                     }
 
                 }).catch(error => {
