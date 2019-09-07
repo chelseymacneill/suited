@@ -16,11 +16,7 @@ class Signup extends Component {
                 </Col>
                 <Col size="md-4" />
             </Row>
-            <Row>
-                <Col size="12">
-                    <Footer />
-                </Col>
-            </Row>
+            <Footer />
             </Container>
         )
     }

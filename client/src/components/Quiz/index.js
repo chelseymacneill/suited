@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import "./style.css";
-import { Row, Col, CustomInput, Form, FormGroup, Label, Button, ButtonGroup } from 'reactstrap';
+import { Row, Col, CustomInput, FormGroup, Label, Button, } from 'reactstrap';
 
-import sessions from "../../utils/sessions";
+// import sessions from "../../utils/sessions";
 
 let top = [
   "Java",
@@ -94,10 +93,6 @@ let top = [
 ];
 top = top.sort();
 
-let g = [];
-let y = [];
-let r = [];
-
 let combo = [];
 
 function chunkArray(myArray, chunk_size){
@@ -125,34 +120,27 @@ function setArrays(skill, array) {
     }
 }
 
-const jobTitles = [
-  "Cybersecurity engineer",
-  "AI/machine learning engineer",
-  " Full stack developer",
-  "Data scientist",
-  "Python developer",
-  "Java developer",
-  "JavaScript developer",
-  "Cloud engineer",
-  "Scrum master",
-  "DevOps engineer"
-];
-
 class Quiz extends Component {
 
   render() {
 
     return (
-      <div className="quizContainer">
-        <Row className="p-5">
+      <div className="quizContainer px-5 py-3">
+        <h2 className="CardHeader">Skills Quiz</h2>
+        <p>Select <stong>+</stong> for skills that you are very confident in.</p>
+        <p>Select <stong>:</stong> for intermediate level skills, or things you'd be willing to learn</p>
+        <p>Select <stong>-</stong> for that you do not know and do not plan on learning</p>
+        <p className="quizFootnote">You are <strong>not</strong> required to save an answer for every item, and can edit later</p>
+        <Row className="">
+
           {result.map( (array, j) => (
             <Col md="2">
             {array.map( (top, i) => (
             <FormGroup >
-            <Label for={array + j}>{top}</Label>              
+            <Label className="quizLabel" for={array + j}>{top}</Label>              
               <div>
                 <CustomInput type="radio" id={"y" + top[i] + i + j} name={"Radio" + j + i} label="+" onClick={ () => setArrays( top, "g" ) } />
-                <CustomInput type="radio" id={"g" + top[i] + i + j} name={"Radio" + j + i} label="..." onClick={ () => setArrays( top, "y" ) } />
+                <CustomInput type="radio" id={"g" + top[i] + i + j} name={"Radio" + j + i} label=":" onClick={ () => setArrays( top, "y" ) } />
                 <CustomInput type="radio" id={"r" + top[i] + i + j} name={"Radio" + j + i} label="-" onClick={ () => setArrays( top, "r" ) } />
               </div>
             </FormGroup>
@@ -161,7 +149,7 @@ class Quiz extends Component {
           ))}
           <FormGroup check row>
             <Col sm="12">
-              <Button onClick={() => this.props.onClick(combo)}>Submit</Button>
+              <Button id="quizButton" className="float-right" onClick={() => this.props.onClick(combo)}>Submit</Button>
             </Col>
           </FormGroup>
         </Row>

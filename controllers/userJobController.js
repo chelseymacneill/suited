@@ -3,6 +3,8 @@ const db = require("../models");
 
 module.exports = {
     findAll: function (req, res) {
+        console.log("GET FAVORITES / USERJOBS: ", req.body)
+
         db.UserJob.find(req.body)
             .then(dbJob => res.json(dbJob))
             .catch(err => res.status(422).json(err));

@@ -1,36 +1,138 @@
+h1 {
+    color: #AA4154;
+    font-size: 2.5rem;
+    background-color: #F5F7F5;
+}
+
+/* LANDING PAGE */
+#landingButton a {
+    color: #231824;
+    
+}
+#landingButton {
+    background-color: #F5F7F5;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+#landingBlurbCol p {
+    color: #F5F7F5;
+
+}
+.landingIcon {
+    font-size: 50px;
+    padding: 0;
+    margin: 0;
+    color: #F5F7F5;
+
+}
+#landingH1 {
+    border-bottom: 3px solid #D1F73C;
+}
+
+#helpButton, .personalBtn, #quizButton {
+    color: #231824;
+    background-color: #D1F73C;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
 body {
+    color: #231824;
     background-color: #657589;
 }
+
+/* JUMBOTRON */
 .jumbotron {
     padding-top: 65px;
     background-color: #F5F7F5;
     background-image: url(https://cdn.pixabay.com/photo/2018/03/01/14/48/woman-3190829_1280.jpg);
     /* background-color: opacity(0.2); */
     height: 350px;
+    border-radius: 0px;
+}
+
+#profileJumbo {
+    font-size: 2.2rem;
+    color: #AA4154;
+    background-color: #F5F7F5;
 
 }
-.boardContainer {
-    background-color: #F5F7F5;
+#logo2 {
+    width: 80px;
 }
-h1 {
-    color: #AA4154;
-    font-size: 2.5rem;
-    background-color: #F5F7F5;
-}
+
+/* PROFILE */
+
 .quizContainer {
     background-color: #F5F7F5;
 
 }
-p {
-    /* color: #F5F7F5; */
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #231824;
+    background-color: #D1F73C;
+    box-shadow: none;
+    border-radius: 0px;
+}
+.nav-link:hover {
+    font-weight: bolder;
+}
+#profCard, #profCard2 {
+    box-shadow: none!important;
+    border-radius: 0px!important;
+
+}
+.profKanbanContainer {
+    background-color: #F5F7F5;
+
+}
+/* MODAL */
+.modal {
+    background-color: #F5F7F5;
+}
+.CardHeader {
+    color: #AA4154;
 }
 
-#landingButton a {
+/* LOGIN AND SIGNUP PAGES */
+
+.authCard {
+    border-radius: 0px;
+    box-shadow: none;
+    background-color: #F5F7F5;
+    color: #AA4154;
+}
+.authSubmit {
+    color: #231824;
+    background-color: #D1F73C;
+    box-shadow: none;
+    border-radius: 0px;
+}
+.authSubmit:hover {
+    color: #AA4154;
+    background-color: #F5F7F5;
+}
+.authLink {
+    color: #231824;
+}
+.authLink:hover {
     color: #657589;
-    text-shadow: none;
-    border-radius: 0;
 }
-#landingBlurbCol p {
-        color: #F5F7F5;
 
+
+/* QUIZ */
+.quizLabel {
+    color: #231824;
+}
+.quizFootnote {
+    color: #657589;
+    font-size: 10px;
+}
+
+
+footer a {
+    color: #231824;
+}
+footer a:hover {
+    color: #D1F73C;
 }

@@ -3,20 +3,40 @@ import { ListItem } from "../List";
 // import { Row, Col } from "../Grid";
 import "./style.css";
 import sessions from "../../utils/sessions"
+import API from "../../utils/API";
+
 import { Row, Col } from 'reactstrap';
 
 
 let loggedIn;
 let sessionKey;
+let isFavorite = false;
 
 
-function Job({ jobID, title, company, location, date, summary, greenMatches, yellowMatches, redMatches, url, onClick, search, profile, button }) {
+
+function Job({ title, company, location, date, summary, greenMatches, yellowMatches, redMatches, url, onClick, search, favorites, index, button }) {
   sessionKey = sessions.getSession();
+
   if (sessionKey) {
     loggedIn = true;
+    // console.log(favorites, index);
+
+    for (let i = 0; i < favorites.length; i++) {
+      let favURL = favorites[i];
+      let urlA = url;
+      if ( favURL == urlA) {
+         isFavorite = true;
+      } 
+    }
+
   } else {
     loggedIn = false;
+    isFavorite = false;
   }
+
+  // console.log(isFavorite);
+
+  
 
   return (
     <ListItem>
@@ -34,10 +54,10 @@ function Job({ jobID, title, company, location, date, summary, greenMatches, yel
                   View
                 </a>
               </div>
-              { search ? ( 
+              { !isFavorite ? ( 
               <section>
               <div className="btn-container" data-toggle="buttons">
-              <button onClick={onClick} className="btn btn-light" id={jobID} rel="noopener noreferrer" >
+              <button onClick={onClick} className="btn btn-light" id={url} rel="noopener noreferrer" >
                 Favorite
               </button>
             </div>
@@ -45,7 +65,7 @@ function Job({ jobID, title, company, location, date, summary, greenMatches, yel
               ):(
               <section> 
               <div className="btn-container" data-toggle="buttons">
-                <button close onClick={onClick} className="btn btn-light" id={jobID} rel="noopener noreferrer">
+                <button close onClick={onClick} className="btn btn-light" id={url} rel="noopener noreferrer">
                   Delete
                 </button>
               </div>
