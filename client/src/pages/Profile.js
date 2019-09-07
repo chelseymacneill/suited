@@ -395,7 +395,7 @@ class Profile extends Component {
                                 Save Jobs, Track Application Progress &amp;<strong> Get Hired!</strong>
                                 </h2>
                                 {/* <h2 className="float-right text-right">Save Jobs, Track Application Progress<br /><strong>&amp; Get Hired!</strong></h2> */}
-                                <img className="float-right pt-5" id="logo2" src={process.env.PUBLIC_URL + '/suitedLogo2.png'}/>
+                                {/* <img className="float-right pt-5" id="logo2" src={process.env.PUBLIC_URL + '/suitedLogo2.png'}/> */}
                             </Jumbotron>
                         </Col>
                     </Row>
