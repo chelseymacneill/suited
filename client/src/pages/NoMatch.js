@@ -1,6 +1,7 @@
 import React from "react";
-import { Col, Row, Container } from "../components/Grid";
+import { Col, Row, Container } from "reactstrap";
 import Jumbotron from "../components/Jumbotron";
+import Footer from "../components/Footer";
 
 function NoMatch() {
   return (
@@ -17,6 +18,7 @@ function NoMatch() {
           </Jumbotron>
         </Col>
       </Row>
+      <Footer />
     </Container>
   );
 }

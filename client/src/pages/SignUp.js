@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Col, Row, Container } from "../components/Grid";
+import { Col, Row, Container } from "reactstrap";
 import SignUp from "../components/SignUp";
+import Footer from "../components/Footer";
+
 
 class Signup extends Component {
     
@@ -14,12 +16,7 @@ class Signup extends Component {
                 </Col>
                 <Col size="md-4" />
             </Row>
-            <Row>
-                <Col size="md-10 md-offset-1">
-                    {/* insert footer component */}
-                    <h2>Footer Down at the bottom</h2>
-                </Col>
-            </Row>
+            <Footer />
             </Container>
         )
     }
