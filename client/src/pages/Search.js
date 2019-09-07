@@ -408,7 +408,7 @@ class Search extends Component {
 
                 <h2 id="heading" className="text-center p-1 mb-0"><strong>Filters</strong></h2>
 
-                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "25rem", overflow: "scroll" }} className="boardContainer" />
+                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "25rem", overflow: "scroll", backgroundColor: '#F5F7F5' }} className="boardContainer" />
                 <br /> <br /> <br />
                 <FormSort
                   handleInputChange={this.handleInputChange}
