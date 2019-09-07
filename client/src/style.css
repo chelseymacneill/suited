@@ -2,7 +2,11 @@ body {
     background-color: #657589;
 }
 .jumbotron {
+    padding-top: 67px;
     background-color: #F5F7F5;
+    background-image: url(https://cdn.pixabay.com/photo/2018/03/01/14/48/woman-3190829_1280.jpg);
+    /* background-color: opacity(0.2); */
+    height: 350px;
 
 }
 .boardContainer {
@@ -10,6 +14,8 @@ body {
 }
 h1 {
     color: #AA4154;
+    font-size: 3rem;
+    background-color: #F5F7F5;
 }
 .quizContainer {
     background-color: #F5F7F5;
