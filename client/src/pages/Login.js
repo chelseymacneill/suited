@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Col, Row, Container } from "../components/Grid";
+import { Col, Row, Container } from "reactstrap";
+import Footer from "../components/Footer";
 import SignIn from "../components/SignIn";
 
 
@@ -16,9 +17,8 @@ class Login extends Component {
                 <Col size="md-4" />
             </Row>
             <Row>
-                <Col size="md-10 md-offset-1">
-                    {/* insert footer component */}
-                    <h2>Footer Down at the bottom</h2>
+                <Col size="md-12">
+                    <Footer />
                 </Col>
             </Row>
             </Container>

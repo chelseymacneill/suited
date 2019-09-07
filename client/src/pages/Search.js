@@ -2,7 +2,6 @@ import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import Form from "../components/Form";
 import FormSort from "../components/FormSort";
-// import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 
 import BP_Card from "../components/BP_Card";
@@ -16,11 +15,8 @@ import Board from 'react-trello'
 
 //for logged in purposes
 import sessions from "../utils/sessions"
-
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardTitle, CardGroup, CardColumns, CardText, Row, Col, Container, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner } from 'reactstrap';
-
-// import Board from 'react-trello'
-
+import { Row, Col, Container } from 'reactstrap';
+import Footer from "../components/Footer";
 
 let loggedIn;
 let sessionKey;
@@ -361,8 +357,7 @@ class Search extends Component {
                 </Row>
                 <Row>
                     <Col size="md-10 md-offset-1">
-                        {/* insert footer component */}
-                        <h2>Footer Down at the bottom</h2>
+                    <Footer />
                     </Col>
                 </Row>
             </Container>

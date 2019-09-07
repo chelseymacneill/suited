@@ -1,38 +1,26 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-//import { Row, Col } from "../components/Grid";
-// import { Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 import { Redirect } from 'react-router-dom';
 import sessions from "../utils/sessions";
 import Quiz from "../components/Quiz";
 
-// import BP_Card from "../components/BP_Card";
 import Job from "../components/Job";
-// import SmJob from "../components/SmJob";
 import { List } from "../components/List";
 
 import API from "../utils/API";
 
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardTitle, CardHeader, CardGroup, CardColumns, CardText, Row, Col, Container, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardHeader, Row, Col, Container, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
 import classnames from 'classnames';
-// import PropTypes from "prop-types"
 
 import Board from 'react-trello'
 import "../style.css";
 
+import Footer from "../components/Footer";
+
 
 let loggedIn;
 let sessionKey;
-
-
-
-// let index = metadata.index;
-//         this.setState({
-//             text: [],
-//             editJob: this.state.jobs[index]
-//         })
-
 
 class Profile extends Component {
     constructor(props) {
@@ -52,7 +40,7 @@ class Profile extends Component {
         this.quizState = this.quizState.bind(this);
 
         this.state = {
-            activeTab: '3',
+            activeTab: '1',
             modal: false,
             jobs: [],
             lane1: [],
@@ -211,9 +199,9 @@ class Profile extends Component {
                     if (response.status === 200) {
                         console.log("job status updated")
                         this.setState({
-                            jobs: response.data
+                            jobs: response.data,
                         })
-    
+                        window.location.reload();    
                     }
                 }).catch(error => {
                     console.log('remove favorite error: ', error)
@@ -392,27 +380,27 @@ class Profile extends Component {
         } else {
 
             return (
-                <Container fluid>
+                <Container className="mx-auto">
                     {/************ JUMBOTRON *******************88*/}
                     <Row>
-                        <Col size="md-12">
+                        <Col size="md-10" >
                             <Jumbotron className="Jumbotron">
                                 <h1>
-                                    Hello World:
+                                    &nbsp;
                                 </h1>
-                                <p>{sessionKey}</p>
+                                <h2 className="float-right text-right">Save Jobs, Track Application Progress<br/><strong>&amp; Get Hired!</strong></h2>
                             </Jumbotron>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row >
                         <Col md="12">
                             <div>
-                                <Nav tabs>
+                                <Nav pills className="my-3">
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '1' })}
                                             onClick={() => { this.toggleTab('1'); }}>
-                                            Saved Jobs
+                                            Personal &amp; Jobs
                                     </NavLink>
                                     </NavItem>
                                     <NavItem>
@@ -426,7 +414,7 @@ class Profile extends Component {
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '3' })}
                                             onClick={() => { this.toggleTab('3'); }}>
-                                            Quiz
+                                            Skills Quiz
                                     </NavLink>
                                     </NavItem>
                                 </Nav>
@@ -471,8 +459,9 @@ class Profile extends Component {
                                             </Col>
                                         </Row>
                                     </TabPane>
+
                                     {/**************** JOB TRACKER BOARD **************/}
-                                    <TabPane tabId="2">
+                                    <TabPane tabId="2" >
                                         <Row>
                                             <Col lg="12">
                                                 <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} className="boardContainer"/>
@@ -548,7 +537,6 @@ class Profile extends Component {
                                                                 </Col>
                                                             </Row>
                                                         </Form>
-
                                                     </ModalBody>
                                                     <ModalFooter>
                                                         <Button color="primary" onClick={this.handleFormSubmit}>Save Notes</Button>{' '}
@@ -558,22 +546,22 @@ class Profile extends Component {
                                             </Col>
                                         </Row>
                                     </TabPane>
+
+                                    {/**************** SKILL QUIZ **************/}
                                     <TabPane tabId="3">
-                                        <Row>
-                                            <Col sm="12">
+                                        {/* <Row>
+                                            <Col sm="12"> */}
                                                 <Quiz onClick={this.quizState}/>
-                                            </Col>
-                                        </Row>
+                                            {/* </Col>
+                                        </Row> */}
                                     </TabPane>
                                 </TabContent>
                             </div>
                         </Col>
                     </Row>
                     <Row>
-                        <Col size="md-10 md-offset-1">
-                            {/* insert footer component */}
-                            <h2>Footer Down at the bottom</h2>
-                            {/* <div class="row"> */}
+                        <Col size="12">
+                            <Footer />
                         </Col>
                     </Row>
                 </Container>

@@ -29,27 +29,42 @@ class SignIn extends Component {
     onSubmit(event) {
         event.preventDefault();
 
-        const userLogin = {
-            user: {
-                email: this.state.email,
-                password: this.state.password
-            }
-        }
+        // API.userEmail(this.state.email)
+        // .then(response => {
+        //     console.log('user email response: ', response)
+        //     if (response.status === 200) {
+        //         console.log("user email is already in use")
+        //     } else {
+                ///////////////IF USER EMAIL DOES NOT EXIST, CREATE NEW USER /////////////
+                const userLogin = {
+                    user: {
+                        email: this.state.email,
+                        password: this.state.password
+                    }
+                }
 
-        API.postLogin(userLogin)
-        .then( response => {
-            sessions.setSession(response.data.user._id);
-            console.log('login response: ', response)
-            if (response.status === 200) {
-                this.setState({
-                    loggedIn: true,
-                    username: response.data.user._id,
-                    redirectTo: '/profile/' + response.data.user._id
-                })
-            } 
-        }).catch(error => {
-            alert('login error: ', error)
-        });
+                API.postLogin(userLogin)
+                .then( response => {
+                    sessions.setSession(response.data.user._id);
+                    console.log('login response: ', response)
+                    if (response.status === 200) {
+                        this.setState({
+                            loggedIn: true,
+                            username: response.data.user._id,
+                            redirectTo: '/profile/' + response.data.user._id
+                        })
+                    } else {
+                        alert('login error')
+                    }
+                }).catch(error => {
+                    alert('login error: Please check username or Password', error)
+                });
+            // }
+        //   }).catch(error => {
+        //     alert('create favorite error: ', error)
+        //   });
+
+        
     };
 
     logout() {
