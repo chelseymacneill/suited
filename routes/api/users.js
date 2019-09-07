@@ -121,7 +121,21 @@ router.post("/quiz", auth.optional, (req, res, next) => {
     })
     .then(dbJob => res.json(dbJob))
     .catch(err => res.status(422).json(err));
-})
+});
+
+
+router.post("/getQuiz", auth.optional, (req, res, next) => {
+  console.log("Retrieve QUIZ: ", req.body)
+
+  
+    Users.findOne({_id: req.body.userID})
+      .then(dbJob => res.json(dbJob))
+      .catch(err => res.status(422).json(err));
+  
+});
+
+
+
 // })
 // .post(usersController.updateQuiz);
 
