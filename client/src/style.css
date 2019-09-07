@@ -1,8 +1,12 @@
-
+h1 {
+    color: #AA4154;
+    font-size: 2.5rem;
+    background-color: #F5F7F5;
+}
 
 /* LANDING PAGE */
 #landingButton a {
-    color: #657589;
+    color: #231824;
     
 }
 #landingButton {
@@ -26,7 +30,8 @@
     border-bottom: 3px solid #D1F73C;
 }
 
-#helpButton {
+#helpButton, .personalBtn {
+    color: #231824;
     background-color: #D1F73C;
     box-shadow: none;
     border-radius: 0px;
@@ -36,26 +41,45 @@ body {
     color: #231824;
     background-color: #657589;
 }
+
+/* JUMBOTRON */
 .jumbotron {
     padding-top: 65px;
     background-color: #F5F7F5;
     background-image: url(https://cdn.pixabay.com/photo/2018/03/01/14/48/woman-3190829_1280.jpg);
     /* background-color: opacity(0.2); */
     height: 350px;
+    border-radius: 0px;
+
 
 }
-.boardContainer {
-    background-color: #F5F7F5;
+
+/* PROFILE */
+.boardContainer #quizKanban{
+    background-color: #231824;
 }
-h1 {
-    color: #AA4154;
-    font-size: 2.5rem;
-    background-color: #F5F7F5;
-}
+
 .quizContainer {
     background-color: #F5F7F5;
 
 }
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #231824;
+    background-color: #D1F73C;
+    box-shadow: none;
+    border-radius: 0px;
+}
+#profCard, #profCard2 {
+    box-shadow: none!important;
+    border-radius: 0px!important;
+
+}
+
+
+
+
+
+/* LOGIN AND SIGNUP PAGES */
 
 .authCard {
     border-radius: 0px;
