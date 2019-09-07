@@ -25,7 +25,7 @@ class Nav extends Component {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="/">Suited</a>
+        <a className="navbar-brand" href="/"><img id="navLogo" src={process.env.PUBLIC_URL + '/suitedLogo1.png'}/>&nbsp;&nbsp;Suited</a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -35,7 +35,7 @@ class Nav extends Component {
             <div className="navbar-nav">
             <a className="nav-item nav-link" href="/search">Search<span className="sr-only">(current)</span></a>
             <a className="nav-item nav-link" href={"/profile/" + sessionKey } >Profile</a>
-            <Link to="/" onClick={() => this.logout() } className="nav-item btn btn-outline-success">Logout</Link>
+            <Link to="/" onClick={() => this.logout() } className="authBtn nav-item btn">Logout</Link>
             </div>
             </section>
           ) : (
@@ -43,7 +43,7 @@ class Nav extends Component {
             <div className="navbar-nav">
             <a className="nav-item nav-link" href="/search">Search<span className="sr-only">(current)</span></a>
             <a className="nav-item nav-link disabled" disabled>Profile</a>
-            <a className="nav-item btn btn-outline-success" href="/login">Login</a>
+            <Link to="/login" className="nav-item btn authBtn">Login</Link>
             </div>
             </section>
           )}

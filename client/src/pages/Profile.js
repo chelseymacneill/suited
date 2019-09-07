@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Jumbotron from "../components/Jumbotron";
 import { Redirect } from 'react-router-dom';
 import sessions from "../utils/sessions";
@@ -10,7 +10,7 @@ import { List } from "../components/List";
 
 import API from "../utils/API";
 
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardHeader, Row, Col, Container, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardHeader, Row, Col, Container, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText, Label, Input } from 'reactstrap';
 import classnames from 'classnames';
 
 import Board from 'react-trello'
@@ -21,6 +21,7 @@ import Footer from "../components/Footer";
 
 let loggedIn;
 let sessionKey;
+let favorites = [];
 
 class Profile extends Component {
     constructor(props) {
@@ -53,6 +54,7 @@ class Profile extends Component {
             text: "",
             select: "",
             noteIndex: null,
+            // favorites;
             // quizState: []
         };
     }
@@ -70,7 +72,7 @@ class Profile extends Component {
                 g.push(array[i].skill)
             } else if (array[i].radio === "y") {
                 y.push(array[i].skill)
-            } else if (array[i].radio === "r"){
+            } else if (array[i].radio === "r") {
                 r.push(array[i].skill)
             }
         }
@@ -85,14 +87,14 @@ class Profile extends Component {
         console.log(data)
 
         API.postQuiz(data)
-        .then(response => {
-            console.log('user quiz results: ', response)
-            if (response.status === 200) {
-                console.log("user quiz results updated")
-            }
-        }).catch(error => {
-            console.log('user quiz error: ', error)
-        });
+            .then(response => {
+                console.log('user quiz results: ', response)
+                if (response.status === 200) {
+                    console.log("user quiz results updated")
+                }
+            }).catch(error => {
+                console.log('user quiz error: ', error)
+            });
     }
 
     handleInputChange = event => {
@@ -116,15 +118,15 @@ class Profile extends Component {
             }
 
             API.updateFavorite(data)
-            .then(response => {
-                console.log('update user job status response: ', response)
-                if (response.status === 200) {
-                    console.log("job interest level updated")
-                    window.location.reload();
-                }
-            }).catch(error => {
-                console.log('remove favorite error: ', error)
-            });
+                .then(response => {
+                    console.log('update user job status response: ', response)
+                    if (response.status === 200) {
+                        console.log("job interest level updated")
+                        window.location.reload();
+                    }
+                }).catch(error => {
+                    console.log('remove favorite error: ', error)
+                });
         }
 
         //////////// IF THE USER TYPES NOTES ON THE KANBAN  ///////////////////
@@ -133,19 +135,19 @@ class Profile extends Component {
                 id: this.state.editJob._id,
                 text: this.state.text
             }
-    
+
             API.createNote(note)
-            .then(response => {
-                console.log('update note status response: ', response)
-                if (response.status === 200) {
-                    console.log("note updated", response)
-                    window.location.reload();
-                }
-            }).catch(error => {
-                console.log('create note error: ', error)
-            });
+                .then(response => {
+                    console.log('update note status response: ', response)
+                    if (response.status === 200) {
+                        console.log("note updated", response)
+                        window.location.reload();
+                    }
+                }).catch(error => {
+                    console.log('create note error: ', error)
+                });
         }
-        
+
     };
 
     removeFavorite(job) {
@@ -172,10 +174,10 @@ class Profile extends Component {
     onCardDelete(cardId, laneId) {
         console.log(cardId);
         for (let i = 0; i < this.state.jobs.length; i++) {
-            if (this.state.jobs[i]._id == cardId) {
-                let job = {job: this.state.jobs[i]};
+            if (this.state.jobs[i]._id === cardId) {
+                let job = { job: this.state.jobs[i] };
                 return this.removeFavorite(job)
-            } 
+            }
         }
     }
 
@@ -183,34 +185,34 @@ class Profile extends Component {
         // event.preventDefault();
         let note = {
             id: this.state.editJob._id,
-            note:  this.state.editJob.notes[i]
+            note: this.state.editJob.notes[i]
         }
         console.log(note);
         API.deleteNote(note)
-        .then(response => {
-            console.log('update note status response: ', response)
-            if (response.status === 200) {
-                console.log("note updated", response)
-                // alert("Note Deleted")
-                // window.location.reload();
-                API.getFavorites({ "userID": sessionKey })
-                .then(response => {
-                    console.log('update job status response: ', response)
-                    if (response.status === 200) {
-                        console.log("job status updated")
-                        this.setState({
-                            jobs: response.data,
-                        })
-                        window.location.reload();    
-                    }
-                }).catch(error => {
-                    console.log('remove favorite error: ', error)
-                });
+            .then(response => {
+                console.log('update note status response: ', response)
+                if (response.status === 200) {
+                    console.log("note updated", response)
+                    // alert("Note Deleted")
+                    // window.location.reload();
+                    API.getFavorites({ "userID": sessionKey })
+                        .then(response => {
+                            console.log('update job status response: ', response)
+                            if (response.status === 200) {
+                                console.log("job status updated")
+                                this.setState({
+                                    jobs: response.data,
+                                })
+                                window.location.reload();
+                            }
+                        }).catch(error => {
+                            console.log('remove favorite error: ', error)
+                        });
 
-            }
-        }).catch(error => {
-            console.log('create note error: ', error)
-        });
+                }
+            }).catch(error => {
+                console.log('create note error: ', error)
+            });
     }
 
     toggleTab(tab) {
@@ -234,14 +236,14 @@ class Profile extends Component {
             status: targetLaneId
         }
         API.updateFavorite(data)
-        .then(response => {
-            console.log('update job status response: ', response)
-            if (response.status === 200) {
-                console.log("job status updated")
-            }
-        }).catch(error => {
-            console.log('remove favorite error: ', error)
-        });
+            .then(response => {
+                console.log('update job status response: ', response)
+                if (response.status === 200) {
+                    console.log("job status updated")
+                }
+            }).catch(error => {
+                console.log('remove favorite error: ', error)
+            });
     }
 
     onCardClick(cardId, metadata, laneId) {
@@ -267,6 +269,7 @@ class Profile extends Component {
         API.getFavorites({ "userID": sessionKey })
             // API.getFavorites(sessionKey)
             .then(response => {
+                // let favorites = [];
                 console.log('favorite Job response: ', response)
                 if (response.status === 200) {
                     //   alert("job added to favorites!")
@@ -309,6 +312,8 @@ class Profile extends Component {
                             default:
                                 lane1.push(eachJob);
                         }
+                        favorites.push(response.data[i].url)
+
 
                     }
                     this.setState({
@@ -334,13 +339,14 @@ class Profile extends Component {
                 {
                     id: 'lane1',
                     title: 'Unassigned',
-                    label: '2/2',
-                    cards: this.state.lane1
+                    label: this.state.lane1.length + " Jobs",
+                    cards: this.state.lane1,
+                    style: {color: '#231824', backgroundColor: '#b8c1ca'}
                 },
                 {
                     id: 'lane2',
                     title: 'Application Sent',
-                    label: '0/0',
+                    label: this.state.lane2.length + " Jobs",
                     cards: this.state.lane2
                     //     [
                     //     {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false},
@@ -350,19 +356,19 @@ class Profile extends Component {
                 {
                     id: 'lane3',
                     title: 'Response Received',
-                    label: '0/0',
+                    label: this.state.lane3.length + " Jobs",
                     cards: this.state.lane3
                 },
                 {
                     id: 'lane4',
                     title: 'Had Phone Interview',
-                    label: '0/0',
+                    label: this.state.lane4.length + " Jobs",
                     cards: this.state.lane4
                 },
                 {
                     id: 'lane5',
                     title: 'Had Live Interview',
-                    label: '0/0',
+                    label: this.state.lane5.length + " Jobs",
                     cards: this.state.lane5
                 }
             ]
@@ -385,19 +391,21 @@ class Profile extends Component {
                     <Row>
                         <Col size="md-10" >
                             <Jumbotron className="Jumbotron">
-                                <h1>
-                                    &nbsp;
-                                </h1>
-                                <h2 className="float-right text-right">Save Jobs, Track Application Progress<br/><strong>&amp; Get Hired!</strong></h2>
+                                <h2 className="p-2 text-center" id="profileJumbo">
+                                Save Jobs, Track Application Progress &amp;<strong> Get Hired!</strong>
+                                </h2>
+                                {/* <h2 className="float-right text-right">Save Jobs, Track Application Progress<br /><strong>&amp; Get Hired!</strong></h2> */}
+                                {/* <img className="float-right pt-5" id="logo2" src={process.env.PUBLIC_URL + '/suitedLogo2.png'}/> */}
                             </Jumbotron>
                         </Col>
                     </Row>
                     <Row >
                         <Col md="12">
                             <div>
-                                <Nav pills className="my-3">
-                                    <NavItem>
+                                <Nav pills className="my-4">
+                                    <NavItem >
                                         <NavLink
+                                            className="profilePill"
                                             className={classnames({ active: this.state.activeTab === '1' })}
                                             onClick={() => { this.toggleTab('1'); }}>
                                             Personal &amp; Jobs
@@ -424,15 +432,43 @@ class Profile extends Component {
                                     <TabPane tabId="1">
                                         <Row>
                                             <Col md="3">
-                                                <Card>
-                                                    <CardHeader>
+                                                <Card id="profCard">
+                                                    <CardHeader className="CardHeader">
                                                         <h2>Profile</h2>
                                                     </CardHeader>
+                                                    <Form className="pl-3">
+                                                    <FormGroup row>
+                                                    <Col sm={10}>
+                                                        <Input type="text" name="Fname" id="firstName" placeholder="First Name" />
+                                                    </Col>
+                                                    </FormGroup>
+                                                    <FormGroup row>
+                                                    <Col sm={10}>
+                                                        <Input type="text" name="Lname" id="lastName" placeholder="Last Name" />
+                                                    </Col>
+                                                    </FormGroup>
+                                                    <FormGroup row>
+                                                    <Col sm={10}>
+                                                        <Input type="text" name="City" id="City" placeholder="City" />
+                                                    </Col>
+                                                    </FormGroup>
+                                                    <FormGroup row>
+                                                    <Col sm={10}>
+                                                        <Input type="text" name="State" id="State" placeholder="State" />
+                                                    </Col>
+                                                    </FormGroup>
+                                                    <FormGroup row>
+                                                    <Col sm={10}>
+                                                        <Input type="text" name="Zip_Code" id="Zip_Code" placeholder="Zip Code" />
+                                                    </Col>
+                                                    </FormGroup>
+                                                    <Button className="personalBtn float-right m-3">Submit</Button>
+                                                </Form>
                                                 </Card>
                                             </Col>
                                             <Col md="9">
-                                                <Card >
-                                                    <CardHeader>
+                                                <Card id="profCard2">
+                                                    <CardHeader className="CardHeader">
                                                         <h2>Favorite Jobs</h2>
                                                     </CardHeader>
                                                     {this.state.jobs.length ? (
@@ -448,7 +484,9 @@ class Profile extends Component {
                                                                     summary={job.summary}
                                                                     url={job.url}
                                                                     onClick={() => this.removeFavorite({ job })}
-                                                                    profile="true"
+                                                                    // profile="true"
+                                                                    favorites={favorites}
+                                                                    index={i}
                                                                 />
                                                             ))}
                                                         </List>
@@ -463,10 +501,11 @@ class Profile extends Component {
                                     {/**************** JOB TRACKER BOARD **************/}
                                     <TabPane tabId="2" >
                                         <Row>
-                                            <Col lg="12">
-                                                <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} className="boardContainer"/>
+                                            <Col lg="12" className="profKanbanContainer p-3 mx-0">
+                                            <h2 className="CardHeader">Job Tracker</h2>
+                                                <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} id="quizKanban" className="boardContainer" laneStyle={{ backgroundColor: '#b8c1ca' }} style={{ backgroundColor: '#F5F7F5' }} />
                                                 {/* onClick={() => this.removeFavorite({ job })} */}
-                                                <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
+                                                <Modal className="modal" isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
                                                     <ModalHeader toggle={this.toggleModal}>{this.state.editJob.company}</ModalHeader>
                                                     <ModalBody>
                                                         <Row>
@@ -515,25 +554,25 @@ class Profile extends Component {
                                                                     {/* <p>{this.state.editJob.notes}</p> */}
                                                                     {this.state.editJob.notes ? (
                                                                         <div>
-                                                                        <h4>Notes:</h4>
+                                                                            <h4>Notes:</h4>
                                                                             {this.state.editJob.notes.map((note, i) => (
                                                                                 <Row>
                                                                                     <Col md="1">
-                                                                                    <p>{i+1})</p>
+                                                                                        <p>{i + 1})</p>
                                                                                     </Col>
                                                                                     <Col md="9">
-                                                                                    <p key={this.state.editJob._id}>{note}</p>
+                                                                                        <p key={this.state.editJob._id}>{note}</p>
                                                                                     </Col>
                                                                                     <Col md="1">
-                                                                                    <Button close onClick={() => this.deleteNote(i)}/>
+                                                                                        <Button close onClick={() => this.deleteNote(i)} />
                                                                                     </Col>
                                                                                 </Row>
                                                                             ))}
                                                                         </div>
-                                                                    // <p>Test</p>
-                                                                    ):(
-                                                                    <p>No notes yet</p>
-                                                                    )}
+                                                                        // <p>Test</p>
+                                                                    ) : (
+                                                                            <p>No notes yet</p>
+                                                                        )}
                                                                 </Col>
                                                             </Row>
                                                         </Form>
@@ -551,19 +590,16 @@ class Profile extends Component {
                                     <TabPane tabId="3">
                                         {/* <Row>
                                             <Col sm="12"> */}
-                                                <Quiz onClick={this.quizState}/>
-                                            {/* </Col>
+
+                                        <Quiz onClick={this.quizState} />
+                                        {/* </Col>
                                         </Row> */}
                                     </TabPane>
                                 </TabContent>
                             </div>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col size="12">
-                            <Footer />
-                        </Col>
-                    </Row>
+                    <Footer />
                 </Container>
             )
         }

@@ -34,7 +34,7 @@ module.exports = {
                                 job.green = green;
                                 job.yellow = yellow;
                                 job.red = red;
-                                console.log(job);
+                                // console.log(job);
 
                             // }
                             // else {
