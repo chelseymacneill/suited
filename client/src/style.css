@@ -46,7 +46,9 @@ body {
     color: #231824;
     size: 4rem;
 }
-
+.boardContainer {
+    background-color: #F5F7F5;
+ }
 #loader {
     max-width:100%; 
     height:auto;

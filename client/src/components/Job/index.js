@@ -54,7 +54,7 @@ function Job({ title, company, location, date, summary, greenMatches, yellowMatc
                 <i class="fas fa-external-link-alt"></i>
                 </a>
               </div>
-              { !isFavorite ? ( 
+              {/* { isFavorite ? (  */}
               <section>
               <div className="btn-container" data-toggle="buttons">
               <button onClick={onClick} className="btn btn-light" id={url} rel="noopener noreferrer" >
@@ -62,7 +62,7 @@ function Job({ title, company, location, date, summary, greenMatches, yellowMatc
               </button>
             </div>
             </section>
-              ):(
+              {/* ):(
               <section> 
               <div className="btn-container" data-toggle="buttons">
                 <button close onClick={onClick} className="btn btn-light" id={url} rel="noopener noreferrer">
@@ -71,7 +71,7 @@ function Job({ title, company, location, date, summary, greenMatches, yellowMatc
                     </div>
                   </section>
                 )}
-
+ */}
             </section>
           ) : (
               <section>
