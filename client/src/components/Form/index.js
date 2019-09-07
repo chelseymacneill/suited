@@ -1,6 +1,7 @@
 import React from "react";
 
-function Form({ q, l, handleInputChange, handleFormSubmit }) {
+
+function Form({ q, l, handleInputChange, handleFormSubmit, redFilterTrue, updateDBTrue }) {
   return (
     <form>
       <div className="form-group">
@@ -31,6 +32,7 @@ function Form({ q, l, handleInputChange, handleFormSubmit }) {
           onChange={handleInputChange}
         />
       </div>
+
       <div className="pull-right">
         <button
           onClick={handleFormSubmit}

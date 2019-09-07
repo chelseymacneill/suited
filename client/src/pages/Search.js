@@ -15,8 +15,9 @@ import Board from 'react-trello'
 
 //for logged in purposes
 import sessions from "../utils/sessions"
-import { Row, Col, Container, Card } from 'reactstrap';
+import { Row, Col, Container, Card, CardHeader, Button, ButtonGroup } from 'reactstrap';
 import Footer from "../components/Footer";
+import Filter from "../components/Filter";
 
 let loggedIn;
 let sessionKey;
@@ -34,6 +35,8 @@ class Search extends Component {
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.onCardDelete = this.onCardDelete.bind(this);
         this.handleSortFormSubmit = this.handleSortFormSubmit.bind(this);
+        this.updateDBTrue = this.updateDBTrue.bind(this);
+        this.redFilterTrue = this.redFilterTrue.bind(this);
 
 
         this.state = {
@@ -50,7 +53,10 @@ class Search extends Component {
             message: "Enter in your desired Job to begin!",
             loading: false,
             lanes: [],
-            favoriteJob: []
+            favoriteJob: [],
+            updateDB: false,
+            redFilter: false,
+
         };
     }
 
@@ -70,11 +76,21 @@ class Search extends Component {
         API.getJobs(this.state.q, this.state.l, lane1, lane2, lane3)
             .then(res => {
                 const myList = lane1;
-                const sorted = res.data.map(job => {
+                // const notmyList = lane3;
+                // if(this.state.redFilter==true){
+                //     res.data.map(job => {
+                //     const red = job.red.filter(a => !notmyList.includes(a))})
+                //     job.red = red;
+                //     return job;
+                    
+                // }
+
+                let sorted = res.data.map(job => {
                     const green = job.green.filter(j => myList.includes(j));
                     job.green = green;
                     return job;
                 }).sort((x, y) => y.green.length - x.green.length)
+
                 this.setState({
                     jobs: sorted,
                     loading: false
@@ -196,7 +212,7 @@ class Search extends Component {
                             r: response.data.r
 
                         })
-                        
+
                     }
 
                 }).catch(error => {
@@ -233,7 +249,37 @@ class Search extends Component {
 
     }
 
+    redFilterTrue = event => {
+        event.preventDefault();
+        console.log("redFilterTrue")
+        if(this.state.redFilter==true){
+            this.setState({
+                redFilter: false
+            })
+        }
+        else{
+        this.setState({
+            redFilter: true
+        })
+    }
+}
+        
 
+    updateDBTrue = event => {
+        console.log("updateDBTrue")
+        event.preventDefault();
+        if(this.state.updateDB==true){
+            this.setState({
+                updateDB: false
+            })
+        }
+        else{
+        this.setState({
+            updateDB: true
+        })
+    }
+        
+    }
 
 
 
@@ -287,7 +333,7 @@ class Search extends Component {
             <Container fluid>
                 <Row>
                     <Col size="md-10 md-offset-1">
-                        <Card>
+                        <Card className="p-5 m-5 rounded-0">
                             <h1> Click Search to Find Job Titles with your Displayed Filters</h1>
 
                             <Form
@@ -297,36 +343,44 @@ class Search extends Component {
                                 l={this.state.l}
                             />
 
+                            {/* {loggedIn ? (<div>
+                            <Button color="primary" onClick={() => this.redFilterTrue} active={this.state.cSelected}>Exclude Jobs with Unideal Skills</Button>
+                            <Button color="primary" onClick={() => this.updateDBTrue} active={this.state.cSelected}>Update Filterrs To Profile</Button>
+                            </div>
+                            ) : ""} */}
                         </Card>
 
                     </Col>
                     {loggedIn ? (
+
                         <Col size="md-10 md-offset-1">
-                       
-                            
+                            <Card className="p-5 m-5 rounded-0">
+
                                 <FormSort
                                     handleInputChange={this.handleInputChange}
                                     handleSortFormSubmit={this.handleSortFormSubmit}
                                     skill={this.state.skill}
                                 />
-                                <br/> <br/> <br/> 
-                            
-                                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{fontFamily: 'Verdana', height: "25rem", overflow: "scroll"}} className="boardContainer"/>
-                                
+                                <br /> <br /> <br />
+
+                                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "25rem", overflow: "scroll" }} className="boardContainer" />
+                            </Card>
                         </Col>
                     ) : ("")}
                 </Row>
                 <Row>
-                    
+
                     <Col size="md-10 md-offset-1">
                     </Col>
                 </Row>
                 <Row>
                     <Col size="md-10 md-offset-1">
                         {!loading &&
-                            <BP_Card title="Results">
+                            <Card className="p-5 m-5 rounded-0">
                                 {this.state.jobs.length ? (
+                                    
                                     <List>
+                                       <h2 className="text-center"><strong>Results</strong></h2>
                                         {this.state.jobs.map((job, i) => (
                                             <Job
                                                 key={i}
@@ -344,11 +398,12 @@ class Search extends Component {
                                             />
                                         ))}
                                     </List>
+                                    
                                 ) : (
 
                                         <h2 className="text-center">{this.state.message}</h2>
                                     )}
-                            </BP_Card>
+                            </Card>
                         }
                         {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
                         {loading && <img src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" />}
@@ -356,7 +411,7 @@ class Search extends Component {
                 </Row>
                 <Row>
                     <Col size="md-10 md-offset-1">
-                    <Footer />
+                        <Footer />
                     </Col>
                 </Row>
             </Container>
