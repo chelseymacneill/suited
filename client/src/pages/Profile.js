@@ -386,21 +386,21 @@ class Profile extends Component {
                         <Col size="md-10" >
                             <Jumbotron className="Jumbotron">
                                 <h1>
-                                    Hello!
+                                    &nbsp;
                                 </h1>
-                                <h2 className="float-right">Save Jobs, Track Application Progress & Get Hired!</h2>
+                                <h2 className="float-right text-right">Save Jobs, Track Application Progress<br/><strong>&amp; Get Hired!</strong></h2>
                             </Jumbotron>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row >
                         <Col md="12">
                             <div>
-                                <Nav tabs>
+                                <Nav pills className="my-3">
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '1' })}
                                             onClick={() => { this.toggleTab('1'); }}>
-                                            Saved Jobs
+                                            Personal &amp; Jobs
                                     </NavLink>
                                     </NavItem>
                                     <NavItem>
@@ -414,7 +414,7 @@ class Profile extends Component {
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '3' })}
                                             onClick={() => { this.toggleTab('3'); }}>
-                                            Quiz
+                                            Skills Quiz
                                     </NavLink>
                                     </NavItem>
                                 </Nav>
@@ -459,8 +459,9 @@ class Profile extends Component {
                                             </Col>
                                         </Row>
                                     </TabPane>
+
                                     {/**************** JOB TRACKER BOARD **************/}
-                                    <TabPane tabId="2">
+                                    <TabPane tabId="2" >
                                         <Row>
                                             <Col lg="12">
                                                 <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} className="boardContainer"/>
@@ -545,12 +546,14 @@ class Profile extends Component {
                                             </Col>
                                         </Row>
                                     </TabPane>
+
+                                    {/**************** SKILL QUIZ **************/}
                                     <TabPane tabId="3">
-                                        <Row>
-                                            <Col sm="12">
+                                        {/* <Row>
+                                            <Col sm="12"> */}
                                                 <Quiz onClick={this.quizState}/>
-                                            </Col>
-                                        </Row>
+                                            {/* </Col>
+                                        </Row> */}
                                     </TabPane>
                                 </TabContent>
                             </div>

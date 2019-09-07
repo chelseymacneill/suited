@@ -144,7 +144,7 @@ class Quiz extends Component {
 
     return (
       <div className="quizContainer">
-        <Row>
+        <Row className="p-5">
           {result.map( (array, j) => (
             <Col md="2">
             {array.map( (top, i) => (

@@ -2,7 +2,7 @@ body {
     background-color: #657589;
 }
 .jumbotron {
-    padding-top: 67px;
+    padding-top: 65px;
     background-color: #F5F7F5;
     background-image: url(https://cdn.pixabay.com/photo/2018/03/01/14/48/woman-3190829_1280.jpg);
     /* background-color: opacity(0.2); */
@@ -14,10 +14,23 @@ body {
 }
 h1 {
     color: #AA4154;
-    font-size: 3rem;
+    font-size: 2.5rem;
     background-color: #F5F7F5;
 }
 .quizContainer {
     background-color: #F5F7F5;
+
+}
+p {
+    /* color: #F5F7F5; */
+}
+
+#landingButton a {
+    color: #657589;
+    text-shadow: none;
+    border-radius: 0;
+}
+#landingBlurbCol p {
+        color: #F5F7F5;
 
 }
