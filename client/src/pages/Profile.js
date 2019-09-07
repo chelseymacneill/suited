@@ -340,7 +340,8 @@ class Profile extends Component {
                     id: 'lane1',
                     title: 'Unassigned',
                     label: this.state.lane1.length + " Jobs",
-                    cards: this.state.lane1
+                    cards: this.state.lane1,
+                    style: {color: '#231824', backgroundColor: '#b8c1ca'}
                 },
                 {
                     id: 'lane2',
@@ -390,10 +391,11 @@ class Profile extends Component {
                     <Row>
                         <Col size="md-10" >
                             <Jumbotron className="Jumbotron">
-                                <h1>
-                                    &nbsp;
-                                </h1>
-                                <h2 className="float-right text-right">Save Jobs, Track Application Progress<br /><strong>&amp; Get Hired!</strong></h2>
+                                <h2 className="p-2 text-center" id="profileJumbo">
+                                Save Jobs, Track Application Progress &amp;<strong> Get Hired!</strong>
+                                </h2>
+                                {/* <h2 className="float-right text-right">Save Jobs, Track Application Progress<br /><strong>&amp; Get Hired!</strong></h2> */}
+                                <img className="float-right pt-5" id="logo2" src={process.env.PUBLIC_URL + '/suitedLogo2.png'}/>
                             </Jumbotron>
                         </Col>
                     </Row>
@@ -431,7 +433,7 @@ class Profile extends Component {
                                         <Row>
                                             <Col md="3">
                                                 <Card id="profCard">
-                                                    <CardHeader>
+                                                    <CardHeader className="CardHeader">
                                                         <h2>Profile</h2>
                                                     </CardHeader>
                                                     <Form className="pl-3">
@@ -466,7 +468,7 @@ class Profile extends Component {
                                             </Col>
                                             <Col md="9">
                                                 <Card id="profCard2">
-                                                    <CardHeader>
+                                                    <CardHeader className="CardHeader">
                                                         <h2>Favorite Jobs</h2>
                                                     </CardHeader>
                                                     {this.state.jobs.length ? (
@@ -499,10 +501,11 @@ class Profile extends Component {
                                     {/**************** JOB TRACKER BOARD **************/}
                                     <TabPane tabId="2" >
                                         <Row>
-                                            <Col lg="12">
+                                            <Col lg="12" className="profKanbanContainer p-3 mx-0">
+                                            <h2 className="CardHeader">Job Tracker</h2>
                                                 <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} id="quizKanban" className="boardContainer" laneStyle={{ backgroundColor: '#b8c1ca' }} style={{ backgroundColor: '#F5F7F5' }} />
                                                 {/* onClick={() => this.removeFavorite({ job })} */}
-                                                <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
+                                                <Modal className="modal" isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
                                                     <ModalHeader toggle={this.toggleModal}>{this.state.editJob.company}</ModalHeader>
                                                     <ModalBody>
                                                         <Row>
@@ -587,6 +590,7 @@ class Profile extends Component {
                                     <TabPane tabId="3">
                                         {/* <Row>
                                             <Col sm="12"> */}
+
                                         <Quiz onClick={this.quizState} />
                                         {/* </Col>
                                         </Row> */}
