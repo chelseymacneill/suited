@@ -7,7 +7,7 @@ function Form({ q, l, handleInputChange, handleFormSubmit, redFilterTrue, update
   return (
     <form>
       <div className="form-group">
-        <label htmlFor="Query">
+        <label htmlFor="Query" id="formTitle">
           <strong>Job</strong>
         </label>
         <input
@@ -21,7 +21,7 @@ function Form({ q, l, handleInputChange, handleFormSubmit, redFilterTrue, update
         />
       </div>
       <div className="form-group">
-        <label htmlFor="Location">
+        <label htmlFor="Location" id="formTitle">
           <strong>Location</strong>
         </label>
         <input

@@ -5,10 +5,10 @@ import "./style.css";
 function FormSort({ skill, handleInputChange, handleSortFormSubmit }) {
   return (
     <form>
-    <Row>
-    <Col size="sm-10">
+    <Row >
+    <Col  className="col-sm-9 pl3">
       <div className="form-group">
-        <label htmlFor="Skill">
+        <label htmlFor="Skill" id="formTitle">
           <strong>Skill</strong>
         </label>
         <input
@@ -22,7 +22,7 @@ function FormSort({ skill, handleInputChange, handleSortFormSubmit }) {
         />
       </div>
       </Col>
-      <Col size="sm-2">
+      <Col  className="col-sm-3 align-self-center text-center float-right pr3">
       <div className="pull-right">
         <button id="sortButton"
           onClick={handleSortFormSubmit}

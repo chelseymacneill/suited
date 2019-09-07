@@ -4,7 +4,7 @@ body {
 
 #heading {
     color: #231824;
-    size: 3rem;
+    size: 4rem;
 }
 
 #loader {
@@ -15,6 +15,12 @@ body {
 
 .fa-heart {
     color: #AA4154;
+}
+
+#formTitle {
+    color: #231824;
+    size: 2rem;
+    margin-bottom: 0;
 }
 
 

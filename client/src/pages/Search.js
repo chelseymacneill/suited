@@ -336,7 +336,7 @@ class Search extends Component {
                     <Col size="md-10 md-offset-1">
                         <Card className="p-4 mt-5 rounded-0">
                             <h1>Job Search</h1>
-                            <h2 id="heading"><strong>Click Search to Find Job Titles with your Displayed Filters</strong></h2>
+                            <h2 id="heading" className="mb-4"><strong>Click Search to Find Job Titles with your Displayed Filters</strong></h2>
 
                             <Form
                                 handleInputChange={this.handleInputChange}
@@ -359,7 +359,7 @@ class Search extends Component {
                             <Card className="p-3 mt-5 rounded-0">
 
                                 
-                            <h2 id="heading" className="text-center p-3"><strong>Filters</strong></h2>
+                            <h2 id="heading" className="text-center p-1 mb-0"><strong>Filters</strong></h2>
 
                                 <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "25rem", overflow: "scroll" }} className="boardContainer" />
 
