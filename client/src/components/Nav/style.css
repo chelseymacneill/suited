@@ -1,3 +1,23 @@
 .navbar {
-  border-radius: 0;
+    background-color: #F5F7F5;
+    border-radius: 0px;
+    border-bottom: 3px solid #D1F73C;
+
+}
+
+.authBtn {
+    outline: none;
+    color: #AA4154;
+    border-radius: 0px;
+    text-shadow: 0px!important;
+    /* padding: 0px; */
+}
+.authBtn:hover {
+    background-color: #D1F73C;
+    color: #231824;
+}
+
+
+#navLogo {
+    width: 35px;
 }

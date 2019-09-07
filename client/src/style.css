@@ -1,4 +1,39 @@
+
+
+/* LANDING PAGE */
+#landingButton a {
+    color: #657589;
+    
+}
+#landingButton {
+    background-color: #F5F7F5;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+#landingBlurbCol p {
+    color: #F5F7F5;
+
+}
+.landingIcon {
+    font-size: 50px;
+    padding: 0;
+    margin: 0;
+    color: #F5F7F5;
+
+}
+#landingH1 {
+    border-bottom: 3px solid #D1F73C;
+}
+
+#helpButton {
+    background-color: #D1F73C;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
 body {
+    color: #231824;
     background-color: #657589;
 }
 .jumbotron {
@@ -21,16 +56,33 @@ h1 {
     background-color: #F5F7F5;
 
 }
-p {
-    /* color: #F5F7F5; */
-}
 
-#landingButton a {
+.authCard {
+    border-radius: 0px;
+    box-shadow: none;
+    background-color: #F5F7F5;
+    color: #AA4154;
+}
+.authSubmit {
+    color: #231824;
+    background-color: #D1F73C;
+    box-shadow: none;
+    border-radius: 0px;
+}
+.authSubmit:hover {
+    color: #AA4154;
+    background-color: #F5F7F5;
+}
+.authLink {
+    color: #231824;
+}
+.authLink:hover {
     color: #657589;
-    text-shadow: none;
-    border-radius: 0;
 }
-#landingBlurbCol p {
-        color: #F5F7F5;
 
+footer a {
+    color: #231824;
+}
+footer a:hover {
+    color: #D1F73C;
 }

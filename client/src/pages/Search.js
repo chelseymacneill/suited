@@ -378,11 +378,7 @@ class Search extends Component {
             {loading && <img src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" />}
           </Col>
         </Row>
-        <Row>
-          <Col size="md-10 md-offset-1">
-            <Footer />
-          </Col>
-        </Row>
+        <Footer />
       </Container>
     );
   }

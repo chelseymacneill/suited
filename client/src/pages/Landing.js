@@ -23,7 +23,7 @@ class Landing extends Component {
                 <Row>
                     <Col size="md-12">
                         <Jumbotron>
-                            <h1 className="p-2 text-center">
+                            <h1 className="p-2 text-center" id="landingH1">
                                 Find a career that is suited to you
                       {/* & <br /> learn what skills you need to be <br />a competitive applicant. */}
                             </h1>
@@ -31,16 +31,34 @@ class Landing extends Component {
                         </Jumbotron>
                     </Col>
                 </Row>
-                <Row>
-                    <Col size="12" id="landingBlurbCol">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <Row  className="text-center">
+                    <Col md="1">
+                    <i className="fas fa-search landingIcon" />
+                    </Col>
+                    <Col md="11" id="landingBlurbCol">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </Col>
+                </Row>
+                <Row className="text-center">
+                    
+                    <Col md="11" id="landingBlurbCol">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </Col>
+                    <Col md="1">
+                    <i className=" landingIcon" />
+                    </Col>
+                </Row>
+                <Row className="text-center">
+                    <Col md="1">
+                    <i className="far fa-address-cardlandingIcon" />
+                    </Col>
+                    <Col md="11" id="landingBlurbCol">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </Col>
                 </Row>
                 <Row>
                     <div className="mx-3">
-                        <Button color="secondary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Instructions</Button>
+                        <Button color="secondary" id="helpButton" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Instructions</Button>
                         <Collapse isOpen={this.state.collapse}>
                             <Card>
                                 <CardBody>
@@ -80,11 +98,7 @@ class Landing extends Component {
                         </Collapse>
                     </div>
                 </Row>
-                <Row>
-                    <Col size="12">
-                        <Footer />
-                    </Col>
-                </Row>
+                <Footer />
             </Container>
         )
     }

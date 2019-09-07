@@ -10,17 +10,13 @@ class Signup extends Component {
         return(
             <Container fluid>
             <Row>
-                <Col size="md-4" />
-                <Col size="md-4">
+                <Col size="md-3" />
+                <Col size="md-6">
                     <SignUp />
                 </Col>
-                <Col size="md-4" />
+                <Col size="md-3" />
             </Row>
-            <Row>
-                <Col size="12">
-                    <Footer />
-                </Col>
-            </Row>
+            <Footer />
             </Container>
         )
     }

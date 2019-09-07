@@ -566,11 +566,7 @@ class Profile extends Component {
                             </div>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col size="12">
-                            <Footer />
-                        </Col>
-                    </Row>
+                    <Footer />
                 </Container>
             )
         }
