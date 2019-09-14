@@ -271,7 +271,7 @@ class Search extends Component {
 
   redFilterTrue = event => {
     event.preventDefault();
-    console.log("redFilterTrue")
+    //console.log("redFilterTrue")
     if (this.state.redFilter == true) {
       this.setState({
         redFilter: false
@@ -392,11 +392,12 @@ class Search extends Component {
                 l={this.state.l}
               />
 
-              {/* {loggedIn ? (<div>
-                            <Button color="primary" onClick={() => this.redFilterTrue} active={this.state.cSelected}>Exclude Jobs with Unideal Skills</Button>
-                            <Button color="primary" onClick={() => this.updateDBTrue} active={this.state.cSelected}>Update Filterrs To Profile</Button>
+              {loggedIn ? (<div>
+                            <Button onClick={this.redFilterTrue}>Exclude Jobs with Unideal Skills  {this.state.redFilter==false ? <i class="far fa-square"></i> : <i class="far fa-check-square"></i>}</Button>
+                            <br/>
+                            <Button onClick={this.updateDBTrue}>Update Filterrs To Profile  {this.state.updateDB==false ? <i class="far fa-square"></i> : <i class="far fa-check-square"></i>}</Button>
                             </div>
-                            ) : ""} */}
+                            ) : ""}
             </Card>
 
           </Col>
