@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { Row, Col, CustomInput, FormGroup, Label, Button, } from 'reactstrap';
+import { Link } from "react-router-dom";
 
 // import sessions from "../../utils/sessions";
 
 let top = [
   "Java",
-  "C",
+  // "C",
   "Python",
-  "C++",
-  "C#",
+  // "C++",
+  // "C#",
   "Visual Basic",
   "Javascript",
   "PHP",
@@ -23,8 +24,8 @@ let top = [
   "Go",
   "Swift",
   "Perl",
-  "R",
-  "D",
+  // "R",
+  // "D",
   "SAS",
   "PL/SQL",
   "Dart",
@@ -68,7 +69,7 @@ let top = [
   "Cache",
   "CSS",
   "HTML",
-  "Data Structure",
+  // "Data Structure",
   "Data Structures",
   "Heroku",
   "Git",
@@ -149,7 +150,7 @@ class Quiz extends Component {
           ))}
           <FormGroup check row>
             <Col sm="12">
-              <Button id="quizButton" className="float-right" onClick={() => this.props.onClick(combo)}>Submit</Button>
+            <Link to="/search" id="quizLink"><Button id="quizButton" className="float-right" onClick={() => this.props.onClick(combo)}>Submit</Button></Link>
             </Col>
           </FormGroup>
         </Row>

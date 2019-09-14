@@ -57,7 +57,7 @@ function Job({ title, company, location, date, summary, greenMatches, yellowMatc
               {/* { isFavorite ? (  */}
               <section>
               <div className="btn-container" data-toggle="buttons">
-              <button onClick={onClick} className="btn btn-light" id={url} rel="noopener noreferrer" >
+              <button onClick={onClick} className="btn btn-light heartBtn" id={url} rel="noopener noreferrer" >
               <i class="fas fa-heart"></i>
               </button>
             </div>

@@ -55,6 +55,11 @@ body {
     margin: auto;
 }
 
+.heartBtn {
+    background-color: #D1F73C;
+    box-shadow: none;
+    border-radius: 0px;
+}
 .fa-heart {
     color: #AA4154;
 }
@@ -111,7 +116,7 @@ body {
 
 }
 /* MODAL */
-.modal {
+.modalBody {
     background-color: #F5F7F5;
 }
 .CardHeader {
@@ -132,11 +137,11 @@ body {
     box-shadow: none;
     border-radius: 0px;
 }
-.authSubmit:hover {
+.authSubmit:hover, #quizButton:hover {
     color: #AA4154;
     background-color: #F5F7F5;
 }
-.authLink {
+.authLink, #quizLink{
     color: #231824;
 }
 .authLink:hover {
@@ -152,6 +157,7 @@ body {
     color: #657589;
     font-size: 10px;
 }
+
 
 
 footer a {

@@ -10,7 +10,7 @@ import { List } from "../components/List";
 
 import API from "../utils/API";
 
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardHeader, Row, Col, Container, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText, Label, Input } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardHeader, Row, Col, Container, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText, Label, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import classnames from 'classnames';
 
 import Board from 'react-trello'
@@ -39,6 +39,7 @@ class Profile extends Component {
 
         // this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
         this.quizState = this.quizState.bind(this);
+        this.toggleToast = this.toggleToast.bind(this);
 
         this.state = {
             activeTab: '1',
@@ -54,12 +55,20 @@ class Profile extends Component {
             text: "",
             select: "",
             noteIndex: null,
+            showToast: false
             // favorites;
             // quizState: []
         };
     }
 
+    toggleToast() {
+    this.setState({
+    showToast: !this.state.showToast
+    });
+    }
+
     quizState = event => {
+        alert("Results Saved! Redirecting to search page")
         // this.setState({ quizState: event })
         // console.log(this.state.quizState)
         let array = event;
@@ -90,11 +99,14 @@ class Profile extends Component {
             .then(response => {
                 console.log('user quiz results: ', response)
                 if (response.status === 200) {
-                    console.log("user quiz results updated")
+                    // alert("Skills saved! Redirecting to search page")
+                    
                 }
             }).catch(error => {
                 console.log('user quiz error: ', error)
             });
+
+        // this.toggleTab(2);    
     }
 
     handleInputChange = event => {
@@ -193,7 +205,8 @@ class Profile extends Component {
                 console.log('update note status response: ', response)
                 if (response.status === 200) {
                     console.log("note updated", response)
-                    // alert("Note Deleted")
+                    alert("Note Deleted")
+                    // this.toggleToast();
                     // window.location.reload();
                     API.getFavorites({ "userID": sessionKey })
                         .then(response => {
@@ -388,6 +401,16 @@ class Profile extends Component {
             return (
                 <Container className="mx-auto">
                     {/************ JUMBOTRON *******************88*/}
+                    {/* <div className="p-3 my-2 rounded bg-docs-transparent-grid">
+                        <Toast isOpen={this.state.show}>
+                        <ToastHeader toggle={this.toggleToast}>
+                            Reactstrap
+                        </ToastHeader>
+                        <ToastBody>
+                            This is a toast on a gridded background — check it out!
+                        </ToastBody>
+                        </Toast>
+                    </div> */}
                     <Row>
                         <Col size="md-10" >
                             <Jumbotron className="Jumbotron">
@@ -422,7 +445,7 @@ class Profile extends Component {
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '3' })}
                                             onClick={() => { this.toggleTab('3'); }}>
-                                            Skills Quiz
+                                            Set Skills
                                     </NavLink>
                                     </NavItem>
                                 </Nav>
@@ -507,7 +530,7 @@ class Profile extends Component {
                                                 {/* onClick={() => this.removeFavorite({ job })} */}
                                                 <Modal className="modal" isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
                                                     <ModalHeader toggle={this.toggleModal}>{this.state.editJob.company}</ModalHeader>
-                                                    <ModalBody>
+                                                    <ModalBody className="modalBody">
                                                         <Row>
                                                             <Col lg="8">
                                                                 <h1>{this.state.editJob.title}</h1>
