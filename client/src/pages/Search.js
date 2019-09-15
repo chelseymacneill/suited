@@ -321,18 +321,32 @@ class Search extends Component {
 
 
   updateDBTrue = event => {
-    console.log("updateDBTrue")
     event.preventDefault();
-    if (this.state.updateDB == true) {
-      this.setState({
-        updateDB: false
-      })
-    }
-    else {
-      this.setState({
-        updateDB: true
-      })
-    }
+    
+
+        let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id.toLowerCase());
+        let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id.toLowerCase());
+        let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id.toLowerCase());
+
+        let data = {
+            id: sessionKey,
+            g: lane1,
+            y: lane2,
+            r: lane3,
+            
+        }
+        console.log(data)
+
+        API.postQuiz(data)
+            .then(response => {
+                console.log('user quiz results: ', response)
+                if (response.status === 200) {
+                    console.log("user quiz results updated")
+                }
+            }).catch(error => {
+                console.log('user quiz error: ', error)
+            });
+    
 
   }
 
@@ -429,8 +443,7 @@ class Search extends Component {
 
               {loggedIn ? (<div>
                             <Button onClick={this.redFilterTrue}>Exclude Jobs with Unideal Skills  {this.state.redFilter==false ? <i class="far fa-square"></i> : <i class="far fa-check-square"></i>}</Button>
-                            <br/>
-                            <Button onClick={this.updateDBTrue}>Update Filterrs To Profile  {this.state.updateDB==false ? <i class="far fa-square"></i> : <i class="far fa-check-square"></i>}</Button>
+                            
                             </div>
                             ) : ""}
             </Card>
@@ -451,6 +464,8 @@ class Search extends Component {
                   handleSortFormSubmit={this.handleSortFormSubmit}
                   skill={this.state.skill}
                 />
+                <br/>
+                            <Button onClick={this.updateDBTrue}>Update Filters To Profile </Button>
 
               </Card>
             </Col>
