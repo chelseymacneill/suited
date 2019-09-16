@@ -15,9 +15,7 @@ function Footer() {
         <h6>
         <a href="https://ptmceneaney.github.io/updated-portfolio/"><i class="fas fa-external-link-alt"></i>&nbsp;Page McEneaney</a>
         &nbsp;&nbsp;
-        <a href="https://ptmceneaney.github.io/updated-portfolio/"><i class="fas fa-external-link-alt"></i>&nbsp;Samantha Orcutt</a>
-        &nbsp;&nbsp;
-        <a href="https://ptmceneaney.github.io/updated-portfolio/"><i class="fas fa-external-link-alt"></i>&nbsp;Chelsey MacNeill</a>
+        <a href="https://github.com/SamanthaAO/portfolio-update"><i class="fas fa-external-link-alt"></i>&nbsp;Samantha Orcutt</a>
         </h6>
         </Col>
         <Col md="2">

@@ -132,8 +132,15 @@ body {
 .modalBody {
     background-color: #F5F7F5;
 }
+#modalCancel {
+    background-color: #AA4154;
+    color: #F5F7F5;
+    box-shadow: none;
+    border-radius: 0px;
+
+}
 .CardHeader {
-    color: #AA4154;
+    color: #AA4154; 
 }
 
 /* LOGIN AND SIGNUP PAGES */
@@ -144,13 +151,13 @@ body {
     background-color: #F5F7F5;
     color: #AA4154;
 }
-.authSubmit {
+.authSubmit, #modalSubmit {
     color: #231824;
     background-color: #D1F73C;
     box-shadow: none;
     border-radius: 0px;
 }
-.authSubmit:hover, #quizButton:hover {
+.authSubmit:hover, #quizButton:hover, #modalSubmit:hover, #modalCancel:hover {
     color: #AA4154;
     background-color: #F5F7F5;
 }

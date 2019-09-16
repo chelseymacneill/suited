@@ -39,10 +39,10 @@ class Profile extends Component {
 
         // this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
         this.quizState = this.quizState.bind(this);
-        this.toggleToast = this.toggleToast.bind(this);
+        // this.toggleToast = this.toggleToast.bind(this);
 
         this.state = {
-            activeTab: '1',
+            activeTab: '2',
             modal: false,
             jobs: [],
             lane1: [],
@@ -61,14 +61,14 @@ class Profile extends Component {
         };
     }
 
-    toggleToast() {
-    this.setState({
-    showToast: !this.state.showToast
-    });
-    }
+    // toggleToast() {
+    // this.setState({
+    // showToast: !this.state.showToast
+    // });
+    // }
 
     quizState = event => {
-        alert("Results Saved! Redirecting to search page")
+        // alert("Results Saved! Redirecting to search page")
         // this.setState({ quizState: event })
         // console.log(this.state.quizState)
         let array = event;
@@ -100,7 +100,6 @@ class Profile extends Component {
                 console.log('user quiz results: ', response)
                 if (response.status === 200) {
                     // alert("Skills saved! Redirecting to search page")
-                    
                 }
             }).catch(error => {
                 console.log('user quiz error: ', error)
@@ -243,6 +242,7 @@ class Profile extends Component {
     }
 
     handleDragEnd(cardId, sourceLaneId, targetLaneId, position, cardDetails) {
+
         console.log("card dropped", cardDetails, cardId)
         let data = {
             id: cardId,
@@ -293,7 +293,8 @@ class Profile extends Component {
                             id: job._id,
                             title: job.company,
                             description: job.title,
-                            label: job.location,
+                            label:  job.interest ? ( "Priority: " + job.interest  ):("") ,
+                            // label: job.location,
                             // draggable: true,
                             laneDraggable: false,
                             metadata: {
@@ -354,13 +355,16 @@ class Profile extends Component {
                     title: 'Unassigned',
                     label: this.state.lane1.length + " Jobs",
                     cards: this.state.lane1,
-                    style: {color: '#231824', backgroundColor: '#b8c1ca'}
+                    style: {color: '#231824', backgroundColor: '#b8c1ca'},
+                    cardStyle: {color: '#AA4154', backgroundColor: '#F5F7F5'}
                 },
                 {
                     id: 'lane2',
                     title: 'Application Sent',
                     label: this.state.lane2.length + " Jobs",
-                    cards: this.state.lane2
+                    cards: this.state.lane2,
+                    style: {color: '#231824', backgroundColor: '#D1F73C'}
+
                     //     [
                     //     {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false},
                     //     {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: {sha: 'be312a1'}}
@@ -402,7 +406,7 @@ class Profile extends Component {
                 <Container className="mx-auto">
                     {/************ JUMBOTRON *******************88*/}
                     {/* <div className="p-3 my-2 rounded bg-docs-transparent-grid">
-                        <Toast isOpen={this.state.show}>
+                        <Toast isOpen={this.state.showToast}>
                         <ToastHeader toggle={this.toggleToast}>
                             Reactstrap
                         </ToastHeader>
@@ -431,7 +435,7 @@ class Profile extends Component {
                                             className="profilePill"
                                             className={classnames({ active: this.state.activeTab === '1' })}
                                             onClick={() => { this.toggleTab('1'); }}>
-                                            Personal &amp; Jobs
+                                            Skills &amp; Jobs
                                     </NavLink>
                                     </NavItem>
                                     <NavItem>
@@ -445,7 +449,7 @@ class Profile extends Component {
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '3' })}
                                             onClick={() => { this.toggleTab('3'); }}>
-                                            Set Skills
+                                            Start Fresh
                                     </NavLink>
                                     </NavItem>
                                 </Nav>
@@ -548,14 +552,14 @@ class Profile extends Component {
                                                             <Row>
                                                                 <Col md="6">
                                                                     <FormGroup>
-                                                                        <Label for="interestSelect"><h4>Interest in Position:</h4></Label>
+                                                                        <Label for="interestSelect"><h4>Application Priority</h4></Label>
                                                                         <Input type="select" name="select" id="interestSelect" onChange={this.handleInputChange}>
                                                                             <option>Update...</option>
-                                                                            <option value="5">5 - Literal Dream Job!</option>
-                                                                            <option value="4">4</option>
-                                                                            <option value="3">3</option>
+                                                                            <option value="1">1 - Literal Dream Job!</option>
                                                                             <option value="2">2</option>
-                                                                            <option value="1">1 - Doesn't Hurt to Apply</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                            <option value="5">5 - Doesn't Hurt to Apply</option>
                                                                         </Input>
                                                                     </FormGroup>
                                                                 </Col>
@@ -601,8 +605,8 @@ class Profile extends Component {
                                                         </Form>
                                                     </ModalBody>
                                                     <ModalFooter>
-                                                        <Button color="primary" onClick={this.handleFormSubmit}>Save Notes</Button>{' '}
-                                                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+                                                        <Button id="modalSubmit" onClick={this.handleFormSubmit}>Save</Button>{' '}
+                                                        <Button id="modalCancel" onClick={this.toggleModal}>Cancel</Button>
                                                     </ModalFooter>
                                                 </Modal>
                                             </Col>

@@ -127,7 +127,7 @@ class Quiz extends Component {
 
     return (
       <div className="quizContainer px-5 py-3">
-        <h2 className="CardHeader">Skills Quiz</h2>
+        <h2 className="CardHeader">Not sure what skills you have? Start here!</h2>
         <p>Select <stong>+</stong> for skills that you are very confident in.</p>
         <p>Select <stong>:</stong> for intermediate level skills, or things you'd be willing to learn</p>
         <p>Select <stong>-</stong> for that you do not know and do not plan on learning</p>
