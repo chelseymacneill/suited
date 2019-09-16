@@ -77,7 +77,10 @@ class Search extends Component {
     API.getJobs(this.state.q, this.state.l, lane1, lane2, lane3)
       .then(res => {
         const myList = lane1;
-        // const notmyList = lane3;
+        // const notMyList = lane3;
+        let presort = res.data;
+        
+
         // if(this.state.redFilter==true){
         //     res.data.map(job => {
         //     const red = job.red.filter(a => !notmyList.includes(a))})
@@ -85,12 +88,44 @@ class Search extends Component {
         //     return job;
 
         // }
-        // const sorted = res.data.map(job => {
-        let sorted = res.data.map(job => {
-          const green = job.green.filter(j => myList.includes(j));
-          job.green = green;
-          return job;
-        }).sort((x, y) => y.green.length - x.green.length)
+
+        if(this.state.redFilter==true){
+            presort = res.data.filter(j => j.red.length == 0)
+            console.log(presort);
+            //  return presort;
+        }
+
+         const sorted = presort.map(job => {
+        // let sorted = res.data.map(job => {
+        //   const green = job.green.filter(j => myList.includes(j));
+        //   const red = job.red.filter(j => notMyList.includes(j));
+
+        //   job.green = green;
+        //   job.red = red;
+
+          
+            const green = job.green.filter(j => myList.includes(j)); 
+            job.green = green;
+            console.log('Green:' +job.green)
+
+            
+
+            return job;
+          
+        //   else {
+        //     const green = job.green.filter(j => myList.includes(j));
+        //     const red = job.red.filter(j => notMyList.includes(j));
+  
+        //     job.green = green;
+        //     job.red = red; 
+        //     console.log('Red:' +job.red + 'Green:' +job.green)
+        //     const 
+
+        //     return filterJob;
+        //   }
+          
+        })
+        .sort((x, y) => y.green.length - x.green.length)
 
         this.setState({
           jobs: sorted,
@@ -271,7 +306,7 @@ class Search extends Component {
 
   redFilterTrue = event => {
     event.preventDefault();
-    console.log("redFilterTrue")
+    //console.log("redFilterTrue")
     if (this.state.redFilter == true) {
       this.setState({
         redFilter: false
@@ -286,18 +321,32 @@ class Search extends Component {
 
 
   updateDBTrue = event => {
-    console.log("updateDBTrue")
     event.preventDefault();
-    if (this.state.updateDB == true) {
-      this.setState({
-        updateDB: false
-      })
-    }
-    else {
-      this.setState({
-        updateDB: true
-      })
-    }
+    
+
+        let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id.toLowerCase());
+        let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id.toLowerCase());
+        let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id.toLowerCase());
+
+        let data = {
+            id: sessionKey,
+            g: lane1,
+            y: lane2,
+            r: lane3,
+            
+        }
+        console.log(data)
+
+        API.postQuiz(data)
+            .then(response => {
+                console.log('user quiz results: ', response)
+                if (response.status === 200) {
+                    console.log("user quiz results updated")
+                }
+            }).catch(error => {
+                console.log('user quiz error: ', error)
+            });
+    
 
   }
 
@@ -392,11 +441,11 @@ class Search extends Component {
                 l={this.state.l}
               />
 
-              {/* {loggedIn ? (<div>
-                            <Button color="primary" onClick={() => this.redFilterTrue} active={this.state.cSelected}>Exclude Jobs with Unideal Skills</Button>
-                            <Button color="primary" onClick={() => this.updateDBTrue} active={this.state.cSelected}>Update Filterrs To Profile</Button>
+              {loggedIn ? (<div>
+                            <Button onClick={this.redFilterTrue}>Exclude Jobs with Unideal Skills  {this.state.redFilter==false ? <i class="far fa-square"></i> : <i class="far fa-check-square"></i>}</Button>
+                            
                             </div>
-                            ) : ""} */}
+                            ) : ""}
             </Card>
 
           </Col>
@@ -415,6 +464,8 @@ class Search extends Component {
                   handleSortFormSubmit={this.handleSortFormSubmit}
                   skill={this.state.skill}
                 />
+                <br/>
+                            <Button onClick={this.updateDBTrue}>Update Filters To Profile </Button>
 
               </Card>
             </Col>
