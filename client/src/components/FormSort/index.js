@@ -9,7 +9,7 @@ function FormSort({ skill, handleInputChange, handleSortFormSubmit }) {
     <Col  className="col-sm-9 pl3">
       <div className="form-group">
         <label htmlFor="Skill" id="formTitle">
-          <strong>Skill</strong>
+          <strong>Enter the Skill You Would Like to Add to Filters</strong>
         </label>
         <input
           className="form-control"
