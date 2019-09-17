@@ -68,7 +68,7 @@ body {
     margin: auto;
 }
 
-.heartBtn {
+.heartBtn, .trashBtn {
     background-color: #D1F73C;
     box-shadow: none;
     border-radius: 0px;

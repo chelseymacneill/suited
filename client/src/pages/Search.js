@@ -465,7 +465,7 @@ class Search extends Component {
                   skill={this.state.skill}
                 />
                 <br/>
-                            <Button onClick={this.updateDBTrue}>Update Filters To Profile </Button>
+                <Button onClick={this.updateDBTrue}>Update Filters To Profile </Button>
 
               </Card>
             </Col>
@@ -507,14 +507,12 @@ class Search extends Component {
               </Card>
             }
             {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
-            {loading && <Card className="p-5 m-5 rounded-0"><img id="loader" className="text-center" src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" /></Card>}
+            {/* {loading && <Card className="p-5 m-5 rounded-0"><img id="loader" className="text-center" src="https://eric.young.li/img/loading/hexagonRotate-noBorder-copy-2-01.gif" /></Card>} */}
+            {loading && <Card className="p-5 m-5 rounded-0"><img id="loader" className="text-center" src="https://mistyharborboats.com/wp-content/plugins/mhb-wizard/js-app/images/ajax-loader.gif" /></Card>}
+
           </Col>
         </Row>
-        <Row>
-          <Col size="md-10 md-offset-1">
             <Footer />
-          </Col>
-        </Row>
       </Container>
     );
   }

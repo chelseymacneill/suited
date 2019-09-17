@@ -627,7 +627,9 @@ class Profile extends Component {
                         </Col>
                     </Row>
                     <Footer />
+
                 </Container>
+                
             )
         }
     }

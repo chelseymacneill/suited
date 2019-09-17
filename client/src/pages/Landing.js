@@ -46,13 +46,13 @@ class Landing extends Component {
                     <i className="fas fa-search landingIcon" />
                     </Col>
                     <Col md="11" className="pl-0 landingBlurbCol">
-                    <p>Suited is a comprehensive job search, filter, and tracker. Our main focus is helping users find what jobs they’re suited for based on their skillset. Figuring out what positions align with your experience can be a major pain point for job seekers and this app helps to reduced some of that friction.</p>
+                    <p>Suited is a comprehensive job search, filter, and tracker. Our main focus is helping users find what jobs they’re suited for based on their skill-set. Figuring out what positions align with your experience can be a major pain point for job seekers and this app helps to reduced some of that friction</p>
                     </Col>
                 </Row>
                 <Row className="text-center">
                     
                     <Col md="10" className="pr-0 landingBlurbCol">
-                    <p>Utelize this app research local companies! Many similar jobs have different titles or  the positions require a different set of skills despite identical names. This app cuts through the clutter of job-postings and allows users to find which positions they're truly quaified for.</p>
+                    <p>Utilize this app to research local companies! Many similar jobs have different titles or the positions require a different set of skills despite identical names. This app cuts through the clutter of job-postings and allows users to find which positions they're truly qualified for</p>
                     </Col>
                     <Col md="2"className="pl-0">
                     <i className="fab fa-amazon landingIcon" />&nbsp;&nbsp;&nbsp;&nbsp;<i class="fab fa-microsoft landingIcon"/>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fab fa-facebook-f landingIcon"/>&nbsp;
@@ -63,7 +63,7 @@ class Landing extends Component {
                     <i className="far fa-address-card landingIcon" />
                     </Col>
                     <Col md="11" className="pl-0 landingBlurbCol">
-                    <p>Create an account and login to get all the features! You'll be able to save jobs to your profile, track your application progress and even add notes to each job. Simply sign up, and open your profile for the full experience! See the instructions below if you're not sure how to get started. </p>
+                    <p>Create an account and login to get all the features! You'll be able to save jobs to your profile, track your application progress and even add notes to each job. Simply sign up, and open your profile for the full experience! See the instructions below if you're not sure how to get started</p>
                     </Col>
                 </Row>
                 <Row>

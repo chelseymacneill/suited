@@ -16,15 +16,14 @@ let isFavorite = false;
 
 function Job({ title, company, location, date, summary, greenMatches, yellowMatches, redMatches, url, onClick, search, favorites, index, button }) {
   sessionKey = sessions.getSession();
+  isFavorite = false;
 
   if (sessionKey) {
     loggedIn = true;
-    // console.log(favorites, index);
+    // console.log(url, index);
 
     for (let i = 0; i < favorites.length; i++) {
-      let favURL = favorites[i];
-      let urlA = url;
-      if ( favURL == urlA) {
+      if (favorites[i] === url) {
          isFavorite = true;
       } 
     }
@@ -35,8 +34,6 @@ function Job({ title, company, location, date, summary, greenMatches, yellowMatc
   }
 
   // console.log(isFavorite);
-
-  
 
   return (
     <ListItem>
@@ -54,24 +51,36 @@ function Job({ title, company, location, date, summary, greenMatches, yellowMatc
                 <i class="fas fa-external-link-alt"></i>
                 </a>
               </div>
-              {/* { isFavorite ? (  */}
-              <section>
-              <div className="btn-container" data-toggle="buttons">
-              <button onClick={onClick} className="btn btn-light heartBtn" id={url} rel="noopener noreferrer" >
-              <i class="fas fa-heart"></i>
-              </button>
-            </div>
-            </section>
-              {/* ):(
+              { search ? ( 
+               isFavorite ? (
+                <section>
+                <div className="btn-container" data-toggle="buttons">
+                <button onClick={onClick} className="btn btn-light heartBtn" id={url} rel="noopener noreferrer" >
+                <i class="fas fa-heart"></i>
+                {/* <i class="far fa-heart"></i> isFav */}
+                </button>
+                </div>
+                </section>
+               ):(
+                <section>
+                <div className="btn-container" data-toggle="buttons">
+                <button onClick={onClick} className="btn btn-light heartBtn" id={url} rel="noopener noreferrer" >
+                {/* <i class="fas fa-heart"></i> isn'tFav */}
+                <i class="far fa-heart"></i>
+                </button>
+                </div>
+                </section>
+               )
+               ):(
               <section> 
               <div className="btn-container" data-toggle="buttons">
-                <button close onClick={onClick} className="btn btn-light" id={url} rel="noopener noreferrer">
-                  Delete
+                <button close onClick={onClick} className="btn btn-light trashBtn" id={url} rel="noopener noreferrer">
+                <i class="fas fa-trash"></i>
                 </button>
                     </div>
                   </section>
                 )}
- */}
+ 
             </section>
           ) : (
               <section>
