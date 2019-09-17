@@ -59,7 +59,7 @@ class Search extends Component {
       favoriteJob: [],
       updateDB: false,
       redFilter: false,
-      favoriteURLs: []
+      favorites: []
     };
   }
 
@@ -105,13 +105,9 @@ class Search extends Component {
         //   job.green = green;
         //   job.red = red;
 
-          
             const green = job.green.filter(j => myList.includes(j)); 
             job.green = green;
-            console.log('Green:' +job.green)
-
-            
-
+          
             return job;
           
         //   else {
@@ -164,12 +160,28 @@ class Search extends Component {
   };
 
   favoriteBtn(url) {
+    // console.log(this.state.favorites);
     let fav = {};
+    let elem = document.getElementById(url)
+    let favoriteJobBtn = this.state.favorites;
+
+    // let index = null;
+
+    // console.log("value", elem.value, "val", elem.val, "innerText", elem.innerText, elem.innerHTML, elem.html);
+    // let favorites = this.state.favorites;
+    // favorites = favorites.splice(index)
+    // this.setState({favorites: favorites})
     for (let i=0; i < favoriteIDs.length; i++) {
       if (url === favoriteIDs[i].url) {
-        fav = {id: favoriteIDs[i].id}
+        fav = {id: favoriteIDs[i].id};
+        console.log(elem.innerHTML)
+        if (elem.innerHTML == '<i class="fas fa-heart"></i>') {
+          elem.innerHTML = '<i class="far fa-heart"></i>';
+          }
+
       }
     }
+
       let result = window.confirm("Are you sure want to remove this job from favorites?");
       if (result) {
           console.log("user wants to delete: ", fav)
@@ -177,8 +189,7 @@ class Search extends Component {
               .then(response => {
                   // console.log('remove favorite Job response: ', response)
                   if (response.status === 200) {
-                      console.log("job removed from favorites")
-                      // window.location.reload();
+                      console.log("job removed from favorites")                  
                   }
               }).catch(error => {
                   console.log('remove favorite error: ', error)
@@ -187,6 +198,11 @@ class Search extends Component {
   }
 
   favoriteJob(job) {
+    let elem = document.getElementById(job.job.url)
+
+    if (elem.innerHTML == '<i class="far fa-heart"></i>') {
+        elem.innerHTML = '<i class="fas fa-heart"></i>';  
+      }
 
     // document.getElementsById(job.job.url).style.backgroundColor = "red";
     console.log(job.job.url);
@@ -296,8 +312,10 @@ class Search extends Component {
           if (response.status === 200) {
             for (let i = 0; i < response.data.length; i++) {
               favorites.push(response.data[i].url);
-              favoriteIDs.push({id:response.data[i]._id, url:response.data[i].url})
+              favoriteIDs.push({id:response.data[i]._id, url:response.data[i].url});
             }
+            this.setState({favorites: favorites})
+
           }
         }).catch(error => {
           console.log('job - get favorite error: ', error)
