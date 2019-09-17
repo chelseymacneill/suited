@@ -417,15 +417,18 @@ class Profile extends Component {
                     title: 'Unassigned',
                     label: this.state.lane1.length + " Jobs",
                     cards: this.state.lane1,
-                    style: { color: '#231824', backgroundColor: '#b8c1ca' },
-                    cardStyle: { color: '#AA4154', backgroundColor: '#F5F7F5' }
+
+                    style: {color: '#231824', backgroundColor: '#657589', border: "1px solid #657589"},
+
                 },
                 {
                     id: 'lane2',
                     title: 'Application Sent',
                     label: this.state.lane2.length + " Jobs",
                     cards: this.state.lane2,
-                    style: { color: '#231824', backgroundColor: '#D1F73C' }
+
+                    style: {color: '#231824', backgroundColor: '#adb6bf', border: "1px solid #657589"}
+
 
                     //     [
                     //     {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false},
@@ -436,19 +439,24 @@ class Profile extends Component {
                     id: 'lane3',
                     title: 'Response Received',
                     label: this.state.lane3.length + " Jobs",
-                    cards: this.state.lane3
+                    cards: this.state.lane3,
+                    style: {color: '#231824', backgroundColor: '#F5F7F5', border: "1px solid #657589"}
+
                 },
                 {
                     id: 'lane4',
                     title: 'Had Phone Interview',
                     label: this.state.lane4.length + " Jobs",
-                    cards: this.state.lane4
+                    cards: this.state.lane4,
+                    style: {color: '#231824', backgroundColor: '#e3f798', border: "1px solid #657589"}
+
                 },
                 {
                     id: 'lane5',
                     title: 'Had Live Interview',
                     label: this.state.lane5.length + " Jobs",
-                    cards: this.state.lane5
+                    cards: this.state.lane5,
+                    style: {color: '#231824', backgroundColor: '#D1F73C', border: "1px solid #657589"}
                 }
             ]
         }
@@ -602,7 +610,7 @@ class Profile extends Component {
                                                                     date={job.date}
                                                                     summary={job.summary}
                                                                     url={job.url}
-                                                                    onClick={() => this.removeFavorite({ job })}
+                                                                    onClickDelete={() => this.removeFavorite({ job })}
                                                                     // profile="true"
                                                                     favorites={favorites}
                                                                     index={i}
@@ -719,7 +727,9 @@ class Profile extends Component {
                         </Col>
                     </Row>
                     <Footer />
+
                 </Container>
+                
             )
         }
     }
