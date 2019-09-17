@@ -62,9 +62,29 @@ class Profile extends Component {
             y: [],
             // these are the red words
             r: [],
+            redirect: false
             // favorites;
             // quizState: []
         };
+    }
+
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
+    }
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to='/search' />
+        }
+    }
+
+    reset = () => {
+        this.setState(
+            {
+                activeTab: '3'
+            })
+
     }
 
     // toggleToast() {
@@ -275,6 +295,15 @@ class Profile extends Component {
         this.toggleModal();
     }
 
+    edit() {
+        this.setState({
+            edit: true
+        })
+    }
+
+
+
+
     jobTracker() {
         let lane1 = [];
         let lane2 = [];
@@ -353,26 +382,26 @@ class Profile extends Component {
             });
     }
 
-    profileLoad(){
+    profileLoad() {
         API.getQuiz({ "userID": sessionKey })
-        // API.getFavorites(sessionKey)
-        .then(response => {
-          ////////////////////////////////////////////////////////////
-          // console.log('quiz response: ', response)
-          if (response.status === 200) {
+            // API.getFavorites(sessionKey)
+            .then(response => {
+                ////////////////////////////////////////////////////////////
+                // console.log('quiz response: ', response)
+                if (response.status === 200) {
 
-            this.setState({
-              g: response.data.g,
-              y: response.data.y,
-              r: response.data.r
+                    this.setState({
+                        g: response.data.g,
+                        y: response.data.y,
+                        r: response.data.r
 
-            })
+                    })
 
-          }
+                }
 
-        }).catch(error => {
-          alert('get quiz error: ', error)
-        });
+            }).catch(error => {
+                alert('get quiz error: ', error)
+            });
     }
 
     componentDidMount() {
@@ -430,6 +459,8 @@ class Profile extends Component {
         } else {
             loggedIn = false;
         }
+
+
 
         if (loggedIn === false) {
             return <Redirect to={{ pathname: "/login" }} />
@@ -491,11 +522,38 @@ class Profile extends Component {
                                     {/**************** SAVED JOBS **************/}
                                     <TabPane tabId="1">
                                         <Row>
-                                            <Col md="3">
-                                                <Card id="profCard">
+                                            <Col md="3" >
+                                                <Card id="profCard" >
                                                     <CardHeader className="CardHeader">
                                                         <h2>Profile</h2>
                                                     </CardHeader>
+                                                    {this.renderRedirect()}
+                                                    <div className="pb-4 px-2 pt-2">
+                                                        <h3 className="ml-2 mt-2">Desired Skills</h3>
+
+                                                        <List >
+                                                            {this.state.g.map((item) =>
+                                                                <li className="ml-5">{item}</li>)}
+                                                        </List>
+
+                                                        <h3 className="ml-2 mt-2">Interested Skills</h3>
+
+                                                        <List >
+                                                            {this.state.y.map((item) =>
+                                                                <li className="ml-5">{item}</li>)}
+                                                        </List>
+
+                                                        <h3 className="ml-2 mt-2">Unideal Skills</h3>
+
+                                                        <List className="pb-5">
+                                                            {this.state.r.map((item) =>
+                                                                <li className="ml-5">{item}</li>)}
+                                                        </List>
+                                                        
+                                                        <Button className="float-right mt-4 m-2 profileBtn" onClick={this.setRedirect}>Edit </Button>
+                                                        <Button className="float-right mt-4 m-2 profileBtn" onClick={this.reset} >Reset</Button>
+                                                    </div>
+
                                                     {/* <Form className="pl-3">
                                                     <FormGroup row>
                                                     <Col sm={10}>

@@ -89,7 +89,7 @@ class Search extends Component {
 
         // }
 
-        if(this.state.redFilter==true){
+        if(this.state.redFilter==false){
             presort = res.data.filter(j => j.red.length == 0)
             console.log(presort);
             //  return presort;
@@ -414,7 +414,7 @@ class Search extends Component {
               />
 
               {loggedIn ? (<div>
-                            <Button onClick={this.redFilterTrue}>Exclude Jobs with Unideal Skills  {this.state.redFilter==false ? <i class="far fa-square"></i> : <i class="far fa-check-square"></i>}</Button>
+                            <Button id="redbutton" onClick={this.redFilterTrue}> {this.state.redFilter==false ? <i class="far fa-square"></i> : <i class="far fa-check-square"></i>}  Show Jobs with Unideal Skills  </Button>
                             
                             </div>
                             ) : ""}
@@ -437,7 +437,7 @@ class Search extends Component {
                   skill={this.state.skill}
                 />
                 <br/>
-                            <Button onClick={this.updateDBTrue}>Save Search Filters To Profile</Button>
+                            <Button id="filterBtn"onClick={this.updateDBTrue}>Save Search Filters To Profile</Button>
 
               </Card>
             </Col>

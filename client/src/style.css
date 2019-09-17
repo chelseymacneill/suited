@@ -31,9 +31,16 @@ h1 {
     border-bottom: 3px solid #D1F73C;
 }
 
-#helpButton, .personalBtn, #quizButton {
+#helpButton, .personalBtn, #quizButton, .profileBtn, #filterBtn {
     color: #231824;
     background-color: #D1F73C;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+#redbutton {
+    color: #231824;
+    border: none;
     box-shadow: none;
     border-radius: 0px;
 }
