@@ -8,7 +8,7 @@ function Footer() {
       <Row>
         <Col md="2">
         <h6>
-        <a href="https://github.com/chelseymacneill/suited"><i className="fab fa-github"/>&nbsp;GitHub Repo</a>
+        <a href="https://github.com/PTMcEneaney/suited"><i className="fab fa-github"/>&nbsp;GitHub Repo</a>
         </h6>
         </Col>
         <Col md="8" className="text-center">
