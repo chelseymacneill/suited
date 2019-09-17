@@ -469,7 +469,7 @@ class Search extends Component {
                 <h2 id="heading" className="text-center p-1 mb-0"><strong>Filters</strong></h2>
                 <h5 id="heading" className="p-1 mb-0">Results will be sorted by jobs with the most desired skills. All skills present in a job entry will be listed with their matching color at the bottom of the job card.</h5>
 
-                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "25rem", overflow: "scroll", backgroundColor: '#F5F7F5' }} className="boardContainer" />
+                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "20rem", overflow: "scroll", backgroundColor: '#F5F7F5' }} className="boardContainer" />
                 <br /> <br /> <br />
                 <FormSort
                   handleInputChange={this.handleInputChange}
@@ -487,7 +487,7 @@ class Search extends Component {
         <Row>
           <Col size="md-10 md-offset-1">
             {!loading &&
-              <Card className="p-5 m-5 rounded-0">
+              <Card className="py-5 my-5 rounded-0">
                 {this.state.jobs.length ? (
 
                   <List>
@@ -498,7 +498,7 @@ class Search extends Component {
                         title={job.title}
                         company={job.company}
                         location={job.location}
-                        date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
+                        // date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
                         summary={job.summary}
                         greenMatches={job.green.map(sub => (sub + " "))}
                         yellowMatches={job.yellow.map(sub => (sub + " "))}
@@ -521,7 +521,7 @@ class Search extends Component {
             }
             {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
             {/* {loading && <Card className="p-5 m-5 rounded-0"><img id="loader" className="text-center" src="https://eric.young.li/img/loading/hexagonRotate-noBorder-copy-2-01.gif" /></Card>} */}
-            {loading && <Card className="p-5 m-5 rounded-0"><img id="loader" className="text-center" src="https://mistyharborboats.com/wp-content/plugins/mhb-wizard/js-app/images/ajax-loader.gif" /></Card>}
+            {loading && <Card className="py-5 my-5 rounded-0"><img id="loader" className="text-center" src="https://mistyharborboats.com/wp-content/plugins/mhb-wizard/js-app/images/ajax-loader.gif" /></Card>}
 
           </Col>
         </Row>

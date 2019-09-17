@@ -475,7 +475,7 @@ class Profile extends Component {
         } else {
 
             return (
-                <Container className="mx-auto">
+                <Container className="w-100">
                     {/************ JUMBOTRON *******************88*/}
                     {/* <div className="p-3 my-2 rounded bg-docs-transparent-grid">
                         <Toast isOpen={this.state.showToast}>
@@ -628,7 +628,7 @@ class Profile extends Component {
                                     {/**************** JOB TRACKER BOARD **************/}
                                     <TabPane tabId="2" >
                                         <Row>
-                                            <Col lg="12" className="profKanbanContainer p-3 mx-0">
+                                            <Col md="12" className="profKanbanContainer p-3">
                                                 <h2 className="CardHeader">Job Tracker</h2>
                                                 <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} id="quizKanban" className="boardContainer" laneStyle={{ backgroundColor: '#b8c1ca' }} style={{ backgroundColor: '#F5F7F5' }} />
                                                 {/* onClick={() => this.removeFavorite({ job })} */}

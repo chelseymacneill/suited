@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 
 let top = [
   "Java",
-  // "C",
+  // " C",
   "Python",
-  // "C++",
-  // "C#",
+  // " C++",
+  // " C#",
   "Visual Basic",
   "Javascript",
   "PHP",
@@ -29,7 +29,7 @@ let top = [
   "SAS",
   "PL/SQL",
   "Dart",
-  "F#",
+  // "F#",
   "Logo",
   "Rust",
   "Scratch",
@@ -87,7 +87,6 @@ let top = [
   "MySQL",
   "Mongoose",
   "MongoDB",
-  "PHP",
   "UI",
   "UX",
   "Version Control"
