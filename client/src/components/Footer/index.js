@@ -13,7 +13,7 @@ function Footer() {
         </Col>
         <Col md="8" className="text-center">
         <h6>
-        <a href="https://ptmceneaney.github.io/updated-portfolio/"><i class="fas fa-external-link-alt"></i>&nbsp;Page McEneaney</a>
+        <a href="https://ptmceneaney.github.io/updated-portfolio/"><i class="fas fa-external-link-alt"></i>Page McEneaney</a>
         &nbsp;&nbsp;
         <a href="https://github.com/SamanthaAO/portfolio-update"><i class="fas fa-external-link-alt"></i>&nbsp;Samantha Orcutt</a>
         </h6>

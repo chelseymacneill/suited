@@ -53,12 +53,12 @@ class Search extends Component {
       y: ["css"],
       // these are the red words
       r: ["html"],
-      message: "Enter in your desired Job to begin!",
+      message: "Enter in your desired job to begin!",
       loading: false,
       lanes: [],
       favoriteJob: [],
       updateDB: false,
-      redFilter: false,
+      redFilter: true,
       favorites: []
     };
   }
@@ -81,7 +81,7 @@ class Search extends Component {
         const myList = lane1;
         // const notMyList = lane3;
         let presort = res.data;
-        
+
 
         // if(this.state.redFilter==true){
         //     res.data.map(job => {
@@ -91,39 +91,39 @@ class Search extends Component {
 
         // }
 
-        if(this.state.redFilter==true){
-            presort = res.data.filter(j => j.red.length == 0)
-            console.log(presort);
-            //  return presort;
+        if (this.state.redFilter == false) {
+          presort = res.data.filter(j => j.red.length == 0)
+          console.log(presort);
+          //  return presort;
         }
 
-         const sorted = presort.map(job => {
-        // let sorted = res.data.map(job => {
-        //   const green = job.green.filter(j => myList.includes(j));
-        //   const red = job.red.filter(j => notMyList.includes(j));
+        const sorted = presort.map(job => {
+          // let sorted = res.data.map(job => {
+          //   const green = job.green.filter(j => myList.includes(j));
+          //   const red = job.red.filter(j => notMyList.includes(j));
 
-        //   job.green = green;
-        //   job.red = red;
+          //   job.green = green;
+          //   job.red = red;
 
-            const green = job.green.filter(j => myList.includes(j)); 
-            job.green = green;
-          
-            return job;
-          
-        //   else {
-        //     const green = job.green.filter(j => myList.includes(j));
-        //     const red = job.red.filter(j => notMyList.includes(j));
-  
-        //     job.green = green;
-        //     job.red = red; 
-        //     console.log('Red:' +job.red + 'Green:' +job.green)
-        //     const 
+          const green = job.green.filter(j => myList.includes(j));
+          job.green = green;
 
-        //     return filterJob;
-        //   }
-          
+          return job;
+
+          //   else {
+          //     const green = job.green.filter(j => myList.includes(j));
+          //     const red = job.red.filter(j => notMyList.includes(j));
+
+          //     job.green = green;
+          //     job.red = red; 
+          //     console.log('Red:' +job.red + 'Green:' +job.green)
+          //     const 
+
+          //     return filterJob;
+          //   }
+
         })
-        .sort((x, y) => y.green.length - x.green.length)
+          .sort((x, y) => y.green.length - x.green.length)
 
         this.setState({
           jobs: sorted,
@@ -138,26 +138,8 @@ class Search extends Component {
           message: "No New Jobs Found, Try a Different Query"
         })
       });
-
-
-
-
   };
 
-
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
-  handleFormSubmit = event => {
-    event.preventDefault();
-    this.getJobs();
-
-
-
-  };
 
   favoriteBtn(url) {
     // console.log(this.state.favorites);
@@ -171,38 +153,38 @@ class Search extends Component {
     // let favorites = this.state.favorites;
     // favorites = favorites.splice(index)
     // this.setState({favorites: favorites})
-    for (let i=0; i < favoriteIDs.length; i++) {
+    for (let i = 0; i < favoriteIDs.length; i++) {
       if (url === favoriteIDs[i].url) {
-        fav = {id: favoriteIDs[i].id};
+        fav = { id: favoriteIDs[i].id };
         console.log(elem.innerHTML)
         if (elem.innerHTML == '<i class="fas fa-heart"></i>') {
           elem.innerHTML = '<i class="far fa-heart"></i>';
-          }
+        }
 
       }
     }
 
-      let result = window.confirm("Are you sure want to remove this job from favorites?");
-      if (result) {
-          console.log("user wants to delete: ", fav)
-          API.removeFavorite(fav)
-              .then(response => {
-                  // console.log('remove favorite Job response: ', response)
-                  if (response.status === 200) {
-                      console.log("job removed from favorites")                  
-                  }
-              }).catch(error => {
-                  console.log('remove favorite error: ', error)
-              });
-      }
+    let result = window.confirm("Are you sure want to remove this job from favorites?");
+    if (result) {
+      console.log("user wants to delete: ", fav)
+      API.removeFavorite(fav)
+        .then(response => {
+          // console.log('remove favorite Job response: ', response)
+          if (response.status === 200) {
+            console.log("job removed from favorites")
+          }
+        }).catch(error => {
+          console.log('remove favorite error: ', error)
+        });
+    }
   }
 
   favoriteJob(job) {
     let elem = document.getElementById(job.job.url)
 
     if (elem.innerHTML == '<i class="far fa-heart"></i>') {
-        elem.innerHTML = '<i class="fas fa-heart"></i>';  
-      }
+      elem.innerHTML = '<i class="fas fa-heart"></i>';
+    }
 
     // document.getElementsById(job.job.url).style.backgroundColor = "red";
     console.log(job.job.url);
@@ -238,6 +220,17 @@ class Search extends Component {
       });
   }
 
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+  handleFormSubmit = event => {
+    event.preventDefault();
+    this.getJobs();
+
+  };
 
   handleSortFormSubmit = event => {
     console.log("this is handle sort form submit")
@@ -250,7 +243,6 @@ class Search extends Component {
       lanes: newLanes,
       skill: "",
     })
-
   };
 
 
@@ -312,9 +304,9 @@ class Search extends Component {
           if (response.status === 200) {
             for (let i = 0; i < response.data.length; i++) {
               favorites.push(response.data[i].url);
-              favoriteIDs.push({id:response.data[i]._id, url:response.data[i].url});
+              favoriteIDs.push({ id: response.data[i]._id, url: response.data[i].url });
             }
-            this.setState({favorites: favorites})
+            this.setState({ favorites: favorites })
 
           }
         }).catch(error => {
@@ -368,93 +360,64 @@ class Search extends Component {
 
   updateDBTrue = event => {
     event.preventDefault();
-    
 
-        let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id.toLowerCase());
-        let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id.toLowerCase());
-        let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id.toLowerCase());
 
-        let data = {
-            id: sessionKey,
-            g: lane1,
-            y: lane2,
-            r: lane3,
-            
+    let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id.toLowerCase());
+    let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id.toLowerCase());
+    let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id.toLowerCase());
+
+    let data = {
+      id: sessionKey,
+      g: lane1,
+      y: lane2,
+      r: lane3,
+
+    }
+    console.log(data)
+
+    API.postQuiz(data)
+      .then(response => {
+        if (response.status === 200) {
+          alert('Profile Successfully Updated')
         }
-        console.log(data)
+      }).catch(error => {
+        console.log('Filters not saved. Error: ', error)
+      });
 
-        API.postQuiz(data)
-            .then(response => {
-                console.log('user quiz results: ', response)
-                if (response.status === 200) {
-                    console.log("user quiz results updated")
-                }
-            }).catch(error => {
-                console.log('user quiz error: ', error)
-            });
-    
 
   }
 
 
   render() {
-    // let lane1 = this.state.lanes.filter(a => a.metadata.status === "lane1");
-    // let lane2 = this.state.lanes.filter(a => a.metadata.status === "lane2");
-    // let lane3 = this.state.lanes.filter(a => a.metadata.status === "lane3");
-    // const data = {
-    //   lanes: [
-    //     {
-    //       id: 'lane1',
-    //       title: 'Desired Skills',
-    //       label: lane1.length,
-    //       style: { backgroundColor: 'green' },
-    //       cards: lane1
-    //     },
-    //     {
-    //       id: 'lane2',
-    //       title: 'Interested Skills',
-    //       label: lane2.length,
-    //       style: { backgroundColor: 'yellow' },
-    //       cards: lane2
-    //     },
-    //     {
-    //       id: 'lane3',
-    //       title: 'Unideal Skills',
-    //       label: lane3.length,
-    //       style: { backgroundColor: 'red' },
-    //       cards: lane3
-    //     },
 
-    //   ]
-    // }
 
     let lane1 = this.state.lanes.filter(a => a.metadata.status === "lane1");
     let lane2 = this.state.lanes.filter(a => a.metadata.status === "lane2");
     let lane3 = this.state.lanes.filter(a => a.metadata.status === "lane3");
     const data = {
-        lanes: [
-            {
-                id: 'lane1',
-                title: 'Desired Skills',
-                label: lane1.length,
-                style: { backgroundColor: '#D1F73C', border: '3px solid #D1F73C'},
-                cards: lane1
-            },
-            {
-                id: 'lane2',
-                title: 'Interested Skills',
-                label: lane2.length,
-                style: { backgroundColor: '#b8c1ca', border: '3px solid #b8c1ca' },
-                cards: lane2
-            },
-            {
-                id: 'lane3',
-                title: 'Unideal Skills',
-                label: lane3.length,
-                style: { backgroundColor: '#AA4154', border: '3px solid #AA4154' },
-                cards: lane3
-            },
-        ]
+      lanes: [
+        {
+          id: 'lane1',
+          title: 'Desired Skills',
+          label: lane1.length,
+          style: { backgroundColor: '#D1F73C', border: '3px solid #D1F73C' },
+          cards: lane1
+        },
+        {
+          id: 'lane2',
+          title: 'Interested Skills',
+          label: lane2.length,
+          style: { backgroundColor: '#b8c1ca', border: '3px solid #b8c1ca' },
+          cards: lane2
+        },
+        {
+          id: 'lane3',
+          title: 'Unideal Skills',
+          label: lane3.length,
+          style: { backgroundColor: '#AA4154', border: '3px solid #AA4154' },
+          cards: lane3
+        },
+      ]
     }
 
 
@@ -478,20 +441,22 @@ class Search extends Component {
           <Col size="md-10 md-offset-1">
             <Card className="p-4 mt-5 rounded-0">
               <h1>Job Search</h1>
-              <h2 id="heading" className="mb-4"><strong>Click Search to Find Job Titles with your Displayed Filters</strong></h2>
 
+
+              {loggedIn ? (<h2 id="heading" className="mb-4"><strong>Click search to find job titles with your displayed filters.</strong></h2>
+                ) : (<h2 id="heading" className="mb-4"><strong>If you would like to save jobs and set up customizable filters. Click up at the top of the page to Login. </strong></h2>)}
+              
               <Form
                 handleInputChange={this.handleInputChange}
                 handleFormSubmit={this.handleFormSubmit}
                 q={this.state.q}
                 l={this.state.l}
               />
-
-              {loggedIn ? (<div>
-                            <Button onClick={this.redFilterTrue}>Exclude Jobs with Unideal Skills  {this.state.redFilter==false ? <i class="far fa-square"></i> : <i class="far fa-check-square"></i>}</Button>
-                            
-                            </div>
-                            ) : ""}
+              {loggedIn ? (
+              <div>
+              <Button id="redbutton" onClick={this.redFilterTrue}> {this.state.redFilter == false ? <i class="far fa-square"></i> : <i class="far fa-check-square"></i>}  Show Jobs with Unideal Skills  </Button>              
+              </div>
+              ) : ""}
             </Card>
 
           </Col>
@@ -502,6 +467,7 @@ class Search extends Component {
 
 
                 <h2 id="heading" className="text-center p-1 mb-0"><strong>Filters</strong></h2>
+                <h5 id="heading" className="p-1 mb-0">Results will be sorted by jobs with the most desired skills. All skills present in a job entry will be listed with their matching color at the bottom of the job card.</h5>
 
                 <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "25rem", overflow: "scroll", backgroundColor: '#F5F7F5' }} className="boardContainer" />
                 <br /> <br /> <br />
@@ -510,8 +476,8 @@ class Search extends Component {
                   handleSortFormSubmit={this.handleSortFormSubmit}
                   skill={this.state.skill}
                 />
-                <br/>
-                <Button onClick={this.updateDBTrue}>Update Filters To Profile </Button>
+                <br />
+                <Button id="filterBtn" onClick={this.updateDBTrue}>Update Filters To Profile </Button>
 
               </Card>
             </Col>
@@ -559,7 +525,7 @@ class Search extends Component {
 
           </Col>
         </Row>
-            <Footer />
+        <Footer />
       </Container>
     );
   }
