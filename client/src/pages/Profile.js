@@ -510,7 +510,7 @@ class Profile extends Component {
                                                                     date={job.date}
                                                                     summary={job.summary}
                                                                     url={job.url}
-                                                                    onClick={() => this.removeFavorite({ job })}
+                                                                    onClickDelete={() => this.removeFavorite({ job })}
                                                                     // profile="true"
                                                                     favorites={favorites}
                                                                     index={i}

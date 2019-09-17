@@ -22,6 +22,7 @@ import "../style.css";
 let loggedIn;
 let sessionKey;
 let favorites = [];
+let favoriteIDs = [];
 
 
 class Search extends Component {
@@ -32,6 +33,7 @@ class Search extends Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
     this.favoriteJob = this.favoriteJob.bind(this);
+    this.favoriteBtn = this.favoriteBtn.bind(this);
 
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.onCardDelete = this.onCardDelete.bind(this);
@@ -161,8 +163,33 @@ class Search extends Component {
 
   };
 
+  favoriteBtn(url) {
+    let fav = {};
+    for (let i=0; i < favoriteIDs.length; i++) {
+      if (url === favoriteIDs[i].url) {
+        fav = {id: favoriteIDs[i].id}
+      }
+    }
+      let result = window.confirm("Are you sure want to remove this job from favorites?");
+      if (result) {
+          console.log("user wants to delete: ", fav)
+          API.removeFavorite(fav)
+              .then(response => {
+                  // console.log('remove favorite Job response: ', response)
+                  if (response.status === 200) {
+                      console.log("job removed from favorites")
+                      // window.location.reload();
+                  }
+              }).catch(error => {
+                  console.log('remove favorite error: ', error)
+              });
+      }
+  }
+
   favoriteJob(job) {
 
+    // document.getElementsById(job.job.url).style.backgroundColor = "red";
+    console.log(job.job.url);
     let userJob = {
       url: job.job.url,
       title: job.job.title,
@@ -268,7 +295,8 @@ class Search extends Component {
           console.log('job - get favorites response: ', response.data)
           if (response.status === 200) {
             for (let i = 0; i < response.data.length; i++) {
-              favorites.push(response.data[i].url)
+              favorites.push(response.data[i].url);
+              favoriteIDs.push({id:response.data[i]._id, url:response.data[i].url})
             }
           }
         }).catch(error => {
@@ -482,7 +510,7 @@ class Search extends Component {
                     <h2 id="heading" className="text-center"><strong>Results</strong></h2>
                     {this.state.jobs.map((job, i) => (
                       <Job
-                        key={i}
+                        key={job.url}
                         title={job.title}
                         company={job.company}
                         location={job.location}
@@ -492,7 +520,8 @@ class Search extends Component {
                         yellowMatches={job.yellow.map(sub => (sub + " "))}
                         redMatches={job.red.map(sub => (sub + " "))}
                         url={job.url}
-                        onClick={() => this.favoriteJob({ job })}
+                        onClickAdd={() => this.favoriteJob({ job })}
+                        onClickDelete={() => this.favoriteBtn(job.url)}
                         search="true"
                         favorites={favorites}
                         index={i}

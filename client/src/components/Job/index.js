@@ -14,7 +14,7 @@ let isFavorite = false;
 
 
 
-function Job({ title, company, location, date, summary, greenMatches, yellowMatches, redMatches, url, onClick, search, favorites, index, button }) {
+function Job({ title, company, location, date, summary, greenMatches, yellowMatches, redMatches, url, onClickAdd, onClickDelete, search, favorites, index, button }) {
   sessionKey = sessions.getSession();
   isFavorite = false;
 
@@ -52,42 +52,42 @@ function Job({ title, company, location, date, summary, greenMatches, yellowMatc
                 </a>
               </div>
               { search ? ( 
+                //if we're on the search page, display hearts
                isFavorite ? (
+                 //if it is a favorite, display full heart
                 <section>
                 <div className="btn-container" data-toggle="buttons">
-                <button onClick={onClick} className="btn btn-light heartBtn" id={url} rel="noopener noreferrer" >
+                <button onClick={onClickDelete} className="btn btn-light heartBtn" id={url} rel="noopener noreferrer" >
                 <i class="fas fa-heart"></i>
-                {/* <i class="far fa-heart"></i> isFav */}
                 </button>
                 </div>
                 </section>
                ):(
+                 //if it isn't, display empty heart
                 <section>
                 <div className="btn-container" data-toggle="buttons">
-                <button onClick={onClick} className="btn btn-light heartBtn" id={url} rel="noopener noreferrer" >
-                {/* <i class="fas fa-heart"></i> isn'tFav */}
+                <button onClick={onClickAdd} className="btn btn-light heartBtn" id={url} rel="noopener noreferrer" >
                 <i class="far fa-heart"></i>
                 </button>
                 </div>
                 </section>
                )
                ):(
+                 //if we aren't on the search page, we're on the prof page, display trashcan
               <section> 
               <div className="btn-container" data-toggle="buttons">
-                <button close onClick={onClick} className="btn btn-light trashBtn" id={url} rel="noopener noreferrer">
+                <button close onClick={onClickDelete} className="btn btn-light trashBtn" id={url} rel="noopener noreferrer">
                 <i class="fas fa-trash"></i>
                 </button>
                     </div>
                   </section>
                 )}
- 
             </section>
           ) : (
               <section>
                 <div className="btn-container">
                   <a className="btn btn-light" target="_blank" rel="noopener noreferrer" href={url}>
                   <i class="fas fa-external-link-alt"></i>
-
                   </a>
                 </div>
               </section>
