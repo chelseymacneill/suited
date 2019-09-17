@@ -38,12 +38,23 @@ h1 {
     border-radius: 0px;
 }
 
+#searchForm {
+    position: relative
+}
+
 #redbutton {
     color: #231824;
     border: none;
     box-shadow: none;
     border-radius: 0px;
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
 }
+#redbutton:hover {  background-color: #ffffff }
+
+
+
 .helpCard {
     box-shadow: none;
     border-radius: 0px;
