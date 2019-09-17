@@ -339,7 +339,7 @@ class Search extends Component {
 
         API.postQuiz(data)
             .then(response => {
-                console.log('user quiz results: ', response)
+                alert('Profile Successfully Updated')
                 if (response.status === 200) {
                     console.log("user quiz results updated")
                 }
@@ -352,35 +352,6 @@ class Search extends Component {
 
 
   render() {
-    // let lane1 = this.state.lanes.filter(a => a.metadata.status === "lane1");
-    // let lane2 = this.state.lanes.filter(a => a.metadata.status === "lane2");
-    // let lane3 = this.state.lanes.filter(a => a.metadata.status === "lane3");
-    // const data = {
-    //   lanes: [
-    //     {
-    //       id: 'lane1',
-    //       title: 'Desired Skills',
-    //       label: lane1.length,
-    //       style: { backgroundColor: 'green' },
-    //       cards: lane1
-    //     },
-    //     {
-    //       id: 'lane2',
-    //       title: 'Interested Skills',
-    //       label: lane2.length,
-    //       style: { backgroundColor: 'yellow' },
-    //       cards: lane2
-    //     },
-    //     {
-    //       id: 'lane3',
-    //       title: 'Unideal Skills',
-    //       label: lane3.length,
-    //       style: { backgroundColor: 'red' },
-    //       cards: lane3
-    //     },
-
-    //   ]
-    // }
 
     let lane1 = this.state.lanes.filter(a => a.metadata.status === "lane1");
     let lane2 = this.state.lanes.filter(a => a.metadata.status === "lane2");
@@ -432,7 +403,8 @@ class Search extends Component {
           <Col size="md-10 md-offset-1">
             <Card className="p-4 mt-5 rounded-0">
               <h1>Job Search</h1>
-              <h2 id="heading" className="mb-4"><strong>Click Search to Find Job Titles with your Displayed Filters</strong></h2>
+              <h2 id="heading" className="mb-4"><strong>If you would like to save jobs and set up customizable filters. Click up at the top of the page to Login. </strong></h2>
+              
 
               <Form
                 handleInputChange={this.handleInputChange}
@@ -465,7 +437,7 @@ class Search extends Component {
                   skill={this.state.skill}
                 />
                 <br/>
-                            <Button onClick={this.updateDBTrue}>Update Filters To Profile </Button>
+                            <Button onClick={this.updateDBTrue}>Save Search Filters To Profile</Button>
 
               </Card>
             </Col>
@@ -475,7 +447,7 @@ class Search extends Component {
         <Row>
           <Col size="md-10 md-offset-1">
             {!loading &&
-              <Card className="p-5 m-5 rounded-0">
+              <Card className="py-5 my-5 rounded-0">
                 {this.state.jobs.length ? (
 
                   <List>
@@ -486,7 +458,7 @@ class Search extends Component {
                         title={job.title}
                         company={job.company}
                         location={job.location}
-                        date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
+                        // date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
                         summary={job.summary}
                         greenMatches={job.green.map(sub => (sub + " "))}
                         yellowMatches={job.yellow.map(sub => (sub + " "))}
@@ -507,7 +479,7 @@ class Search extends Component {
               </Card>
             }
             {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
-            {loading && <Card className="p-5 m-5 rounded-0"><img id="loader" className="text-center" src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" /></Card>}
+            {loading && <Card className="py-5 my-5 rounded-0"><img id="loader" className="text-center" src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" /></Card>}
           </Col>
         </Row>
         <Row>
