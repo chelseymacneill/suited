@@ -55,7 +55,13 @@ class Profile extends Component {
             text: "",
             select: "",
             noteIndex: null,
-            showToast: false
+            showToast: false,
+            // these are the green words
+            g: [],
+            // these are the yellow words
+            y: [],
+            // these are the red words
+            r: [],
             // favorites;
             // quizState: []
         };
@@ -269,7 +275,7 @@ class Profile extends Component {
         this.toggleModal();
     }
 
-    componentDidMount() {
+    jobTracker() {
         let lane1 = [];
         let lane2 = [];
         let lane3 = [];
@@ -293,7 +299,7 @@ class Profile extends Component {
                             id: job._id,
                             title: job.company,
                             description: job.title,
-                            label:  job.interest ? ( "Priority: " + job.interest  ):("") ,
+                            label: job.interest ? ("Priority: " + job.interest) : (""),
                             // label: job.location,
                             // draggable: true,
                             laneDraggable: false,
@@ -345,6 +351,33 @@ class Profile extends Component {
             }).catch(error => {
                 alert('create favorite error: ', error)
             });
+    }
+
+    profileLoad(){
+        API.getQuiz({ "userID": sessionKey })
+        // API.getFavorites(sessionKey)
+        .then(response => {
+          ////////////////////////////////////////////////////////////
+          // console.log('quiz response: ', response)
+          if (response.status === 200) {
+
+            this.setState({
+              g: response.data.g,
+              y: response.data.y,
+              r: response.data.r
+
+            })
+
+          }
+
+        }).catch(error => {
+          alert('get quiz error: ', error)
+        });
+    }
+
+    componentDidMount() {
+        this.jobTracker();
+        this.profileLoad();
     };
 
     render() {
@@ -355,15 +388,15 @@ class Profile extends Component {
                     title: 'Unassigned',
                     label: this.state.lane1.length + " Jobs",
                     cards: this.state.lane1,
-                    style: {color: '#231824', backgroundColor: '#b8c1ca'},
-                    cardStyle: {color: '#AA4154', backgroundColor: '#F5F7F5'}
+                    style: { color: '#231824', backgroundColor: '#b8c1ca' },
+                    cardStyle: { color: '#AA4154', backgroundColor: '#F5F7F5' }
                 },
                 {
                     id: 'lane2',
                     title: 'Application Sent',
                     label: this.state.lane2.length + " Jobs",
                     cards: this.state.lane2,
-                    style: {color: '#231824', backgroundColor: '#D1F73C'}
+                    style: { color: '#231824', backgroundColor: '#D1F73C' }
 
                     //     [
                     //     {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false},
@@ -419,7 +452,7 @@ class Profile extends Component {
                         <Col size="md-10" >
                             <Jumbotron className="Jumbotron">
                                 <h2 className="p-2 text-center" id="profileJumbo">
-                                Save Jobs, Track Application Progress &amp;<strong> Get Hired!</strong>
+                                    Save Jobs, Track Application Progress &amp;<strong> Get Hired!</strong>
                                 </h2>
                                 {/* <h2 className="float-right text-right">Save Jobs, Track Application Progress<br /><strong>&amp; Get Hired!</strong></h2> */}
                                 {/* <img className="float-right pt-5" id="logo2" src={process.env.PUBLIC_URL + '/suitedLogo2.png'}/> */}
@@ -463,7 +496,7 @@ class Profile extends Component {
                                                     <CardHeader className="CardHeader">
                                                         <h2>Profile</h2>
                                                     </CardHeader>
-                                                    <Form className="pl-3">
+                                                    {/* <Form className="pl-3">
                                                     <FormGroup row>
                                                     <Col sm={10}>
                                                         <Input type="text" name="Fname" id="firstName" placeholder="First Name" />
@@ -490,7 +523,8 @@ class Profile extends Component {
                                                     </Col>
                                                     </FormGroup>
                                                     <Button className="personalBtn float-right m-3">Submit</Button>
-                                                </Form>
+                                                </Form> */}
+
                                                 </Card>
                                             </Col>
                                             <Col md="9">
@@ -529,7 +563,7 @@ class Profile extends Component {
                                     <TabPane tabId="2" >
                                         <Row>
                                             <Col lg="12" className="profKanbanContainer p-3 mx-0">
-                                            <h2 className="CardHeader">Job Tracker</h2>
+                                                <h2 className="CardHeader">Job Tracker</h2>
                                                 <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} id="quizKanban" className="boardContainer" laneStyle={{ backgroundColor: '#b8c1ca' }} style={{ backgroundColor: '#F5F7F5' }} />
                                                 {/* onClick={() => this.removeFavorite({ job })} */}
                                                 <Modal className="modal" isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>

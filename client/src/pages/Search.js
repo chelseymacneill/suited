@@ -46,11 +46,11 @@ class Search extends Component {
       l: "",
       skill: "",
       // these are the green words
-      g: ["javascript"],
+      g: [],
       // these are the yellow words
-      y: ["css"],
+      y: [],
       // these are the red words
-      r: ["html"],
+      r: [],
       message: "Enter in your desired Job to begin!",
       loading: false,
       lanes: [],
