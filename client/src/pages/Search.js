@@ -22,6 +22,7 @@ import "../style.css";
 let loggedIn;
 let sessionKey;
 let favorites = [];
+let favoriteIDs = [];
 
 
 class Search extends Component {
@@ -32,6 +33,7 @@ class Search extends Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
     this.favoriteJob = this.favoriteJob.bind(this);
+    this.favoriteBtn = this.favoriteBtn.bind(this);
 
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.onCardDelete = this.onCardDelete.bind(this);
@@ -51,13 +53,13 @@ class Search extends Component {
       y: ["css"],
       // these are the red words
       r: ["html"],
-      message: "Enter in your desired Job to begin!",
+      message: "Enter in your desired job to begin!",
       loading: false,
       lanes: [],
       favoriteJob: [],
       updateDB: false,
-      redFilter: false,
-      favoriteURLs: []
+      redFilter: true,
+      favorites: []
     };
   }
 
@@ -77,7 +79,10 @@ class Search extends Component {
     API.getJobs(this.state.q, this.state.l, lane1, lane2, lane3)
       .then(res => {
         const myList = lane1;
-        // const notmyList = lane3;
+        // const notMyList = lane3;
+        let presort = res.data;
+
+
         // if(this.state.redFilter==true){
         //     res.data.map(job => {
         //     const red = job.red.filter(a => !notmyList.includes(a))})
@@ -85,12 +90,40 @@ class Search extends Component {
         //     return job;
 
         // }
-        // const sorted = res.data.map(job => {
-        let sorted = res.data.map(job => {
+
+        if (this.state.redFilter == false) {
+          presort = res.data.filter(j => j.red.length == 0)
+          console.log(presort);
+          //  return presort;
+        }
+
+        const sorted = presort.map(job => {
+          // let sorted = res.data.map(job => {
+          //   const green = job.green.filter(j => myList.includes(j));
+          //   const red = job.red.filter(j => notMyList.includes(j));
+
+          //   job.green = green;
+          //   job.red = red;
+
           const green = job.green.filter(j => myList.includes(j));
           job.green = green;
+
           return job;
-        }).sort((x, y) => y.green.length - x.green.length)
+
+          //   else {
+          //     const green = job.green.filter(j => myList.includes(j));
+          //     const red = job.red.filter(j => notMyList.includes(j));
+
+          //     job.green = green;
+          //     job.red = red; 
+          //     console.log('Red:' +job.red + 'Green:' +job.green)
+          //     const 
+
+          //     return filterJob;
+          //   }
+
+        })
+          .sort((x, y) => y.green.length - x.green.length)
 
         this.setState({
           jobs: sorted,
@@ -105,29 +138,56 @@ class Search extends Component {
           message: "No New Jobs Found, Try a Different Query"
         })
       });
-
-
-
-
   };
 
 
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
-  handleFormSubmit = event => {
-    event.preventDefault();
-    this.getJobs();
+  favoriteBtn(url) {
+    // console.log(this.state.favorites);
+    let fav = {};
+    let elem = document.getElementById(url)
+    let favoriteJobBtn = this.state.favorites;
 
+    // let index = null;
 
+    // console.log("value", elem.value, "val", elem.val, "innerText", elem.innerText, elem.innerHTML, elem.html);
+    // let favorites = this.state.favorites;
+    // favorites = favorites.splice(index)
+    // this.setState({favorites: favorites})
+    for (let i = 0; i < favoriteIDs.length; i++) {
+      if (url === favoriteIDs[i].url) {
+        fav = { id: favoriteIDs[i].id };
+        console.log(elem.innerHTML)
+        if (elem.innerHTML == '<i class="fas fa-heart"></i>') {
+          elem.innerHTML = '<i class="far fa-heart"></i>';
+        }
 
-  };
+      }
+    }
+
+    let result = window.confirm("Are you sure want to remove this job from favorites?");
+    if (result) {
+      console.log("user wants to delete: ", fav)
+      API.removeFavorite(fav)
+        .then(response => {
+          // console.log('remove favorite Job response: ', response)
+          if (response.status === 200) {
+            console.log("job removed from favorites")
+          }
+        }).catch(error => {
+          console.log('remove favorite error: ', error)
+        });
+    }
+  }
 
   favoriteJob(job) {
+    let elem = document.getElementById(job.job.url)
 
+    if (elem.innerHTML == '<i class="far fa-heart"></i>') {
+      elem.innerHTML = '<i class="fas fa-heart"></i>';
+    }
+
+    // document.getElementsById(job.job.url).style.backgroundColor = "red";
+    console.log(job.job.url);
     let userJob = {
       url: job.job.url,
       title: job.job.title,
@@ -160,6 +220,17 @@ class Search extends Component {
       });
   }
 
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+  handleFormSubmit = event => {
+    event.preventDefault();
+    this.getJobs();
+
+  };
 
   handleSortFormSubmit = event => {
     console.log("this is handle sort form submit")
@@ -172,7 +243,6 @@ class Search extends Component {
       lanes: newLanes,
       skill: "",
     })
-
   };
 
 
@@ -233,8 +303,11 @@ class Search extends Component {
           console.log('job - get favorites response: ', response.data)
           if (response.status === 200) {
             for (let i = 0; i < response.data.length; i++) {
-              favorites.push(response.data[i].url)
+              favorites.push(response.data[i].url);
+              favoriteIDs.push({ id: response.data[i]._id, url: response.data[i].url });
             }
+            this.setState({ favorites: favorites })
+
           }
         }).catch(error => {
           console.log('job - get favorite error: ', error)
@@ -271,7 +344,7 @@ class Search extends Component {
 
   redFilterTrue = event => {
     event.preventDefault();
-    console.log("redFilterTrue")
+    //console.log("redFilterTrue")
     if (this.state.redFilter == true) {
       this.setState({
         redFilter: false
@@ -286,80 +359,65 @@ class Search extends Component {
 
 
   updateDBTrue = event => {
-    console.log("updateDBTrue")
     event.preventDefault();
-    if (this.state.updateDB == true) {
-      this.setState({
-        updateDB: false
-      })
+
+
+    let lane1 = this.state.lanes.filter(a => a.metadata.status == "lane1").map(a => a.id.toLowerCase());
+    let lane2 = this.state.lanes.filter(a => a.metadata.status == "lane2").map(a => a.id.toLowerCase());
+    let lane3 = this.state.lanes.filter(a => a.metadata.status == "lane3").map(a => a.id.toLowerCase());
+
+    let data = {
+      id: sessionKey,
+      g: lane1,
+      y: lane2,
+      r: lane3,
+
     }
-    else {
-      this.setState({
-        updateDB: true
-      })
-    }
+    console.log(data)
+
+    API.postQuiz(data)
+      .then(response => {
+        if (response.status === 200) {
+          alert('Profile Successfully Updated')
+        }
+      }).catch(error => {
+        console.log('Filters not saved. Error: ', error)
+      });
+
 
   }
 
 
   render() {
-    // let lane1 = this.state.lanes.filter(a => a.metadata.status === "lane1");
-    // let lane2 = this.state.lanes.filter(a => a.metadata.status === "lane2");
-    // let lane3 = this.state.lanes.filter(a => a.metadata.status === "lane3");
-    // const data = {
-    //   lanes: [
-    //     {
-    //       id: 'lane1',
-    //       title: 'Desired Skills',
-    //       label: lane1.length,
-    //       style: { backgroundColor: 'green' },
-    //       cards: lane1
-    //     },
-    //     {
-    //       id: 'lane2',
-    //       title: 'Interested Skills',
-    //       label: lane2.length,
-    //       style: { backgroundColor: 'yellow' },
-    //       cards: lane2
-    //     },
-    //     {
-    //       id: 'lane3',
-    //       title: 'Unideal Skills',
-    //       label: lane3.length,
-    //       style: { backgroundColor: 'red' },
-    //       cards: lane3
-    //     },
 
-    //   ]
-    // }
 
     let lane1 = this.state.lanes.filter(a => a.metadata.status === "lane1");
     let lane2 = this.state.lanes.filter(a => a.metadata.status === "lane2");
     let lane3 = this.state.lanes.filter(a => a.metadata.status === "lane3");
     const data = {
-        lanes: [
-            {
-                id: 'lane1',
-                title: 'Desired Skills',
-                label: lane1.length,
-                style: { backgroundColor: '#D1F73C', border: '3px solid #D1F73C'},
-                cards: lane1
-            },
-            {
-                id: 'lane2',
-                title: 'Interested Skills',
-                label: lane2.length,
-                style: { backgroundColor: '#b8c1ca', border: '3px solid #b8c1ca' },
-                cards: lane2
-            },
-            {
-                id: 'lane3',
-                title: 'Unideal Skills',
-                label: lane3.length,
-                style: { backgroundColor: '#AA4154', border: '3px solid #AA4154' },
-                cards: lane3
-            },
-        ]
+      lanes: [
+        {
+          id: 'lane1',
+          title: 'Desired Skills',
+          label: lane1.length,
+          style: { backgroundColor: '#D1F73C', border: '3px solid #D1F73C' },
+          cards: lane1
+        },
+        {
+          id: 'lane2',
+          title: 'Interested Skills',
+          label: lane2.length,
+          style: { backgroundColor: '#b8c1ca', border: '3px solid #b8c1ca' },
+          cards: lane2
+        },
+        {
+          id: 'lane3',
+          title: 'Unideal Skills',
+          label: lane3.length,
+          style: { backgroundColor: '#AA4154', border: '3px solid #AA4154' },
+          cards: lane3
+        },
+      ]
     }
 
 
@@ -383,20 +441,22 @@ class Search extends Component {
           <Col size="md-10 md-offset-1">
             <Card className="p-4 mt-5 rounded-0">
               <h1>Job Search</h1>
-              <h2 id="heading" className="mb-4"><strong>Click Search to Find Job Titles with your Displayed Filters</strong></h2>
 
+
+              {loggedIn ? (<h2 id="heading" className="mb-4"><strong>Click search to find job titles with your displayed filters.</strong></h2>
+                ) : (<h2 id="heading" className="mb-4"><strong>If you would like to save jobs and set up customizable filters. Click up at the top of the page to Login. </strong></h2>)}
+              
               <Form
                 handleInputChange={this.handleInputChange}
                 handleFormSubmit={this.handleFormSubmit}
                 q={this.state.q}
                 l={this.state.l}
               />
-
-              {/* {loggedIn ? (<div>
-                            <Button color="primary" onClick={() => this.redFilterTrue} active={this.state.cSelected}>Exclude Jobs with Unideal Skills</Button>
-                            <Button color="primary" onClick={() => this.updateDBTrue} active={this.state.cSelected}>Update Filterrs To Profile</Button>
-                            </div>
-                            ) : ""} */}
+              {loggedIn ? (
+              <div>
+              <Button id="redbutton" onClick={this.redFilterTrue}> {this.state.redFilter == false ? <i class="far fa-square"></i> : <i class="far fa-check-square"></i>}  Show Jobs with Unideal Skills  </Button>              
+              </div>
+              ) : ""}
             </Card>
 
           </Col>
@@ -407,14 +467,17 @@ class Search extends Component {
 
 
                 <h2 id="heading" className="text-center p-1 mb-0"><strong>Filters</strong></h2>
+                <h5 id="heading" className="p-1 mb-0">Results will be sorted by jobs with the most desired skills. All skills present in a job entry will be listed with their matching color at the bottom of the job card.</h5>
 
-                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "25rem", overflow: "scroll", backgroundColor: '#F5F7F5' }} className="boardContainer" />
+                <Board data={data} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} onCardClick={this.onCardClick} style={{ height: "20rem", overflow: "scroll", backgroundColor: '#F5F7F5' }} className="boardContainer" />
                 <br /> <br /> <br />
                 <FormSort
                   handleInputChange={this.handleInputChange}
                   handleSortFormSubmit={this.handleSortFormSubmit}
                   skill={this.state.skill}
                 />
+                <br />
+                <Button id="filterBtn" onClick={this.updateDBTrue}>Update Filters To Profile </Button>
 
               </Card>
             </Col>
@@ -424,24 +487,25 @@ class Search extends Component {
         <Row>
           <Col size="md-10 md-offset-1">
             {!loading &&
-              <Card className="p-5 m-5 rounded-0">
+              <Card className="py-5 my-5 rounded-0">
                 {this.state.jobs.length ? (
 
                   <List>
                     <h2 id="heading" className="text-center"><strong>Results</strong></h2>
                     {this.state.jobs.map((job, i) => (
                       <Job
-                        key={i}
+                        key={job.url}
                         title={job.title}
                         company={job.company}
                         location={job.location}
-                        date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
+                        // date={(job.date !== undefined && job.date.length > 3) ? <Moment fromNow>{job.date}</Moment> : (job.date !== undefined) ? job.date.slice(0, -1) + " days ago" : job.date}
                         summary={job.summary}
                         greenMatches={job.green.map(sub => (sub + " "))}
                         yellowMatches={job.yellow.map(sub => (sub + " "))}
                         redMatches={job.red.map(sub => (sub + " "))}
                         url={job.url}
-                        onClick={() => this.favoriteJob({ job })}
+                        onClickAdd={() => this.favoriteJob({ job })}
+                        onClickDelete={() => this.favoriteBtn(job.url)}
                         search="true"
                         favorites={favorites}
                         index={i}
@@ -456,14 +520,12 @@ class Search extends Component {
               </Card>
             }
             {/* {loading && <h2 className="text-center">Jobs Loading</h2>} */}
-            {loading && <Card className="p-5 m-5 rounded-0"><img id="loader" className="text-center" src="https://loading.io/spinners/microsoft/lg.rotating-balls-spinner.gif" /></Card>}
+            {/* {loading && <Card className="p-5 m-5 rounded-0"><img id="loader" className="text-center" src="https://eric.young.li/img/loading/hexagonRotate-noBorder-copy-2-01.gif" /></Card>} */}
+            {loading && <Card className="py-5 my-5 rounded-0"><img id="loader" className="text-center" src="https://mistyharborboats.com/wp-content/plugins/mhb-wizard/js-app/images/ajax-loader.gif" /></Card>}
+
           </Col>
         </Row>
-        <Row>
-          <Col size="md-10 md-offset-1">
-            <Footer />
-          </Col>
-        </Row>
+        <Footer />
       </Container>
     );
   }

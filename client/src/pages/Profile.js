@@ -10,7 +10,7 @@ import { List } from "../components/List";
 
 import API from "../utils/API";
 
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardHeader, Row, Col, Container, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText, Label, Input } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardHeader, Row, Col, Container, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText, Label, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import classnames from 'classnames';
 
 import Board from 'react-trello'
@@ -39,9 +39,10 @@ class Profile extends Component {
 
         // this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
         this.quizState = this.quizState.bind(this);
+        // this.toggleToast = this.toggleToast.bind(this);
 
         this.state = {
-            activeTab: '1',
+            activeTab: '2',
             modal: false,
             jobs: [],
             lane1: [],
@@ -54,12 +55,46 @@ class Profile extends Component {
             text: "",
             select: "",
             noteIndex: null,
+            showToast: false,
+            // these are the green words
+            g: [],
+            // these are the yellow words
+            y: [],
+            // these are the red words
+            r: [],
+            redirect: false
             // favorites;
             // quizState: []
         };
     }
 
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
+    }
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to='/search' />
+        }
+    }
+
+    reset = () => {
+        this.setState(
+            {
+                activeTab: '3'
+            })
+
+    }
+
+    // toggleToast() {
+    // this.setState({
+    // showToast: !this.state.showToast
+    // });
+    // }
+
     quizState = event => {
+        // alert("Results Saved! Redirecting to search page")
         // this.setState({ quizState: event })
         // console.log(this.state.quizState)
         let array = event;
@@ -90,11 +125,13 @@ class Profile extends Component {
             .then(response => {
                 console.log('user quiz results: ', response)
                 if (response.status === 200) {
-                    console.log("user quiz results updated")
+                    // alert("Skills saved! Redirecting to search page")
                 }
             }).catch(error => {
                 console.log('user quiz error: ', error)
             });
+
+        // this.toggleTab(2);    
     }
 
     handleInputChange = event => {
@@ -193,7 +230,8 @@ class Profile extends Component {
                 console.log('update note status response: ', response)
                 if (response.status === 200) {
                     console.log("note updated", response)
-                    // alert("Note Deleted")
+                    alert("Note Deleted")
+                    // this.toggleToast();
                     // window.location.reload();
                     API.getFavorites({ "userID": sessionKey })
                         .then(response => {
@@ -230,6 +268,7 @@ class Profile extends Component {
     }
 
     handleDragEnd(cardId, sourceLaneId, targetLaneId, position, cardDetails) {
+
         console.log("card dropped", cardDetails, cardId)
         let data = {
             id: cardId,
@@ -256,7 +295,16 @@ class Profile extends Component {
         this.toggleModal();
     }
 
-    componentDidMount() {
+    edit() {
+        this.setState({
+            edit: true
+        })
+    }
+
+
+
+
+    jobTracker() {
         let lane1 = [];
         let lane2 = [];
         let lane3 = [];
@@ -280,7 +328,8 @@ class Profile extends Component {
                             id: job._id,
                             title: job.company,
                             description: job.title,
-                            label: job.location,
+                            label: job.interest ? ("Priority: " + job.interest) : (""),
+                            // label: job.location,
                             // draggable: true,
                             laneDraggable: false,
                             metadata: {
@@ -331,6 +380,33 @@ class Profile extends Component {
             }).catch(error => {
                 alert('create favorite error: ', error)
             });
+    }
+
+    profileLoad() {
+        API.getQuiz({ "userID": sessionKey })
+            // API.getFavorites(sessionKey)
+            .then(response => {
+                ////////////////////////////////////////////////////////////
+                // console.log('quiz response: ', response)
+                if (response.status === 200) {
+
+                    this.setState({
+                        g: response.data.g,
+                        y: response.data.y,
+                        r: response.data.r
+
+                    })
+
+                }
+
+            }).catch(error => {
+                alert('get quiz error: ', error)
+            });
+    }
+
+    componentDidMount() {
+        this.jobTracker();
+        this.profileLoad();
     };
 
     render() {
@@ -341,13 +417,19 @@ class Profile extends Component {
                     title: 'Unassigned',
                     label: this.state.lane1.length + " Jobs",
                     cards: this.state.lane1,
-                    style: {color: '#231824', backgroundColor: '#b8c1ca'}
+
+                    style: {color: '#231824', backgroundColor: '#657589', border: "1px solid #657589"},
+
                 },
                 {
                     id: 'lane2',
                     title: 'Application Sent',
                     label: this.state.lane2.length + " Jobs",
-                    cards: this.state.lane2
+                    cards: this.state.lane2,
+
+                    style: {color: '#231824', backgroundColor: '#adb6bf', border: "1px solid #657589"}
+
+
                     //     [
                     //     {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false},
                     //     {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: {sha: 'be312a1'}}
@@ -357,19 +439,24 @@ class Profile extends Component {
                     id: 'lane3',
                     title: 'Response Received',
                     label: this.state.lane3.length + " Jobs",
-                    cards: this.state.lane3
+                    cards: this.state.lane3,
+                    style: {color: '#231824', backgroundColor: '#F5F7F5', border: "1px solid #657589"}
+
                 },
                 {
                     id: 'lane4',
                     title: 'Had Phone Interview',
                     label: this.state.lane4.length + " Jobs",
-                    cards: this.state.lane4
+                    cards: this.state.lane4,
+                    style: {color: '#231824', backgroundColor: '#e3f798', border: "1px solid #657589"}
+
                 },
                 {
                     id: 'lane5',
                     title: 'Had Live Interview',
                     label: this.state.lane5.length + " Jobs",
-                    cards: this.state.lane5
+                    cards: this.state.lane5,
+                    style: {color: '#231824', backgroundColor: '#D1F73C', border: "1px solid #657589"}
                 }
             ]
         }
@@ -381,18 +468,30 @@ class Profile extends Component {
             loggedIn = false;
         }
 
+
+
         if (loggedIn === false) {
             return <Redirect to={{ pathname: "/login" }} />
         } else {
 
             return (
-                <Container className="mx-auto">
+                <Container className="w-100">
                     {/************ JUMBOTRON *******************88*/}
+                    {/* <div className="p-3 my-2 rounded bg-docs-transparent-grid">
+                        <Toast isOpen={this.state.showToast}>
+                        <ToastHeader toggle={this.toggleToast}>
+                            Reactstrap
+                        </ToastHeader>
+                        <ToastBody>
+                            This is a toast on a gridded background — check it out!
+                        </ToastBody>
+                        </Toast>
+                    </div> */}
                     <Row>
                         <Col size="md-10" >
                             <Jumbotron className="Jumbotron">
                                 <h2 className="p-2 text-center" id="profileJumbo">
-                                Save Jobs, Track Application Progress &amp;<strong> Get Hired!</strong>
+                                    Save Jobs, Track Application Progress &amp;<strong> Get Hired!</strong>
                                 </h2>
                                 {/* <h2 className="float-right text-right">Save Jobs, Track Application Progress<br /><strong>&amp; Get Hired!</strong></h2> */}
                                 {/* <img className="float-right pt-5" id="logo2" src={process.env.PUBLIC_URL + '/suitedLogo2.png'}/> */}
@@ -408,7 +507,7 @@ class Profile extends Component {
                                             className="profilePill"
                                             className={classnames({ active: this.state.activeTab === '1' })}
                                             onClick={() => { this.toggleTab('1'); }}>
-                                            Personal &amp; Jobs
+                                            Skills &amp; Jobs
                                     </NavLink>
                                     </NavItem>
                                     <NavItem>
@@ -422,7 +521,7 @@ class Profile extends Component {
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '3' })}
                                             onClick={() => { this.toggleTab('3'); }}>
-                                            Skills Quiz
+                                            Start Fresh
                                     </NavLink>
                                     </NavItem>
                                 </Nav>
@@ -431,12 +530,39 @@ class Profile extends Component {
                                     {/**************** SAVED JOBS **************/}
                                     <TabPane tabId="1">
                                         <Row>
-                                            <Col md="3">
-                                                <Card id="profCard">
+                                            <Col md="3" >
+                                                <Card id="profCard" >
                                                     <CardHeader className="CardHeader">
                                                         <h2>Profile</h2>
                                                     </CardHeader>
-                                                    <Form className="pl-3">
+                                                    {this.renderRedirect()}
+                                                    <div className="pb-4 px-2 pt-2">
+                                                        <h3 className="ml-2 mt-2">Desired Skills</h3>
+
+                                                        <List >
+                                                            {this.state.g.map((item) =>
+                                                                <li className="ml-5">{item}</li>)}
+                                                        </List>
+
+                                                        <h3 className="ml-2 mt-2">Interested Skills</h3>
+
+                                                        <List >
+                                                            {this.state.y.map((item) =>
+                                                                <li className="ml-5">{item}</li>)}
+                                                        </List>
+
+                                                        <h3 className="ml-2 mt-2">Unideal Skills</h3>
+
+                                                        <List className="pb-5">
+                                                            {this.state.r.map((item) =>
+                                                                <li className="ml-5">{item}</li>)}
+                                                        </List>
+                                                        
+                                                        <Button className="float-right mt-4 m-2 profileBtn" onClick={this.setRedirect}>Edit </Button>
+                                                        <Button className="float-right mt-4 m-2 profileBtn" onClick={this.reset} >Reset</Button>
+                                                    </div>
+
+                                                    {/* <Form className="pl-3">
                                                     <FormGroup row>
                                                     <Col sm={10}>
                                                         <Input type="text" name="Fname" id="firstName" placeholder="First Name" />
@@ -463,7 +589,8 @@ class Profile extends Component {
                                                     </Col>
                                                     </FormGroup>
                                                     <Button className="personalBtn float-right m-3">Submit</Button>
-                                                </Form>
+                                                </Form> */}
+
                                                 </Card>
                                             </Col>
                                             <Col md="9">
@@ -483,7 +610,7 @@ class Profile extends Component {
                                                                     date={job.date}
                                                                     summary={job.summary}
                                                                     url={job.url}
-                                                                    onClick={() => this.removeFavorite({ job })}
+                                                                    onClickDelete={() => this.removeFavorite({ job })}
                                                                     // profile="true"
                                                                     favorites={favorites}
                                                                     index={i}
@@ -501,13 +628,13 @@ class Profile extends Component {
                                     {/**************** JOB TRACKER BOARD **************/}
                                     <TabPane tabId="2" >
                                         <Row>
-                                            <Col lg="12" className="profKanbanContainer p-3 mx-0">
-                                            <h2 className="CardHeader">Job Tracker</h2>
+                                            <Col md="12" className="profKanbanContainer p-3">
+                                                <h2 className="CardHeader">Job Tracker</h2>
                                                 <Board data={data} onCardClick={this.onCardClick} handleDragEnd={this.handleDragEnd} onCardDelete={this.onCardDelete} id="quizKanban" className="boardContainer" laneStyle={{ backgroundColor: '#b8c1ca' }} style={{ backgroundColor: '#F5F7F5' }} />
                                                 {/* onClick={() => this.removeFavorite({ job })} */}
                                                 <Modal className="modal" isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
                                                     <ModalHeader toggle={this.toggleModal}>{this.state.editJob.company}</ModalHeader>
-                                                    <ModalBody>
+                                                    <ModalBody className="modalBody">
                                                         <Row>
                                                             <Col lg="8">
                                                                 <h1>{this.state.editJob.title}</h1>
@@ -525,14 +652,14 @@ class Profile extends Component {
                                                             <Row>
                                                                 <Col md="6">
                                                                     <FormGroup>
-                                                                        <Label for="interestSelect"><h4>Interest in Position:</h4></Label>
+                                                                        <Label for="interestSelect"><h4>Application Priority</h4></Label>
                                                                         <Input type="select" name="select" id="interestSelect" onChange={this.handleInputChange}>
                                                                             <option>Update...</option>
-                                                                            <option value="5">5 - Literal Dream Job!</option>
-                                                                            <option value="4">4</option>
-                                                                            <option value="3">3</option>
+                                                                            <option value="1">1 - Literal Dream Job!</option>
                                                                             <option value="2">2</option>
-                                                                            <option value="1">1 - Doesn't Hurt to Apply</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                            <option value="5">5 - Doesn't Hurt to Apply</option>
                                                                         </Input>
                                                                     </FormGroup>
                                                                 </Col>
@@ -578,8 +705,8 @@ class Profile extends Component {
                                                         </Form>
                                                     </ModalBody>
                                                     <ModalFooter>
-                                                        <Button color="primary" onClick={this.handleFormSubmit}>Save Notes</Button>{' '}
-                                                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+                                                        <Button id="modalSubmit" onClick={this.handleFormSubmit}>Save</Button>{' '}
+                                                        <Button id="modalCancel" onClick={this.toggleModal}>Cancel</Button>
                                                     </ModalFooter>
                                                 </Modal>
                                             </Col>
@@ -600,7 +727,9 @@ class Profile extends Component {
                         </Col>
                     </Row>
                     <Footer />
+
                 </Container>
+                
             )
         }
     }

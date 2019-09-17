@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { Row, Col, CustomInput, FormGroup, Label, Button, } from 'reactstrap';
+import { Link } from "react-router-dom";
 
 // import sessions from "../../utils/sessions";
 
 let top = [
   "Java",
-  "C",
+  // " C",
   "Python",
-  "C++",
-  "C#",
+  // " C++",
+  // " C#",
   "Visual Basic",
   "Javascript",
   "PHP",
@@ -23,12 +24,12 @@ let top = [
   "Go",
   "Swift",
   "Perl",
-  "R",
-  "D",
+  // "R",
+  // "D",
   "SAS",
   "PL/SQL",
   "Dart",
-  "F#",
+  // "F#",
   "Logo",
   "Rust",
   "Scratch",
@@ -68,7 +69,7 @@ let top = [
   "Cache",
   "CSS",
   "HTML",
-  "Data Structure",
+  // "Data Structure",
   "Data Structures",
   "Heroku",
   "Git",
@@ -86,7 +87,6 @@ let top = [
   "MySQL",
   "Mongoose",
   "MongoDB",
-  "PHP",
   "UI",
   "UX",
   "Version Control"
@@ -126,7 +126,7 @@ class Quiz extends Component {
 
     return (
       <div className="quizContainer px-5 py-3">
-        <h2 className="CardHeader">Skills Quiz</h2>
+        <h2 className="CardHeader">Not sure what skills you have? Start here!</h2>
         <p>Select <stong>+</stong> for skills that you are very confident in.</p>
         <p>Select <stong>:</stong> for intermediate level skills, or things you'd be willing to learn</p>
         <p>Select <stong>-</stong> for that you do not know and do not plan on learning</p>
@@ -149,7 +149,7 @@ class Quiz extends Component {
           ))}
           <FormGroup check row>
             <Col sm="12">
-              <Button id="quizButton" className="float-right" onClick={() => this.props.onClick(combo)}>Submit</Button>
+            <Link to="/search" id="quizLink"><Button id="quizButton" className="float-right" onClick={() => this.props.onClick(combo)}>Submit</Button></Link>
             </Col>
           </FormGroup>
         </Row>
